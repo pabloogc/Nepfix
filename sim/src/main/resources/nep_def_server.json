@@ -1,0 +1,44 @@
+{
+  "networkId": "1",
+  "processorDefinitions": [
+    {
+      "id": "replace B",
+      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "args": {
+        "target": "b",
+        "replacement": "|SERVER|"
+      }
+    }
+  ],
+  "filterDefinitions": [
+    {
+      "id": "acceptAll",
+      "class": "com.nepfix.sim.core.impl.AcceptAllFilter"
+    }
+  ],
+  "network": [
+    {
+      "id": "1",
+      "processorId": "replace B",
+      "filterId": "acceptAll",
+      "input": true,
+      "connections": [
+        {
+          "nodeId": "2",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "processorId": "replace B",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "filterId": "acceptAll",
+          "output": true
+        }
+      ]
+    }
+  ]
+}
