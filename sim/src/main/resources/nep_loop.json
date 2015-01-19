@@ -1,0 +1,86 @@
+{
+  "networkId": "1",
+  "processorDefinitions": [
+    {
+      "id": "replace A-B",
+      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "args": {
+        "target": "a",
+        "replacement": "b"
+      }
+    },
+    {
+      "id": "replace B-C",
+      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "args": {
+        "target": "b",
+        "replacement": "c"
+      }
+    },
+    {
+      "id": "append A",
+      "class": "com.nepfix.sim.core.impl.AppendProcessor",
+      "args": {
+        "tail": "true",
+        "append": "a"
+      }
+    }
+  ],
+  "filterDefinitions": [
+    {
+      "id": "acceptAll",
+      "class": "com.nepfix.sim.core.impl.AcceptAllFilter"
+    }
+  ],
+  "network": [
+    {
+      "id": "1",
+      "processorId": "replace A-B",
+      "filterId": "acceptAll",
+      "input": true,
+      "connections": [
+        {
+          "nodeId": "2",
+          "filterId": "acceptAll"
+        },
+        {
+          "nodeId": "3",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "processorId": "replace B-C",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "4",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "3",
+      "processorId": "replace A-B",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "4",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "processorId": "append A",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "filterId": "acceptAll",
+          "output": true
+        }
+      ]
+    }
+  ]
+}
