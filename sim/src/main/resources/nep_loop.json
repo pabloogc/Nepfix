@@ -79,6 +79,10 @@
         {
           "filterId": "acceptAll",
           "output": true
+        },
+        {
+          "filterId": "acceptAll",
+          "nodeId": "1"
         }
       ]
     }

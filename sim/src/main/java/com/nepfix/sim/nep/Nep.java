@@ -4,6 +4,7 @@ import com.nepfix.sim.core.Node;
 import com.nepfix.sim.request.ComputationRequest;
 import com.nepfix.sim.request.Instruction;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.BlockingQueue;
@@ -57,7 +58,7 @@ public class Nep {
         }
 
         executor.shutdown();
-        return result;
+        return new ArrayList<>(result); //Avoid concurrent modifications after returning
     }
 
     private Instruction takeInstruction() {
