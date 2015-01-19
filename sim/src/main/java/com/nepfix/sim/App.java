@@ -13,9 +13,9 @@ import java.util.List;
 public class App {
 
     public static void main(String[] args) {
-        NepBlueprint blueprint = NepReader.load(new InputStreamReader(App.class.getClassLoader().getResourceAsStream("nep_def.json")));
+        NepBlueprint blueprint = NepReader.load(new InputStreamReader(App.class.getClassLoader().getResourceAsStream("nep_def2.json")));
         Nep nep = blueprint.create();
-        ComputationRequest request = new ComputationRequest("aa", "1", 100000, 1);
+        ComputationRequest request = new ComputationRequest("aa", "1", 5000, 2);
         List<String> result = nep.compute(request);
         System.out.println(new Gson().toJson(result));
     }

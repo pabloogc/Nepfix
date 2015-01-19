@@ -32,28 +32,39 @@
       "input": true,
       "connections": [
         {
-          "nodeId": "remote",
+          "nodeId": "2",
+          "filterId": "acceptAll"
+        },
+        {
+          "nodeId": "3",
           "filterId": "acceptAll"
         }
       ]
     },
     {
-      "id": "remote",
-      "remote" : true,
-      "remoteAddress" : "http://localhost:8080",
-      "networkId": "1",
-      "maxResults": 1,
-      "timeoutMillis": 1000,
+      "id": "2",
+      "processorId": "replace B-C",
       "filterId": "acceptAll",
       "connections": [
         {
-          "filterId": "acceptAll",
-          "nodeId": "2"
+          "nodeId": "4",
+          "filterId": "acceptAll"
         }
       ]
     },
     {
-      "id": "2",
+      "id": "3",
+      "processorId": "replace A-B",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "4",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "4",
       "processorId": "replace A-B",
       "filterId": "acceptAll",
       "connections": [
