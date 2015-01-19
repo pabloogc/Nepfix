@@ -9,6 +9,11 @@ buildscript {
     }
 }
 
+repositories {
+    mavenCentral()
+    maven { url "http://repo.spring.io/libs-release" }
+}
+
 apply plugin: 'java'
 apply plugin: 'idea'
 apply plugin: 'spring-boot'
@@ -17,14 +22,9 @@ sourceCompatibility = 1.8
 version = '0.1'
 
 jar {
-    archiveName = 'app.jar'
-    baseName = 'app'
+    archiveName = 'nepfix-server.jar'
+    baseName = 'nepfix-server'
     version = version
-}
-
-repositories {
-    mavenCentral()
-    maven { url "http://repo.spring.io/libs-release" }
 }
 
 mainClassName = "com.welbits.interurbanosmadrid.controller.com.nepfix.server.Application"
