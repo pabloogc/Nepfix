@@ -27,7 +27,7 @@ jar {
     version = version
 }
 
-mainClassName = "com.welbits.interurbanosmadrid.controller.com.nepfix.server.Application"
+mainClassName = "com.nepfix.server.Application"
 
 if (project.properties['createWar'] == '1') {
     apply plugin: 'war'
