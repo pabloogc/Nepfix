@@ -3,7 +3,7 @@
   "processorDefinitions": [
     {
       "id": "replace A-B",
-      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
       "args": {
         "target": "a",
         "replacement": "b"
@@ -11,7 +11,7 @@
     },
     {
       "id": "replace B-C",
-      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
       "args": {
         "target": "b",
         "replacement": "c"
@@ -19,7 +19,7 @@
     },
     {
       "id": "append A",
-      "class": "com.nepfix.sim.core.impl.AppendProcessor",
+      "class": "com.nepfix.sim.elements.AppendProcessor",
       "args": {
         "tail": "true",
         "append": "a"
@@ -29,7 +29,7 @@
   "filterDefinitions": [
     {
       "id": "acceptAll",
-      "class": "com.nepfix.sim.core.impl.AcceptAllFilter"
+      "class": "com.nepfix.sim.elements.AcceptAllFilter"
     }
   ],
   "network": [

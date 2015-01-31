@@ -2,11 +2,11 @@
   "networkId": "1",
   "processorDefinitions": [
     {
-      "id": "replace B",
+      "id": "removeA",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
       "args": {
-        "target": "b",
-        "replacement": "|SERVER|"
+        "target": "a",
+        "replacement": ""
       }
     }
   ],
@@ -14,29 +14,30 @@
     {
       "id": "acceptAll",
       "class": "com.nepfix.sim.elements.AcceptAllFilter"
+    },
+    {
+      "id": "notEmpty",
+      "class": "com.nepfix.sim.elements.LengthFilter",
+      "args": {
+        "value": 0,
+        "operator": "!="
+      }
     }
   ],
   "network": [
     {
       "id": "1",
-      "processorId": "replace B",
-      "filterId": "acceptAll",
+      "processorId": "removeA",
+      "filterId": "notEmpty",
       "input": true,
       "connections": [
         {
-          "nodeId": "2",
+          "nodeId": "1",
           "filterId": "acceptAll"
-        }
-      ]
-    },
-    {
-      "id": "2",
-      "processorId": "replace B",
-      "filterId": "acceptAll",
-      "connections": [
+        },
         {
-          "filterId": "acceptAll",
-          "output": true
+          "output": true,
+          "filterId": "acceptAll"
         }
       ]
     }

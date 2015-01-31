@@ -3,7 +3,7 @@
   "processorDefinitions": [
     {
       "id": "replace A-B",
-      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
       "args": {
         "target": "a",
         "replacement": "b"
@@ -11,7 +11,7 @@
     },
     {
       "id": "replace B-C",
-      "class": "com.nepfix.sim.core.impl.ReplaceProcessor",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
       "args": {
         "target": "b",
         "replacement": "c"
@@ -21,7 +21,7 @@
   "filterDefinitions": [
     {
       "id": "acceptAll",
-      "class": "com.nepfix.sim.core.impl.AcceptAllFilter"
+      "class": "com.nepfix.sim.elements.AcceptAllFilter"
     }
   ],
   "network": [
@@ -40,7 +40,7 @@
     {
       "id": "remote",
       "remote" : true,
-      "remoteAddress" : "http://localhost:8080",
+      "remoteAddress" : "https://nepfix.herokuapp.com",
       "networkId": "1",
       "maxResults": 1,
       "timeoutMillis": 1000,

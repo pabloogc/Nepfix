@@ -1,4 +1,4 @@
-package com.nepfix.sim.core.impl;
+package com.nepfix.sim.elements;
 
 import com.nepfix.sim.core.Filter;
 
