@@ -1,0 +1,509 @@
+{
+  "networkId": "1",
+  "processorDefinitions": [
+    {
+      "id": "removeA",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": "a",
+        "replacement": ""
+      }
+    },
+    {
+      "id": "remove15C",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": "ccccccccccccccc",
+        "replacement": ""
+      }
+    },
+    {
+      "id": "removeC",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": "c",
+        "replacement": ""
+      }
+    },
+    {
+      "id": "replaceBWithA",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": "b",
+        "replacement": "a"
+      }
+    },
+    {
+      "id": "fizz",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": ".*",
+        "replacement": "fizz"
+      }
+    },
+    {
+      "id": "buzz",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": ".*",
+        "replacement": "buzz"
+      }
+    },
+    {
+      "id": "fizzbuzz",
+      "class": "com.nepfix.sim.elements.ReplaceProcessor",
+      "args": {
+        "target": ".*",
+        "replacement": "fizzbuzz"
+      }
+    },
+    {
+      "id": "appendBTail",
+      "class": "com.nepfix.sim.elements.AppendProcessor",
+      "args": {
+        "append": "b",
+        "tail": true
+      }
+    },
+    {
+      "id": "appendCHead",
+      "class": "com.nepfix.sim.elements.AppendProcessor",
+      "args": {
+        "append": "c",
+        "head": true
+      }
+    },
+    {
+      "id": "unit",
+      "class": "com.nepfix.sim.elements.UnitProcessor"
+    }
+  ],
+  "filterDefinitions": [
+    {
+      "id": "acceptAll",
+      "class": "com.nepfix.sim.elements.AcceptAllFilter"
+    },
+    {
+      "id": "notEmpty",
+      "class": "com.nepfix.sim.elements.LengthFilter",
+      "args": {
+        "value": 0,
+        "operator": "!="
+      }
+    },
+    {
+      "id": "doesNotContainA",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "a",
+        "times": 0,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "containsA",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "a",
+        "times": 0,
+        "operator": "!="
+      }
+    },
+    {
+      "id": "doesNotContainB",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "b",
+        "times": 0,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "containsB",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "b",
+        "times": 0,
+        "operator": "!="
+      }
+    },
+    {
+      "id": ">=15C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 15,
+        "operator": ">="
+      }
+    },
+    {
+      "id": "<15C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 15,
+        "operator": "<"
+      }
+    },
+    {
+      "id": ">0C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 0,
+        "operator": "!="
+      }
+    },
+    {
+      "id": "0C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 0,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "1C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 1,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "2C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 2,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "3C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 3,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "4C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 4,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "5C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 5,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "6C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 6,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "7C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 7,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "8C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 8,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "9C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 9,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "10C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 10,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "11C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 11,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "12C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 12,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "13C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 13,
+        "operator": "=="
+      }
+    },
+    {
+      "id": "14C",
+      "class": "com.nepfix.sim.elements.ContainsFilter",
+      "args": {
+        "value": "c",
+        "times": 14,
+        "operator": "=="
+      }
+    }
+  ],
+  "network": [
+    {
+      "id": "1",
+      "processorId": "unit",
+      "filterId": "acceptAll",
+      "input": true,
+      "connections": [
+        {
+          "nodeId": "2",
+          "filterId": "notEmpty"
+        },
+        {
+          "nodeId": "3",
+          "filterId": "notEmpty"
+        }
+      ]
+    },
+    {
+      "id": "2",
+      "processorId": "removeA",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "2",
+          "filterId": "notEmpty"
+        },
+        {
+          "nodeId": "3",
+          "filterId": "notEmpty"
+        }
+      ]
+    },
+    {
+      "__//DUPLICATE A -> BC": "",
+      "id": "3",
+      "processorId": "removeA",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "4",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "4",
+      "processorId": "appendBTail",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "5",
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "5",
+      "processorId": "appendCHead",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId": "3",
+          "filterId": "containsA"
+        },
+        {
+          "nodeId" : "6",
+          "filterId": "doesNotContainA"
+        }
+      ]
+    },
+    {
+      "id": "6",
+      "processorId": "remove15C",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId" : "6",
+          "filterId": ">=15C"
+        },
+        {
+          "nodeId" : "7",
+          "filterId": "<15C"
+        }
+      ]
+    },
+    {
+      "id": "7",
+      "processorId": "replaceBWithA",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId" : "8",
+          "filterId": "doesNotContainB"
+        },
+        {
+          "nodeId" : "7",
+          "filterId": "containsB"
+        }
+      ]
+    },
+    {
+      "id": "8",
+      "processorId": "unit",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "nodeId" : "normal",
+          "filterId": "1C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "2C"
+        },
+        {
+          "nodeId" : "fizz",
+          "filterId": "3C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "4C"
+        },
+        {
+          "nodeId" : "buzz",
+          "filterId": "5C"
+        },
+        {
+          "nodeId" : "fizz",
+          "filterId": "6C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "7C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "8C"
+        },
+        {
+          "nodeId" : "fizz",
+          "filterId": "9C"
+        },
+        {
+          "nodeId" : "buzz",
+          "filterId": "10C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "11C"
+        },
+        {
+          "nodeId" : "fizz",
+          "filterId": "12C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "13C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": "14C"
+        },
+        {
+          "nodeId" : "fizzbuzz",
+          "filterId": "0C"
+        }
+      ]
+    },
+    {
+      "id": "normal",
+      "processorId": "removeC",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "output" : true,
+          "filterId": "0C"
+        },
+        {
+          "nodeId" : "normal",
+          "filterId": ">0C"
+        }
+      ]
+    },
+    {
+      "id": "fizz",
+      "processorId": "fizz",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "output" : true,
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "buzz",
+      "processorId": "buzz",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "output" : true,
+          "filterId": "acceptAll"
+        }
+      ]
+    },
+    {
+      "id": "fizzbuzz",
+      "processorId": "fizzbuzz",
+      "filterId": "acceptAll",
+      "connections": [
+        {
+          "output" : true,
+          "filterId": "acceptAll"
+        }
+      ]
+    }
+  ]
+}
