@@ -60,6 +60,10 @@
         {
           "nodeId": "4",
           "filterId": "acceptAll"
+        },
+        {
+          "filterId": "acceptAll",
+          "output": true
         }
       ]
     },

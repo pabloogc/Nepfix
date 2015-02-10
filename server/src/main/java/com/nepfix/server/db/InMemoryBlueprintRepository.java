@@ -1,8 +1,10 @@
 package com.nepfix.server.db;
 
 import com.nepfix.sim.nep.NepBlueprint;
+import com.nepfix.sim.nep.NepReader;
 import org.springframework.stereotype.Repository;
 
+import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -13,6 +15,12 @@ public class InMemoryBlueprintRepository implements BlueprintRepository {
 
     private final HashMap<String, NepBlueprint> nepBlueprintHashMap = new HashMap<>();
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
+
+    public InMemoryBlueprintRepository() {
+        InputStreamReader stream = new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("fizzbuzz.json"));
+        NepBlueprint fizzbuzz = NepReader.load(stream);
+        registerBlueprint(fizzbuzz); //Add fizzbuzz as sample NEP
+    }
 
     @Override public NepBlueprint findBlueprint(String id) {
         lock.readLock().lock();

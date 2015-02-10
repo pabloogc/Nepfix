@@ -11,6 +11,7 @@ import com.nepfix.sim.request.ComputationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.List;
 
@@ -20,6 +21,7 @@ public class NepController {
     private static final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private static final String JSON_CT = "application/json; charset=utf-8";
     @Autowired private BlueprintRepository blueprintRepository;
+
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public void registerNep(@RequestBody String nepDefinition) {
@@ -41,7 +43,7 @@ public class NepController {
     }
 
     @RequestMapping(value = "blueprints", produces = JSON_CT)
-    public String findAll(){
+    public String findAll() {
         return gson.toJson(blueprintRepository.findAll());
     }
 
