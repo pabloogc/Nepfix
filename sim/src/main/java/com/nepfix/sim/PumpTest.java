@@ -24,7 +24,71 @@ public class PumpTest {
 
     public static ComputationRequest randomPumpInput() {
         String randomInput = "w";
-        return new ComputationRequest(randomInput, "", 1000);
+
+        /*
+
+                rs= ThreadLocalRandom.current().nextInt(MAX);
+                rS= ThreadLocalRandom.current().nextInt(MAX);
+                rp= ThreadLocalRandom.current().nextInt(MAX);
+                rP= ThreadLocalRandom.current().nextInt(MAX);
+                rA=ThreadLocalRandom.current().nextInt(MAX);
+                rF= ThreadLocalRandom.current().nextInt(MAX);
+
+                StringBuffer w = new StringBuffer(crearPalabraInicial(rs,rS,rp,rP,rA,rF));
+        String w="";
+        int i=0;
+        for( i=0;i<a;i++){
+            w+='s';
+        }
+        for( i=0;i<b;i++){
+            w+='S';
+        }
+        for( i=0;i<c;i++){
+            w+='p';
+        }
+        for( i=0;i<d;i++){
+            w+='P';
+        }
+        for( i=0;i<e;i++){
+            w+='A';
+        }
+        for( i=0;i<f;i++){
+            w+='f';
+        }
+                System.out.println(">>>>>>>>>>>>>>>>>"+rs+"-"+rS+"-"+rp+"-"+rP+"-"+rA+"-"+rF);
+                return winicial3; //este es un supuesto estado del sistema /célula
+            }
+
+            public String getNombre(){
+                return this.texto;
+            }
+            private  String crearPalabraInicial(int a, int b, int c, int d, int e, int f){
+                String w="";
+                int i=0;
+                for( i=0;i<a;i++){
+                    w+='s';
+                }
+                for( i=0;i<b;i++){
+                    w+='S';
+                }
+                for( i=0;i<c;i++){
+                    w+='p';
+                }
+                for( i=0;i<d;i++){
+                    w+='P';
+                }
+                for( i=0;i<e;i++){
+                    w+='A';
+                }
+                for( i=0;i<f;i++){
+                    w+='f';
+                }
+                return w;
+
+            }
+
+    */
+        return new ComputationRequest(randomInput, "", 100);
     }
 
 }

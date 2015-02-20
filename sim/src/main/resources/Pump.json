@@ -232,11 +232,11 @@
       "input": true,
       "connections": [
         {
-          "nodeId": "x1.in",
+          "nodeId": "1.in",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "x2.in",
+          "nodeId": "2.in",
           "filterId": "acceptAll"
         }
       ]
@@ -247,11 +247,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x1.2",
+          "nodeId": "1.2",
           "filterId": "doesContainX1.in"
         },
         {
-          "nodeId": "x2.out",
+          "nodeId": "2.out",
           "filterId": "doesContainX1.in"
         }
       ]
@@ -262,11 +262,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x1.in",
+          "nodeId": "1.in",
           "filterId": "doesContainX1.2"
         },
         {
-          "nodeId": "x1.3",
+          "nodeId": "1.3",
           "filterId": "doesContainX1.2"
         }
       ]
@@ -277,11 +277,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x1.2",
+          "nodeId": "1.2",
           "filterId": "doesContainX1.3"
         },
         {
-          "nodeId": "x1.4",
+          "nodeId": "1.4",
           "filterId": "doesContainX1.3"
         }
       ]
@@ -292,7 +292,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x1.o",
+          "nodeId": "1.out",
           "filterId": "acceptAll"
         }
       ]
@@ -303,7 +303,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x1.3",
+          "nodeId": "1.3",
           "filterId": "acceptAll"
         },
         {
@@ -311,7 +311,7 @@
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "x2.in",
+          "nodeId": "2.in",
           "filterId": "acceptAll"
         }
       ]
@@ -322,15 +322,15 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "input",
+          "nodeId": "In",
           "filterId": "doesContain3"
         },
         {
-          "nodeId": "x2.2",
+          "nodeId": "2.2",
           "filterId": "doesContain3"
         },
         {
-          "nodeId": "xin.out",
+          "nodeId": "1.out",
           "filterId": "doesContain3"
         }
       ]
@@ -341,11 +341,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.in",
+          "nodeId": "2.in",
           "filterId": "doesContain1"
         },
         {
-          "nodeId": "x2.3",
+          "nodeId": "2.3",
           "filterId": "doesContain1"
         }
       ]
@@ -356,11 +356,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.2",
+          "nodeId": "2.2",
           "filterId": "doesContain1"
         },
         {
-          "nodeId": "x2.4",
+          "nodeId": "2.4",
           "filterId": "doesContain1"
         }
       ]
@@ -371,11 +371,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.3",
+          "nodeId": "2.3",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "x2.5",
+          "nodeId": "2.5",
           "filterId": "acceptAll"
         }
       ]
@@ -386,11 +386,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.4",
+          "nodeId": "2.4",
           "filterId": "doesContain2"
         },
         {
-          "nodeId": "x2.6",
+          "nodeId": "2.6",
           "filterId": "doesContain2"
         }
       ]
@@ -401,11 +401,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.5",
+          "nodeId": "2.5",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "x2.7",
+          "nodeId": "2.7",
           "filterId": "acceptAll"
         }
       ]
@@ -416,11 +416,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.6",
+          "nodeId": "2.6",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "x2.o",
+          "nodeId": "2.out",
           "filterId": "acceptAll"
         }
       ]
@@ -431,7 +431,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "x2.7",
+          "nodeId": "2.7",
           "filterId": "acceptAll"
         },
         {
@@ -439,7 +439,7 @@
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "x1.in",
+          "nodeId": "1.in",
           "filterId": "acceptAll"
         }
       ]
