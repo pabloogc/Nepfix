@@ -62,6 +62,6 @@ public class NepBlueprint {
             if (node.getId().equals(id))
                 return node;
         }
-        throw new IllegalArgumentException(String.format("Filter with id '%s' not found", id));
+        throw new IllegalArgumentException(String.format("Node with id '%s' not found", id));
     }
 }
