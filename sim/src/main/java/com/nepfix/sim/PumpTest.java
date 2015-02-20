@@ -42,7 +42,6 @@ public class PumpTest {
         randomInput=winicial3.toString();
         return new ComputationRequest(randomInput, "", 100);
     }
-
     private  static String crearPalabraInicial(int a, int b, int c, int d, int e, int f){
         String w="";
         int i=0;
