@@ -11,6 +11,8 @@ import java.io.InputStreamReader;
 import java.util.List;
 
 public class PumpTest {
+    private static final int MAX=1000;
+
     public static void main(String[] args) {
         ComputationRequest request = randomPumpInput();
 
@@ -24,17 +26,24 @@ public class PumpTest {
 
     public static ComputationRequest randomPumpInput() {
         String randomInput = "w";
+        int rs,rS,rp,rP,rA,rF;
 
-        /*
+        rs= (int)(Math.random()*MAX)+1;
+        rS= (int)(Math.random()*MAX)+1;
+        rp=(int)(Math.random()*MAX)+1;
+        rP= (int)(Math.random()*MAX)+1;
+        rA=(int)(Math.random()*MAX)+1;
+        rF= (int)(Math.random()*MAX)+1;
 
-                rs= ThreadLocalRandom.current().nextInt(MAX);
-                rS= ThreadLocalRandom.current().nextInt(MAX);
-                rp= ThreadLocalRandom.current().nextInt(MAX);
-                rP= ThreadLocalRandom.current().nextInt(MAX);
-                rA=ThreadLocalRandom.current().nextInt(MAX);
-                rF= ThreadLocalRandom.current().nextInt(MAX);
+        StringBuffer winicial3 = new StringBuffer(crearPalabraInicial(rs,rS,rp,rP,rA,rF));
 
-                StringBuffer w = new StringBuffer(crearPalabraInicial(rs,rS,rp,rP,rA,rF));
+       // System.out.println(">>>>>>>>>>>>>>>>>"+rs+"-"+rS+"-"+rp+"-"+rP+"-"+rA+"-"+rF);
+
+        randomInput=winicial3.toString();
+        return new ComputationRequest(randomInput, "", 100);
+    }
+
+    private  static String crearPalabraInicial(int a, int b, int c, int d, int e, int f){
         String w="";
         int i=0;
         for( i=0;i<a;i++){
@@ -55,40 +64,7 @@ public class PumpTest {
         for( i=0;i<f;i++){
             w+='f';
         }
-                System.out.println(">>>>>>>>>>>>>>>>>"+rs+"-"+rS+"-"+rp+"-"+rP+"-"+rA+"-"+rF);
-                return winicial3; //este es un supuesto estado del sistema /célula
-            }
+        return w;
 
-            public String getNombre(){
-                return this.texto;
-            }
-            private  String crearPalabraInicial(int a, int b, int c, int d, int e, int f){
-                String w="";
-                int i=0;
-                for( i=0;i<a;i++){
-                    w+='s';
-                }
-                for( i=0;i<b;i++){
-                    w+='S';
-                }
-                for( i=0;i<c;i++){
-                    w+='p';
-                }
-                for( i=0;i<d;i++){
-                    w+='P';
-                }
-                for( i=0;i<e;i++){
-                    w+='A';
-                }
-                for( i=0;i<f;i++){
-                    w+='f';
-                }
-                return w;
-
-            }
-
-    */
-        return new ComputationRequest(randomInput, "", 100);
     }
-
 }
