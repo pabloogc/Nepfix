@@ -4,18 +4,22 @@
     {
       "id": "replace A-B",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": {
-        "target": "a",
-        "replacement": "b"
-      }
+      "args": [
+        {
+          "target": "a",
+          "replacement": "b"
+        }
+      ]
     },
     {
       "id": "replace B-C",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": {
-        "target": "b",
-        "replacement": "c"
-      }
+      "args": [
+        {
+          "target": "b",
+          "replacement": "c"
+        }
+      ]
     }
   ],
   "filterDefinitions": [

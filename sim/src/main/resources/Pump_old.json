@@ -4,168 +4,124 @@
     {
       "id": "x1.in",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "s",
-          "replacement": "n"
-        },
-        {
-          "target": "S",
-          "replacement": "N"
-        }
-      ]
+      "args": {
+        "target": "s",
+        "replacement": "n",
+        "target": "S",
+        "replacement": "N"
+      }
     },
     {
       "id": "x1.2",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "p",
-          "replacement": "k"
-        },
-        {
-          "target": "P",
-          "replacement": "K"
-        }
-      ]
+      "args": {
+        "target": "p",
+        "replacement": "k",
+        "target": "P",
+        "replacement": "K"
+      }
     },
     {
       "id": "x1.3",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "v",
-          "replacement": "b"
-        },
-        {
-          "target": "V",
-          "replacement": "B"
-        }
-      ]
+      "args": {
+        "target": "v",
+        "replacement": "b",
+        "target": "V",
+        "replacement": "B"
+      }
     },
     {
       "id": "x1.4",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "b",
-          "replacement": "v"
-        },
-        {
-          "target": "B",
-          "replacement": "V"
-        }
-      ]
+      "args": {
+        "target": "b",
+        "replacement": "v",
+        "target": "B",
+        "replacement": "V"
+      }
     },
     {
       "id": "x1.o",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "k",
-          "replacement": "p"
-        },
-        {
-          "target": "K",
-          "replacement": "P"
-        },
-        {
-          "target": "n",
-          "replacement": "s"
-        },
-        {
-          "target": "N",
-          "replacement": "S"
-        }
-      ]
+      "args": {
+        "target": "k",
+        "replacement": "p",
+        "target": "K",
+        "replacement": "P",
+        "target": "n",
+        "replacement": "s",
+        "target": "N",
+        "replacement": "S"
+      }
     },
     {
       "id": "x2.in",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "s",
-          "replacement": "m"
-        }
-      ]
+      "args": {
+        "target": "s",
+        "replacement": "m"
+      }
     },
     {
       "id": "x2.2",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "A",
-          "replacement": "a"
-        }
-      ]
+      "args": {
+        "target": "A",
+        "replacement": "a"
+      }
     },
     {
       "id": "x2.3",
       "class": "com.nepfix.sim.elements.AppendProcessor",
-      "args": [
-        {
-          "append": "f",
-          "tail": true
-        },
-        {
-          "append": "r",
-          "tail": true
-        }
-      ]
+      "args": {
+        "append": "f",
+        "tail": true,
+        "append": "r",
+        "tail": true
+      }
     },
     {
       "id": "x2.4",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "m",
-          "replacement": "s"
-        }
-      ]
+      "args": {
+        "target": "m",
+        "replacement": "s"
+      }
     },
     {
       "id": "x2.5",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "p",
-          "replacement": "q"
-        }
-      ]
+      "args": {
+        "target": "p",
+        "replacement": "q"
+      }
     },
     {
       "id": "x2.6",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "f",
-          "replacement": ""
-        },
-        {
-          "target": "r",
-          "replacement": ""
-        }
-      ]
+      "args": {
+        "target": "f",
+        "replacement": "",
+        "target": "r",
+        "replacement": ""
+      }
     },
     {
       "id": "x2.7",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "q",
-          "replacement": "k"
-        }
-      ]
+      "args": {
+        "target": "q",
+        "replacement": "k"
+      }
     },
     {
       "id": "x2.o",
       "class": "com.nepfix.sim.elements.ReplaceProcessor",
-      "args": [
-        {
-          "target": "q",
-          "replacement": "k"
-        }
-      ]
+      "args": {
+        "target": "q",
+        "replacement": "k"
+      }
     },
     {
       "id": "input",
@@ -213,7 +169,7 @@
         "operator": "=="
       }
     },
-    {
+     {
       "id": "doesContain2",
       "class": "com.nepfix.sim.elements.ContainsFilter",
       "args": {
@@ -266,7 +222,7 @@
         "times": 0,
         "operator": ">="
       }
-    }
+    },
   ],
   "network": [
     {
@@ -276,11 +232,11 @@
       "input": true,
       "connections": [
         {
-          "nodeId": "1.in",
+          "nodeId": "x1.in",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "2.in",
+          "nodeId": "x2.in",
           "filterId": "acceptAll"
         }
       ]
@@ -291,11 +247,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "1.2",
+          "nodeId": "x1.2",
           "filterId": "doesContainX1.in"
         },
         {
-          "nodeId": "2.out",
+          "nodeId": "x2.out",
           "filterId": "doesContainX1.in"
         }
       ]
@@ -306,11 +262,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "1.in",
+          "nodeId": "x1.in",
           "filterId": "doesContainX1.2"
         },
         {
-          "nodeId": "1.3",
+          "nodeId": "x1.3",
           "filterId": "doesContainX1.2"
         }
       ]
@@ -321,11 +277,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "1.2",
+          "nodeId": "x1.2",
           "filterId": "doesContainX1.3"
         },
         {
-          "nodeId": "1.4",
+          "nodeId": "x1.4",
           "filterId": "doesContainX1.3"
         }
       ]
@@ -336,7 +292,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "1.out",
+          "nodeId": "x1.o",
           "filterId": "acceptAll"
         }
       ]
@@ -347,7 +303,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "1.3",
+          "nodeId": "x1.3",
           "filterId": "acceptAll"
         },
         {
@@ -355,7 +311,7 @@
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "2.in",
+          "nodeId": "x2.in",
           "filterId": "acceptAll"
         }
       ]
@@ -366,15 +322,15 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "In",
+          "nodeId": "input",
           "filterId": "doesContain3"
         },
         {
-          "nodeId": "2.2",
+          "nodeId": "x2.2",
           "filterId": "doesContain3"
         },
         {
-          "nodeId": "1.out",
+          "nodeId": "xin.out",
           "filterId": "doesContain3"
         }
       ]
@@ -385,11 +341,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.in",
+          "nodeId": "x2.in",
           "filterId": "doesContain1"
         },
         {
-          "nodeId": "2.3",
+          "nodeId": "x2.3",
           "filterId": "doesContain1"
         }
       ]
@@ -400,11 +356,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.2",
+          "nodeId": "x2.2",
           "filterId": "doesContain1"
         },
         {
-          "nodeId": "2.4",
+          "nodeId": "x2.4",
           "filterId": "doesContain1"
         }
       ]
@@ -415,11 +371,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.3",
+          "nodeId": "x2.3",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "2.5",
+          "nodeId": "x2.5",
           "filterId": "acceptAll"
         }
       ]
@@ -430,11 +386,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.4",
+          "nodeId": "x2.4",
           "filterId": "doesContain2"
         },
         {
-          "nodeId": "2.6",
+          "nodeId": "x2.6",
           "filterId": "doesContain2"
         }
       ]
@@ -445,11 +401,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.5",
+          "nodeId": "x2.5",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "2.7",
+          "nodeId": "x2.7",
           "filterId": "acceptAll"
         }
       ]
@@ -460,11 +416,11 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.6",
+          "nodeId": "x2.6",
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "2.out",
+          "nodeId": "x2.o",
           "filterId": "acceptAll"
         }
       ]
@@ -475,7 +431,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "nodeId": "2.7",
+          "nodeId": "x2.7",
           "filterId": "acceptAll"
         },
         {
@@ -483,7 +439,7 @@
           "filterId": "acceptAll"
         },
         {
-          "nodeId": "1.in",
+          "nodeId": "x1.in",
           "filterId": "acceptAll"
         }
       ]
@@ -494,7 +450,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "output": true,
+          "output" : true,
           "filterId": "acceptAll"
         }
       ]

@@ -35,7 +35,11 @@ public class NepBlueprint {
         if (linked) return;
         linked = true;
         for (Node node : network) {
-            node.link(this);
+            try {
+                node.link(this);
+            } catch (Exception ex) {
+                throw new RuntimeException("Error linking the Nep graph at node with id: \"" + node.getId() + "\"", ex);
+            }
             if (node.isInput()) inputNode = node;
         }
     }
