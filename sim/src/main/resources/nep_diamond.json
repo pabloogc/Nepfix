@@ -26,6 +26,17 @@
     {
       "id": "acceptAll",
       "class": "com.nepfix.sim.elements.AcceptAllFilter"
+    },
+    {
+      "id": "parametric",
+      "class": "com.nepfix.sim.elements.ParametricFilter",
+      "args": [
+        {
+          "value": "b",
+          "weight": 1,
+          "interval": "[1,1]"
+        }
+      ]
     }
   ],
   "network": [
@@ -77,7 +88,7 @@
       "filterId": "acceptAll",
       "connections": [
         {
-          "filterId": "acceptAll",
+          "filterId": "parametric",
           "output": true
         }
       ]

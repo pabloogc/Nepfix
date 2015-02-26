@@ -6,13 +6,17 @@ import com.nepfix.sim.core.Filter;
 import com.nepfix.sim.elements.util.ElementsUtils;
 import com.nepfix.sim.elements.util.Functions;
 
+import java.util.HashMap;
 import java.util.List;
+import java.util.function.Predicate;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
-public class ContainsFilter implements Filter {
+
+public class ParametricFilter implements Filter {
 
 
+    private HashMap<String, Integer> weights;
     private List<Rule> rules;
     private String id;
 
@@ -30,19 +34,24 @@ public class ContainsFilter implements Filter {
     }
 
     @Override public boolean accept(String word, boolean in) {
-        return rules.stream().anyMatch(r -> {
+        Predicate<Rule> predicate = r -> {
             Matcher matcher = r.pattern.matcher(word);
-            int count = 0;
+            int totalWeight = 0;
             while (matcher.find())
-                count++;
-            return r.operator.apply(count, r.times);
-        });
+                totalWeight += r.weight;
+            return r.interval.contains(totalWeight);
+        };
+
+        if (in)
+            return rules.stream().anyMatch(predicate); //Accept as input if inside one interval
+        else
+            return rules.stream().allMatch(predicate.negate()); //Accept as output if outside all intervals
     }
 
     private static class Rule {
         public Pattern pattern;
         public String value;
-        public int times;
-        public Functions.IntComp operator;
+        public int weight;
+        public Functions.IntervalComp interval;
     }
 }

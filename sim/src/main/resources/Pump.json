@@ -192,80 +192,108 @@
     {
       "id": "doesContain3",
       "class": "com.nepfix.sim.elements.ContainsFilter",
-      "args": {
-        "value": "m",
-        "times": 3,
-        "operator": "=="
-      }
+      "args": [
+        {
+          "value": "m",
+          "times": 3,
+          "operator": "=="
+        }
+      ]
     },
     {
       "id": "doesContain1",
       "class": "com.nepfix.sim.elements.ContainsFilter",
-      "args": {
-        "value": "a",
-        "times": 1,
-        "operator": "==",
-        "value": "f",
-        "times": 1,
-        "operator": "==",
-        "value": "r",
-        "times": 1,
-        "operator": "=="
-      }
+      "args": [
+        {
+          "value": "a",
+          "times": 1,
+          "operator": "=="
+        },
+        {
+          "value": "f",
+          "times": 1,
+          "operator": "=="
+        },
+        {
+          "value": "r",
+          "times": 1,
+          "operator": "=="
+        }
+      ]
     },
     {
       "id": "doesContain2",
       "class": "com.nepfix.sim.elements.ContainsFilter",
-      "args": {
-        "value": "q",
-        "times": 2,
-        "operator": "=="
-      }
+      "args": [
+        {
+          "value": "q",
+          "times": 2,
+          "operator": "=="
+        }
+      ]
     },
     {
       "id": "doesContainX1.in",
       "class": "com.nepfix.sim.elements.ContainsFilter",
-      "args": {
-        "value": "n",
-        "times": 5,
-        "operator": "<=",
-        "value": "n",
-        "times": 15,
-        "operator": ">",
-        "value": "N",
-        "times": 140,
-        "operator": "!="
-      }
+      "args": [
+        {
+          "value": "n",
+          "times": 5,
+          "operator": "<="
+        },
+        {
+          "value": "n",
+          "times": 15,
+          "operator": ">"
+        },
+        {
+          "value": "N",
+          "times": 140,
+          "operator": "!="
+        }
+      ]
     },
     {
       "id": "doesContainX1.2",
       "class": "com.nepfix.sim.elements.ContainsFilter",
-      "args": {
-        "value": "K",
-        "times": 5,
-        "operator": "!=",
-        "value": "k",
-        "times": 140,
-        "operator": "!="
-      }
+      "args": [
+        {
+          "value": "K",
+          "times": 5,
+          "operator": "!="
+        },
+        {
+          "value": "k",
+          "times": 140,
+          "operator": "!="
+        }
+      ]
     },
     {
       "id": "doesContainX1.3",
       "class": "com.nepfix.sim.elements.ContainsFilter",
-      "args": {
-        "value": "b",
-        "times": -120,
-        "operator": "<",
-        "value": "b",
-        "times": -20,
-        "operator": ">",
-        "value": "B",
-        "times": -20,
-        "operator": "<=",
-        "value": "B",
-        "times": 0,
-        "operator": ">="
-      }
+      "args": [
+        {
+          "value": "b",
+          "times": -120,
+          "operator": "<"
+        },
+        {
+          "value": "b",
+          "times": -20,
+          "operator": ">"
+        },
+        {
+          "value": "B",
+          "times": -20,
+          "operator": "<="
+        },
+        {
+          "value": "B",
+          "times": 0,
+          "operator": ">="
+        }
+      ]
     }
   ],
   "network": [

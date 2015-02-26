@@ -16,7 +16,7 @@ public class AcceptAllFilter implements Filter {
         return id;
     }
 
-    @Override public boolean accept(String input) {
+    @Override public boolean accept(String input, boolean in) {
         return true;
     }
 }

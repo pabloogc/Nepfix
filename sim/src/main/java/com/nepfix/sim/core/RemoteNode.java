@@ -52,7 +52,7 @@ public class RemoteNode extends Node {
             List<Instruction> result = new ArrayList<>();
             for (String output : remoteResult) {
                 connections.stream()
-                        .filter(connection -> connection.getFilter().accept(output))
+                        .filter(connection -> connection.getFilter().accept(output, false))
                         .forEach(connection -> result.add(new Instruction(output, connection.getDestiny())));
             }
 

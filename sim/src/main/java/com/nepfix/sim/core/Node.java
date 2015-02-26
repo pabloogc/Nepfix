@@ -31,13 +31,13 @@ public class Node {
         ArrayList<Instruction> result = new ArrayList<>(connections.size());
         String output = processor.process(input);
         connections.stream()
-                .filter(connection -> connection.getFilter().accept(output))
+                .filter(connection -> connection.getFilter().accept(output, false))
                 .forEach(connection -> result.add(new Instruction(output, connection.getDestiny())));
         return result;
     }
 
     protected boolean accept(String input) {
-        return connections != null && filter.accept(input);
+        return connections != null && filter.accept(input, true);
     }
 
 
