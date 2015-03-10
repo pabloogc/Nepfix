@@ -11,7 +11,6 @@ import com.nepfix.sim.request.ComputationRequest;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
-import java.io.InputStreamReader;
 import java.io.StringReader;
 import java.util.List;
 
@@ -25,7 +24,7 @@ public class NepController {
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
     public void registerNep(@RequestBody String nepDefinition) {
-        NepBlueprint nepBlueprint = NepReader.load(new StringReader(nepDefinition));
+        NepBlueprint nepBlueprint = NepReader.loadBlueprint(new StringReader(nepDefinition));
         blueprintRepository.registerBlueprint(nepBlueprint);
     }
 

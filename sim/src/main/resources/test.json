@@ -1,0 +1,61 @@
+{
+  "networkId": "1",
+  "nepConfig": {
+    "syncServer": "http://localhost:8080",
+    "param1": "param1_value",
+    "weights": {
+      "a": 1,
+      "b": 2,
+      "c": 3
+    }
+  },
+  "processorDefinitions": [
+    {
+      "id": "unit",
+      "class": "com.nepfix.sim.elements.UnitProcessor"
+    }
+  ],
+  "filterDefinitions": [
+    {
+      "id": "acceptAll",
+      "class": "com.nepfix.sim.elements.AcceptAllFilter"
+    }
+  ],
+  "network": [
+    {
+      "id": "1",
+      "processor": "unit",
+      "filterIn": "acceptAll",
+      "filterOut": "acceptAll",
+      "input": true,
+      "connections": [
+        "2"
+      ]
+    },
+    {
+      "id": "2",
+      "processor": {
+        "id": "_",
+        "class": "com.nepfix.sim.elements.AppendProcessor",
+        "rules": [
+          {
+            "append": "a",
+            "tail": "true"
+          }
+        ]
+      },
+      "filterIn": "acceptAll",
+      "filterOut": "acceptAll",
+      "connections": [
+        "3"
+      ]
+    },
+    {
+      "id": "3",
+      "processor": "unit",
+      "filterIn": "acceptAll",
+      "filterOut": "acceptAll",
+      "output": true
+    }
+  ]
+}

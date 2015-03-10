@@ -1,24 +1,30 @@
 package com.nepfix.sim.elements;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.reflect.TypeToken;
+import com.nepfix.sim.core.ComputationElement;
 import com.nepfix.sim.core.Processor;
 import com.nepfix.sim.elements.util.ElementsUtils;
+import com.nepfix.sim.nep.Nep;
 
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class AppendProcessor implements Processor {
+public class AppendProcessor extends ComputationElement implements Processor {
 
-    private String id;
     private List<Rule> rules;
 
-    @Override public void init(String id, JsonElement args) {
-        this.id = id;
+    public AppendProcessor(JsonObject element, Nep nep) {
+        super(nep, element);
         rules = ElementsUtils.readAsList(new TypeToken<List<Rule>>() {
-        }, args.getAsJsonArray().toString());
+        }, getJson().get("rules").getAsJsonArray().toString());
     }
 
-    @Override public String process(String input) {
+    public List<String> process(List<String> input) {
+        return input.stream().map(this::processOne).collect(Collectors.toList());
+    }
+
+    private String processOne(String input) {
         for (Rule rule : rules) {
             if (rule.tail)
                 input = input + rule.append;
@@ -27,10 +33,6 @@ public class AppendProcessor implements Processor {
         }
 
         return input;
-    }
-
-    @Override public String getId() {
-        return id;
     }
 
     private static class Rule {

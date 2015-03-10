@@ -1,22 +1,17 @@
 package com.nepfix.sim.elements;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.nepfix.sim.core.ComputationElement;
 import com.nepfix.sim.core.Filter;
+import com.nepfix.sim.nep.Nep;
 
-public class AcceptAllFilter implements Filter {
+public class AcceptAllFilter extends ComputationElement implements Filter {
 
-
-    private String id;
-
-    @Override public void init(String id, JsonElement args) {
-        this.id = id;
+    public AcceptAllFilter(JsonObject element, Nep nep) {
+        super(nep, element);
     }
 
-    @Override public String getId() {
-        return id;
-    }
-
-    @Override public boolean accept(String input, boolean in) {
+    @Override public boolean accept(String input, boolean isInput) {
         return true;
     }
 }

@@ -1,21 +1,19 @@
 package com.nepfix.sim.elements;
 
-import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
+import com.nepfix.sim.core.ComputationElement;
 import com.nepfix.sim.core.Processor;
+import com.nepfix.sim.nep.Nep;
 
-public class UnitProcessor implements Processor {
+import java.util.List;
 
-    private String id;
+public class UnitProcessor extends ComputationElement implements Processor {
 
-    @Override public void init(String id, JsonElement args) {
-        this.id = id;
+    public UnitProcessor(JsonObject element, Nep nep) {
+        super(nep, element);
     }
 
-    @Override public String process(String input) {
+    public List<String> process(List<String> input) {
         return input;
-    }
-
-    @Override public String getId() {
-        return id;
     }
 }

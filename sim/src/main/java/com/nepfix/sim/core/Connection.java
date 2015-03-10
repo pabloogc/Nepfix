@@ -1,42 +1,25 @@
 package com.nepfix.sim.core;
 
+import com.nepfix.sim.nep.Nep;
+import com.nepfix.sim.request.Word;
 
-import com.google.gson.annotations.Expose;
+import java.io.IOException;
 
-public class Connection {
-    @Expose private String nodeId;
-    @Expose private String filterId;
-    @Expose private boolean output;
+public interface Connection {
 
-    private Node destiny;
-    private Filter filter;
+    void forward(String nepId, Word word) throws IOException;
 
-    public Node getDestiny() {
-        return destiny;
+    static class Local implements Connection {
+
+        private final Nep nep;
+
+        public Local(Nep nep) {
+            this.nep = nep;
+        }
+
+        @Override public void forward(String nepId, Word word) throws IOException {
+
+        }
     }
 
-    public Filter getFilter() {
-        return filter;
-    }
-
-    public void setDestiny(Node destiny) {
-        this.destiny = destiny;
-    }
-
-    public void setFilter(Filter filter) {
-        this.filter = filter;
-    }
-
-    public String getNodeId() {
-
-        return nodeId;
-    }
-
-    public boolean isOutput() {
-        return output;
-    }
-
-    public String getFilterId() {
-        return filterId;
-    }
 }

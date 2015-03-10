@@ -1,7 +1,9 @@
 package com.nepfix.sim.core;
 
 
+import java.util.List;
+
 public interface Processor extends NepElement {
 
-    String process(String input);
+    List<String> process(List<String> input);
 }

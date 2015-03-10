@@ -2,66 +2,80 @@ package com.nepfix.sim.core;
 
 
 import com.google.gson.annotations.Expose;
-import com.nepfix.sim.nep.NepBlueprint;
-import com.nepfix.sim.request.Instruction;
+import com.nepfix.sim.nep.Nep;
+import com.nepfix.sim.request.Word;
 
 import java.util.ArrayList;
-import java.util.Collections;
+import java.util.Arrays;
 import java.util.List;
+import java.util.stream.Collectors;
 
-public class Node {
-    @Expose protected String processorId;
-    @Expose protected String id;
-    @Expose protected boolean input;
-    @Expose protected List<Connection> connections;
-    protected Filter filter;
-    protected Processor processor;
-    @Expose private String filterId;
-    @Expose private boolean remote;
+public class Node implements NepElement {
 
-    public List<Instruction> compute(String input) {
-        if (accept(input)) {
-            return process(input);
-        } else {
-            return Collections.emptyList();
-        }
-    }
+    public static final String OUTPUT_CONNECTION = "__output__";
+    private Nep nep;
+    @Expose private String id;
+    @Expose private boolean input;
+    @Expose private boolean output;
+    @Expose private List<String> connections = new ArrayList<>(1);
+    private Processor processor;
+    private Filter filterIn;
+    private Filter filterOut;
 
-    protected List<Instruction> process(String input) {
-        ArrayList<Instruction> result = new ArrayList<>(connections.size());
-        String output = processor.process(input);
-        connections.stream()
-                .filter(connection -> connection.getFilter().accept(output, false))
-                .forEach(connection -> result.add(new Instruction(output, connection.getDestiny())));
-        return result;
-    }
-
-    protected boolean accept(String input) {
-        return connections != null && filter.accept(input, true);
-    }
-
-
-    public void link(NepBlueprint nepBlueprint) {
-        filter = nepBlueprint.findFilter(filterId);
-        if (!remote)
-            processor = nepBlueprint.findProcessor(processorId);
-
-        if (connections == null || connections.isEmpty())
-            throw new IllegalStateException(String.format("Node with id '%s' is not connected and it's not an output", id));
-
-        for (Connection connection : connections) {
-            if (!connection.isOutput())
-                connection.setDestiny(nepBlueprint.findNode(connection.getNodeId()));
-            connection.setFilter(nepBlueprint.findFilter(connection.getFilterId()));
-        }
-
+    public Node(Nep nep) {
+        this.nep = nep;
     }
 
     public boolean isInput() {
         return input;
     }
 
-    public String getId() {
+    public boolean isOutput() {
+        return output;
+    }
+
+    @Override public String getId() {
         return id;
+    }
+
+    public List<Word> process(List<Word> words) {
+
+        List<String> filteredInput = words.stream()
+                .map(Word::getValue)
+                .filter(w -> filterIn.accept(w, true))
+                .collect(Collectors.toList());
+
+        List<String> out = processor.process(filteredInput);
+
+        List<String> sendTo;
+        if (isOutput())
+            sendTo = Arrays.asList(OUTPUT_CONNECTION);
+        else
+            sendTo = connections;
+
+        List<Word> result = new ArrayList<>(out.size() * sendTo.size());
+        for (String connection : sendTo) {
+            out.stream()
+                    .filter(w -> filterOut.accept(w, false))
+                    .map(s -> new Word(s, connection, nep.getConfiguration() + 1))
+                    .forEach(result::add);
+        }
+        return result;
+    }
+
+    public void setNep(Nep nep) {
+        this.nep = nep;
+    }
+
+    public void setProcessor(Processor processor) {
+        this.processor = processor;
+    }
+
+    public void setFilterIn(Filter filterIn) {
+        this.filterIn = filterIn;
+    }
+
+    public void setFilterOut(Filter filterOut) {
+        this.filterOut = filterOut;
     }
 }

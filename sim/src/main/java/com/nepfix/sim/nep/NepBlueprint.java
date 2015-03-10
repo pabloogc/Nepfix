@@ -1,71 +1,98 @@
 package com.nepfix.sim.nep;
 
 
+import com.google.gson.JsonElement;
+import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
+import com.nepfix.sim.core.ComputationElement;
 import com.nepfix.sim.core.Filter;
 import com.nepfix.sim.core.Node;
 import com.nepfix.sim.core.Processor;
 
+import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
 import java.util.List;
-import java.util.concurrent.Executors;
-import java.util.concurrent.LinkedBlockingQueue;
 
-@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class NepBlueprint {
-    private boolean linked = false;
-    private Node inputNode;
     @Expose private String networkId;
-    @Expose private List<Processor> processorDefinitions;
-    @Expose private List<Filter> filterDefinitions;
-    @Expose private List<Node> network;
-
-    public String getNetworkId() {
-        return networkId;
-    }
+    @Expose private JsonObject nepConfig;
+    @Expose private List<JsonObject> processorDefinitions;
+    @Expose private List<JsonObject> filterDefinitions;
+    @Expose private List<JsonObject> network;
 
     public Nep create() {
-        Nep nep = new Nep();
-        nep.setInputNode(inputNode);
-        nep.setExecutor(Executors.newFixedThreadPool(5));
-        nep.setInstructionQueue(new LinkedBlockingQueue<>());
+        Nep nep = new Nep(nepConfig);
+        processorDefinitions.forEach(d -> nep.getProcessors().add(createElement(d, nep, Processor.class)));
+        filterDefinitions.forEach(f -> nep.getFilters().add(createElement(f, nep, Filter.class)));
+        network.forEach(n -> nep.getNodes().add(createNode(n, nep)));
         return nep;
     }
 
-    public void link() {
-        if (linked) return;
-        linked = true;
-        for (Node node : network) {
-            try {
-                node.link(this);
-            } catch (Exception ex) {
-                throw new RuntimeException("Error linking the Nep graph at node with id: \"" + node.getId() + "\"", ex);
-            }
-            if (node.isInput()) inputNode = node;
+    private Node createNode(JsonObject object, Nep nep) {
+        Node node = NepReader.GSON.fromJson(object, Node.class);
+        node.setNep(nep);
+
+        JsonElement processor = object.get("processor");
+        JsonElement filterIn = object.get("filterIn");
+        JsonElement filterOut = object.get("filterOut");
+
+        if (processor.isJsonObject())
+            node.setProcessor(createElement(processor.getAsJsonObject(), nep, Processor.class));
+        else
+            node.setProcessor(nep.findProcessor(processor.getAsString()));
+
+
+        if (filterIn.isJsonObject())
+            node.setFilterIn(createElement(filterIn.getAsJsonObject(), nep, Filter.class));
+        else
+            node.setFilterIn(nep.findFilter(filterIn.getAsString()));
+
+
+        if (filterOut.isJsonObject())
+            node.setFilterOut(createElement(filterOut.getAsJsonObject(), nep, Filter.class));
+        else
+            node.setFilterOut(nep.findFilter(filterOut.getAsString()));
+
+        return node;
+    }
+
+
+    @SuppressWarnings("unchecked")
+    private <T> T createElement(JsonObject object, Nep nep, Class<T> kind) {
+        Class<? extends ComputationElement> clazz = tryLoadClass(object.get("class").getAsString());
+        Constructor<? extends ComputationElement> constructor = tryGetConstructor(clazz);
+        return kind.cast(tryCreateInstance(object, nep, constructor));
+    }
+
+    private ComputationElement tryCreateInstance(JsonObject object, Nep nep, Constructor<? extends ComputationElement> constructor) {
+        try {
+            return constructor.newInstance(object, nep);
+        } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
     }
 
-    public Processor findProcessor(String id) {
-        for (Processor processor : processorDefinitions) {
-            if (processor.getId().equals(id))
-                return processor;
+    @SuppressWarnings("unchecked")
+    private Class<? extends ComputationElement> tryLoadClass(String className) {
+        try {
+            return (Class<? extends ComputationElement>) Class.forName(className);
+        } catch (ClassNotFoundException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
-        throw new IllegalArgumentException(String.format("Processor with id '%s' not found", id));
     }
 
-
-    public Filter findFilter(String id) {
-        for (Filter filter : filterDefinitions) {
-            if (filter.getId().equals(id))
-                return filter;
+    private Constructor<? extends ComputationElement> tryGetConstructor(Class<? extends ComputationElement> clazz) {
+        try {
+            return clazz.getDeclaredConstructor(JsonObject.class, Nep.class);
+        } catch (NoSuchMethodException e) {
+            e.printStackTrace();
+            throw new IllegalArgumentException(e);
         }
-        throw new IllegalArgumentException(String.format("Filter with id '%s' not found", id));
     }
 
-    public Node findNode(String id) {
-        for (Node node : network) {
-            if (node.getId().equals(id))
-                return node;
-        }
-        throw new IllegalArgumentException(String.format("Node with id '%s' not found", id));
+    public String getNetworkId() {
+        return networkId;
     }
 }

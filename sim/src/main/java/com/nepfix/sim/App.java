@@ -17,24 +17,24 @@ public class App {
 
     public static void main(String[] args) throws IOException {
 
-        if (!(args.length == 2 || args.length == 4))
-            throw new IllegalArgumentException("Usage: sim nep_file.json computation_request.json [-o output_file]");
-
-        NepBlueprint blueprint = NepReader.load(new FileReader(args[0]));
-
-        Gson gson = new GsonBuilder().setPrettyPrinting().create();
-        ComputationRequest request = gson.fromJson(new FileReader(args[1]), ComputationRequest.class);
-
-        Nep nep = blueprint.create();
-        List<String> result = nep.compute(request);
-
-        if (args.length == 4 && args[2].equals("-o")) { //Output to file
-            FileWriter fileWriter = new FileWriter(args[3]);
-            fileWriter.write(gson.toJson(result));
-            fileWriter.flush();
-        } else {
-            System.out.println(gson.toJson(result));
-        }
+//        if (!(args.length == 2 || args.length == 4))
+//            throw new IllegalArgumentException("Usage: sim nep_file.json computation_request.json [-o output_file]");
+//
+//        NepBlueprint blueprint = NepReader.loadBlueprint(new FileReader(args[0]));
+//
+//        Gson gson = new GsonBuilder().setPrettyPrinting().create();
+//        ComputationRequest request = gson.fromJson(new FileReader(args[1]), ComputationRequest.class);
+//
+//        Nep nep = blueprint.create();
+//        List<String> result = nep.compute(request);
+//
+//        if (args.length == 4 && args[2].equals("-o")) { //Output to file
+//            FileWriter fileWriter = new FileWriter(args[3]);
+//            fileWriter.write(gson.toJson(result));
+//            fileWriter.flush();
+//        } else {
+//            System.out.println(gson.toJson(result));
+//        }
 
     }
 }

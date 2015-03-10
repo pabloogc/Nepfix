@@ -18,7 +18,7 @@ public class InMemoryBlueprintRepository implements BlueprintRepository {
 
     public InMemoryBlueprintRepository() {
         InputStreamReader stream = new InputStreamReader(this.getClass().getClassLoader().getResourceAsStream("fizzbuzz.json"));
-        NepBlueprint fizzbuzz = NepReader.load(stream);
+        NepBlueprint fizzbuzz = NepReader.loadBlueprint(stream);
         registerBlueprint(fizzbuzz); //Add fizzbuzz as sample NEP
     }
 
