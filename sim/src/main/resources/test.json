@@ -35,12 +35,11 @@
     {
       "id": "2",
       "processor": {
-        "id": "_",
         "class": "com.nepfix.sim.elements.AppendProcessor",
         "rules": [
           {
             "append": "a",
-            "tail": "true"
+            "tail": true
           }
         ]
       },

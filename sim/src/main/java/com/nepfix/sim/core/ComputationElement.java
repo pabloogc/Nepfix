@@ -16,9 +16,10 @@ public abstract class ComputationElement implements NepElement {
         this.nep = nep;
         JsonElement id = json.get("id");
         if (id == null)
-            throw new IllegalArgumentException("Element with params: \"" + json.toString() + "\" does not have an id ");
+            this.id = "__anonymous__";
+        else
+            this.id = id.getAsString();
 
-        this.id = id.getAsString();
     }
 
     public JsonObject getJson() {
