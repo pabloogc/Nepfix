@@ -24,9 +24,6 @@
   "network": [
     {
       "id": "1",
-      "processor": "unit",
-      "filterIn": "acceptAll",
-      "filterOut": "acceptAll",
       "input": true,
       "connections": [
         "2"
@@ -35,25 +32,15 @@
     {
       "id": "2",
       "processor": {
-        "class": "com.nepfix.sim.elements.AppendProcessor",
-        "rules": [
-          {
-            "append": "a",
-            "tail": true
-          }
-        ]
+        "class": "com.nepfix.sim.elements.ScripProcessor",
+        "code" : ["output = map(lambda x: (x+'a'), input)]"]
       },
-      "filterIn": "acceptAll",
-      "filterOut": "acceptAll",
       "connections": [
         "3"
       ]
     },
     {
       "id": "3",
-      "processor": "unit",
-      "filterIn": "acceptAll",
-      "filterOut": "acceptAll",
       "output": true
     }
   ]

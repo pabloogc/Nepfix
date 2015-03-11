@@ -8,6 +8,8 @@ import com.nepfix.sim.core.ComputationElement;
 import com.nepfix.sim.core.Filter;
 import com.nepfix.sim.core.Node;
 import com.nepfix.sim.core.Processor;
+import com.nepfix.sim.elements.AcceptAllFilter;
+import com.nepfix.sim.elements.UnitProcessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
@@ -36,19 +38,24 @@ public class NepBlueprint {
         JsonElement filterIn = object.get("filterIn");
         JsonElement filterOut = object.get("filterOut");
 
-        if (processor.isJsonObject())
+        if (processor == null)
+            node.setProcessor(new UnitProcessor(object, nep));
+        else if (processor.isJsonObject())
             node.setProcessor(createElement(processor.getAsJsonObject(), nep, Processor.class));
         else
             node.setProcessor(nep.findProcessor(processor.getAsString()));
 
-
-        if (filterIn.isJsonObject())
+        if (filterIn == null)
+            node.setFilterIn(new AcceptAllFilter(object, nep));
+        else if (filterIn.isJsonObject())
             node.setFilterIn(createElement(filterIn.getAsJsonObject(), nep, Filter.class));
         else
             node.setFilterIn(nep.findFilter(filterIn.getAsString()));
 
 
-        if (filterOut.isJsonObject())
+        if (filterOut == null)
+            node.setFilterOut(new AcceptAllFilter(object, nep));
+        else if (filterOut.isJsonObject())
             node.setFilterOut(createElement(filterOut.getAsJsonObject(), nep, Filter.class));
         else
             node.setFilterOut(nep.findFilter(filterOut.getAsString()));
