@@ -15,9 +15,9 @@ import static com.nepfix.sim.elements.util.ElementsUtils.putInListHashMap;
 public class Nep {
 
     private final JsonObject nepConfig;
-    private final List<Node> nodes = new ArrayList<>();
-    private final List<Processor> processors = new ArrayList<>();
-    private final List<Filter> filters = new ArrayList<>();
+    private final HashMap<String, Node> nodes = new HashMap<>();
+    private final HashMap<String, Processor> processors = new HashMap<>();
+    private final HashMap<String, Filter> filters = new HashMap<>();
     private final HashMap<Long, List<Word>> activeConfigurations = new HashMap<>(); //Words of the current configuration
     private final List<Word> nepOutput = new ArrayList<>();
     private long configuration;
@@ -60,6 +60,10 @@ public class Nep {
         putInListHashMap(word.getConfiguration(), word, activeConfigurations);
     }
 
+    public Node findNode(String id) {
+        return (Node) findElement(id, nodes);
+    }
+
     public Processor findProcessor(String id) {
         return (Processor) findElement(id, processors);
     }
@@ -68,33 +72,45 @@ public class Nep {
         return (Filter) findElement(id, filters);
     }
 
-    private NepElement findElement(String id, List<? extends NepElement> collection) {
-        for (NepElement t : collection) {
-            if (Objects.equals(t.getId(), id)) {
-                return t;
-            }
+    private NepElement findElement(String id, HashMap<String, ? extends NepElement> collection) {
+        NepElement node = collection.get(id);
+        if (node == null) {
+            throw new IllegalArgumentException("Element with id: " + id + " not found");
         }
-        throw new IllegalArgumentException("Element with id: " + id + " not found");
+        return node;
     }
 
     public JsonObject getNepConfig() {
         return nepConfig;
     }
 
+
     public List<String> compute(ComputationRequest request) {
         return null;
     }
 
-    public List<Node> getNodes() {
-        return nodes;
+    public void putNode(Node node) {
+        nodes.put(node.getId(), node);
     }
 
-    public List<Processor> getProcessors() {
-        return processors;
+    public Collection<Node> getNodes() {
+        return nodes.values();
     }
 
-    public List<Filter> getFilters() {
-        return filters;
+    public void putProcessor(Processor processor) {
+        processors.put(processor.getId(), processor);
+    }
+
+    public Collection<Processor> getProcessors() {
+        return processors.values();
+    }
+
+    public void putFilter(Filter filter) {
+        filters.put(filter.getId(), filter);
+    }
+
+    public Collection<Filter> getFilters() {
+        return filters.values();
     }
 
     public long getConfiguration() {
@@ -105,12 +121,8 @@ public class Nep {
         return nepOutput;
     }
 
-    public Node findNode(String id) {
-        return (Node) findElement(id, nodes);
-    }
-
     public Node getInputNode() {
-        for (Node node : nodes) {
+        for (Node node : nodes.values()) {
             if (node.isInput()) return node;
         }
         throw new IllegalStateException("Nep does not have an input node");

@@ -1,8 +1,11 @@
 package com.nepfix.sim.elements;
 
+import com.google.gson.Gson;
 import com.google.gson.JsonArray;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
+import com.google.gson.internal.LinkedTreeMap;
+import com.google.gson.reflect.TypeToken;
 import com.nepfix.sim.core.ComputationElement;
 import com.nepfix.sim.core.Processor;
 import com.nepfix.sim.nep.Nep;
@@ -15,6 +18,7 @@ public class ScriptProcessor extends ComputationElement implements Processor {
     private static final ScriptEngineManager scriptEngineManager = new ScriptEngineManager();
     private static final ScriptEngine scriptEngine = scriptEngineManager.getEngineByName("jython");
     private final String code;
+    private final LinkedTreeMap<? extends String, Object> configAsTree;
 
     public ScriptProcessor(JsonObject element, Nep nep) {
         super(nep, element);
@@ -24,6 +28,8 @@ public class ScriptProcessor extends ComputationElement implements Processor {
             sb.append(jsonElement.getAsString()).append("\n");
         }
         //TODO: Create an scope to reuse the same scriptEngine
+        configAsTree = new Gson().fromJson(getNepConfig(), new TypeToken<LinkedTreeMap<? extends String, Object>>() {
+        }.getType());
         code = sb.toString();
     }
 
@@ -31,6 +37,7 @@ public class ScriptProcessor extends ComputationElement implements Processor {
     public List<String> process(List<String> input) {
         Bindings bindings = new SimpleBindings();
         bindings.put("input", input);
+        bindings.putAll(configAsTree);
         try {
             scriptEngine.eval(code, bindings);
             Object output = bindings.get("output");

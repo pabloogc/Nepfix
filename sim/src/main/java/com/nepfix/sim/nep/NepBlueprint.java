@@ -24,9 +24,9 @@ public class NepBlueprint {
 
     public Nep create() {
         Nep nep = new Nep(nepConfig);
-        processorDefinitions.forEach(d -> nep.getProcessors().add(createElement(d, nep, Processor.class)));
-        filterDefinitions.forEach(f -> nep.getFilters().add(createElement(f, nep, Filter.class)));
-        network.forEach(n -> nep.getNodes().add(createNode(n, nep)));
+        processorDefinitions.forEach(d -> nep.putProcessor(createElement(d, nep, Processor.class)));
+        filterDefinitions.forEach(f -> nep.putFilter(createElement(f, nep, Filter.class)));
+        network.forEach(n -> nep.putNode(createNode(n, nep)));
         return nep;
     }
 

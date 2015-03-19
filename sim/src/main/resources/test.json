@@ -32,8 +32,8 @@
     {
       "id": "2",
       "processor": {
-        "class": "com.nepfix.sim.elements.ScripProcessor",
-        "code" : ["output = map(lambda x: (x+'a'), input)]"]
+        "class": "com.nepfix.sim.elements.ScriptProcessor",
+        "code": ["output = map(lambda x: (x+weights['a']), input)"]
       },
       "connections": [
         "3"
