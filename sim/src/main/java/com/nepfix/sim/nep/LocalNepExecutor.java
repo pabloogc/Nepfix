@@ -17,7 +17,7 @@ public class LocalNepExecutor {
     }
 
     public List<Word> execute(ComputationRequest request) {
-        Nep nep = nepBlueprint.create();
+        Nep nep = nepBlueprint.create(0);
         Node inputNode = nep.getInputNode();
         List<Word> words = Arrays.asList(new Word(request.getInput(), inputNode.getId(), 0));
         while (nep.getNepOutput().size() < request.getMaxOutputs()

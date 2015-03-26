@@ -1,0 +1,19 @@
+{
+  "nepId": "basicNep",
+  "nepConfig": {
+  },
+  "processorDefinitions": [],
+  "filterDefinitions": [],
+  "network": [
+    {
+      "id": "2",
+      "processor": {
+        "class": "com.nepfix.sim.elements.ScriptProcessor",
+        "code": ["output = map(lambda x: (x+'a'), input)"]
+      },
+      "connections": [
+        "3"
+      ]
+    }
+  ]
+}

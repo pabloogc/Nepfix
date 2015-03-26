@@ -24,15 +24,4 @@ public class ElementsUtils {
         return gson.fromJson(list, token.getType());
     }
 
-    @SuppressWarnings("unchecked")
-    public static <K, V> void putInListHashMap(K key, V element, HashMap<K, List<V>> map) {
-        List tList = map.get(key);
-        if (tList != null) {
-            tList.add(element);
-        } else {
-            tList = new ArrayList<>();
-            tList.add(element);
-            map.put(key, tList);
-        }
-    }
 }

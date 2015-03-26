@@ -1,30 +1,36 @@
 package com.nepfix.sim.nep;
 
 import com.google.gson.JsonObject;
+import com.google.gson.annotations.Expose;
 import com.nepfix.sim.core.Filter;
 import com.nepfix.sim.core.NepElement;
 import com.nepfix.sim.core.Node;
 import com.nepfix.sim.core.Processor;
-import com.nepfix.sim.request.ComputationRequest;
+import com.nepfix.sim.elements.util.Misc;
 import com.nepfix.sim.request.Word;
 
 import java.util.*;
+import java.util.stream.Collectors;
 
-import static com.nepfix.sim.elements.util.ElementsUtils.putInListHashMap;
+import static com.nepfix.sim.elements.util.Misc.putInListHashMap;
 
 public class Nep {
 
-    private final JsonObject nepConfig;
-    private final HashMap<String, Node> nodes = new HashMap<>();
-    private final HashMap<String, Processor> processors = new HashMap<>();
-    private final HashMap<String, Filter> filters = new HashMap<>();
-    private final HashMap<Long, List<Word>> activeConfigurations = new HashMap<>(); //Words of the current configuration
-    private final List<Word> nepOutput = new ArrayList<>();
-    private long configuration;
+    @Expose private final String id;
+    @Expose private final JsonObject nepConfig;
+    @Expose private final HashMap<String, Node> nodes = new HashMap<>();
+    @Expose private final HashMap<String, Processor> processors = new HashMap<>();
+    @Expose private final HashMap<String, Filter> filters = new HashMap<>();
+    @Expose private final HashMap<Long, List<Word>> activeConfigurations = new HashMap<>(); //Words of the current configuration
+    @Expose private final List<Word> nepOutput = new ArrayList<>();
+    @Expose private final long computationId;
+    @Expose private long configuration;
 
-    public Nep(JsonObject nepConfig) {
+    public Nep(String nepId, JsonObject nepConfig, long computationId) {
         this.nepConfig = nepConfig;
         this.configuration = 0;
+        this.id = nepId;
+        this.computationId = computationId;
     }
 
     public List<Word> step() {
@@ -60,6 +66,10 @@ public class Nep {
         putInListHashMap(word.getConfiguration(), word, activeConfigurations);
     }
 
+    public boolean hasNode(String id) {
+        return nodes.get(id) != null;
+    }
+
     public Node findNode(String id) {
         return (Node) findElement(id, nodes);
     }
@@ -82,11 +92,6 @@ public class Nep {
 
     public JsonObject getNepConfig() {
         return nepConfig;
-    }
-
-
-    public List<String> compute(ComputationRequest request) {
-        return null;
     }
 
     public void putNode(Node node) {
@@ -126,5 +131,21 @@ public class Nep {
             if (node.isInput()) return node;
         }
         throw new IllegalStateException("Nep does not have an input node");
+    }
+
+    public String getId() {
+        return id;
+    }
+
+    public long getComputationId() {
+        return computationId;
+    }
+
+    public String getMd5() {
+        return Misc.getNepMd5(getId(), getNodes()
+                .stream()
+                .map(Node::getId)
+                .sorted()
+                .collect(Collectors.toList()));
     }
 }

@@ -85,8 +85,7 @@ public abstract class Functions {
                 int lowerBound = parseBound(matcher.group(3), matcher.group(4));
                 int upperBound = parseBound(matcher.group(6), matcher.group(5));
 
-                IntervalComp intervalComp = new IntervalComp(lowerBound, lowerInclusive, upperBound, upperInclusive);
-                return intervalComp;
+                return new IntervalComp(lowerBound, lowerInclusive, upperBound, upperInclusive);
             }
 
             private int parseBound(String sign, String value) {

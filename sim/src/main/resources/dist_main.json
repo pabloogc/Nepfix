@@ -1,0 +1,20 @@
+{
+  "nepId": "basicNep",
+  "nepConfig": {
+  },
+  "processorDefinitions": [],
+  "filterDefinitions": [],
+  "network": [
+    {
+      "id": "1",
+      "input": true,
+      "connections": [
+        "2"
+      ]
+    },
+    {
+      "id": "3",
+      "output": true
+    }
+  ]
+}

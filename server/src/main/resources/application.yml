@@ -1,0 +1,7 @@
+logging:
+  level:
+   org:
+    springframework:
+     web: INFO
+rabbit:
+ server: localhost

@@ -14,16 +14,18 @@ import com.nepfix.sim.elements.UnitProcessor;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
 import java.util.List;
+import java.util.stream.Collectors;
 
+@SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class NepBlueprint {
-    @Expose private String networkId;
+    @Expose private String nepId;
     @Expose private JsonObject nepConfig;
     @Expose private List<JsonObject> processorDefinitions;
     @Expose private List<JsonObject> filterDefinitions;
     @Expose private List<JsonObject> network;
 
-    public Nep create() {
-        Nep nep = new Nep(nepConfig);
+    public Nep create(long computationId) {
+        Nep nep = new Nep(nepId, nepConfig, computationId);
         processorDefinitions.forEach(d -> nep.putProcessor(createElement(d, nep, Processor.class)));
         filterDefinitions.forEach(f -> nep.putFilter(createElement(f, nep, Filter.class)));
         network.forEach(n -> nep.putNode(createNode(n, nep)));
@@ -99,7 +101,18 @@ public class NepBlueprint {
         }
     }
 
-    public String getNetworkId() {
-        return networkId;
+    public String getNepId() {
+        return nepId;
+    }
+
+    public List<String> getNodesIds() {
+        return network.stream()
+                .map(o -> o.get("id").getAsString())
+                .sorted()
+                .collect(Collectors.toList());
+    }
+
+    public JsonObject getNepConfig() {
+        return nepConfig;
     }
 }

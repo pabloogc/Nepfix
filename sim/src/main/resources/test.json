@@ -2,7 +2,7 @@
   "networkId": "1",
   "nepConfig": {
     "syncServer": "http://localhost:8080",
-    "param1": "param1_value",
+    "param1": "CONFIG_VALUE",
     "weights": {
       "a": 1,
       "b": 2,
@@ -33,7 +33,7 @@
       "id": "2",
       "processor": {
         "class": "com.nepfix.sim.elements.ScriptProcessor",
-        "code": ["output = map(lambda x: (x+weights['a']), input)"]
+        "code": ["output = map(lambda x: (x+param1), input)"]
       },
       "connections": [
         "3"
