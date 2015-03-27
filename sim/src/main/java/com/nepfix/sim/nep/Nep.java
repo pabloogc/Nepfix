@@ -35,6 +35,10 @@ public class Nep {
 
     public List<Word> step() {
         List<Word> words = activeConfigurations.remove(configuration);
+        if (words == null) {
+            configuration++;
+            return Collections.emptyList();
+        }
         HashMap<Node, List<Word>> classifiedWords = new HashMap<>();
 
         for (Word word : words) {

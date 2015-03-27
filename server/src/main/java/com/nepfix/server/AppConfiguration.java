@@ -56,7 +56,9 @@ public class AppConfiguration implements InitializingBean, DisposableBean {
     }
 
     @Bean public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
-        return new RabbitTemplate(connectionFactory);
+        RabbitTemplate template = new RabbitTemplate(connectionFactory);
+        template.setReplyTimeout(5000); //5 seconds
+        return template;
     }
 
     @Bean public EventBus getEventBus() {

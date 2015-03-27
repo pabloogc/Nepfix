@@ -11,7 +11,7 @@ import org.springframework.amqp.core.MessageBuilder;
 
 public abstract class GenericMessage<T> {
 
-    private static final Gson GSON = new GsonBuilder()
+    public static final Gson GSON = new GsonBuilder()
             .excludeFieldsWithoutExposeAnnotation()
             .create();
     @Expose private Kind kind;

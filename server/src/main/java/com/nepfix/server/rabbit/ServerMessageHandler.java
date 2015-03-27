@@ -15,8 +15,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.concurrent.Semaphore;
-
 import static com.nepfix.server.AppConfiguration.BROADCAST_EXCHANGE;
 import static com.nepfix.server.AppConfiguration.SERVER_QUEUE;
 import static com.nepfix.server.rabbit.event.GenericMessage.getKind;
@@ -54,9 +52,11 @@ public class ServerMessageHandler implements MessageListener {
             case COMPUTATION_STARTED:
                 handleComputationStarted(message);
                 break;
+            case COMPUTATION_FINISHED:
+                handleComputationFinished(message);
+                break;
             case STOP:
                 return;
-
             case UNKNOWN:
             default:
                 logger.warn("Message not handled: " + kind.name());
@@ -107,9 +107,20 @@ public class ServerMessageHandler implements MessageListener {
         if (blueprint == null) return; //Nep is not on this machine
         RemoteNepExecutor activeNep = nepRepository.findActiveNep(event.getValue().nepId, event.getValue().compId);
         if (activeNep != null) return; //This nep is already active
-        RemoteNepExecutor executor = nepExecutorFactory.create(blueprint, event.getValue().compId);
-        executor.startListening();
-        nepRepository.registerActiveNep(executor);
+        RemoteNepExecutor nepExecutor = nepExecutorFactory.create(blueprint, event.getValue().compId);
+        nepExecutor.startListening();
+        nepRepository.registerActiveNep(nepExecutor);
+        //Answer rpc call
+        rabbit.send(message.getMessageProperties().getReplyTo(), Util.emptyMessage());
+    }
+
+    private void handleComputationFinished(Message message) {
+        ComputationFinishedEvent event = read(message, ComputationFinishedEvent.class);
+        RemoteNepExecutor activeNep = nepRepository.findActiveNep(event.getValue().nepId, event.getValue().compId);
+        if (activeNep != null) {
+            activeNep.stopListening();
+        }
+        rabbit.send(message.getMessageProperties().getReplyTo(), Util.emptyMessage());
     }
 
     public void broadcastServerReady() {
