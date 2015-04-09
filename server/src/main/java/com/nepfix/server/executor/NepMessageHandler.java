@@ -1,7 +1,6 @@
 package com.nepfix.server.executor;
 
 import com.nepfix.server.neps.NepRepository;
-import com.nepfix.server.network.ActiveQueuesRepository;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
@@ -16,7 +15,7 @@ public class NepMessageHandler implements MessageListener, InitializingBean{
     @Autowired private RabbitAdmin rabbitAdmin;
     @Autowired private RabbitTemplate rabbit;
     @Autowired private NepRepository nepRepository;
-    @Autowired private NepExecutorFactory nepExecutorFactory;
+    @Autowired private RemoteNepExecutorFactory nepExecutorFactory;
 
     @Override public void afterPropertiesSet() throws Exception {
 

@@ -4,7 +4,7 @@ package com.nepfix.server;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.google.gson.JsonObject;
-import com.nepfix.server.executor.NepExecutorFactory;
+import com.nepfix.server.executor.RemoteNepExecutorFactory;
 import com.nepfix.server.executor.RemoteNepExecutor;
 import com.nepfix.server.neps.NepRepository;
 import com.nepfix.server.network.ActiveQueuesRepository;
@@ -13,9 +13,6 @@ import com.nepfix.sim.nep.NepBlueprint;
 import com.nepfix.sim.nep.NepReader;
 import com.nepfix.sim.request.ComputationRequest;
 import com.nepfix.sim.request.Word;
-import org.springframework.amqp.core.Exchange;
-import org.springframework.amqp.core.Queue;
-import org.springframework.amqp.core.TopicExchange;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -32,8 +29,7 @@ public class NepController {
     private static final String JSON_CT = "application/json; charset=utf-8";
     @Autowired private NepRepository nepRepository;
     @Autowired private ActiveQueuesRepository activeQueuesRepository;
-    @Autowired private NepExecutorFactory factory;
-    @Autowired private RabbitAdmin rabbitAdmin;
+    @Autowired private RemoteNepExecutorFactory factory;
     @Autowired private ServerMessageHandler serverMessageHandler;
 
     @RequestMapping(value = "register", method = RequestMethod.POST)
@@ -47,7 +43,7 @@ public class NepController {
     public List<String> compute(@RequestBody String requestString) {
         ComputationRequest request = gson.fromJson(requestString, ComputationRequest.class);
         NepBlueprint blueprint = nepRepository.findBlueprint(request.getNetworkId());
-        RemoteNepExecutor executor = factory.create(blueprint, new Random().nextLong());
+        RemoteNepExecutor executor = factory.create(blueprint, Math.abs(new Random().nextLong()));
         List<Word> words = executor.execute(request);
         return words.stream().map(Word::getValue).collect(Collectors.toList());
     }

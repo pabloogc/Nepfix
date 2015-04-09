@@ -7,26 +7,21 @@ import org.springframework.amqp.rabbit.connection.ConnectionFactory;
 import org.springframework.amqp.rabbit.core.RabbitAdmin;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.config.AutowireCapableBeanFactory;
 import org.springframework.stereotype.Component;
 
 @Component
-public class NepExecutorFactory {
+public class RemoteNepExecutorFactory {
 
-    @Autowired private NepRepository nepRepository;
-    @Autowired private RabbitAdmin rabbitAdmin;
-    @Autowired private RabbitTemplate rabbitTemplate;
-    @Autowired private ConnectionFactory connectionFactory;
-    @Autowired private ActiveQueuesRepository activeQueuesRepository;
+    @Autowired AutowireCapableBeanFactory autowireCapableBeanFactory;
 
     public RemoteNepExecutor create(NepBlueprint blueprint, long computationId) {
-        return new RemoteNepExecutor(
-                rabbitTemplate,
-                rabbitAdmin,
-                connectionFactory,
-                activeQueuesRepository,
+        RemoteNepExecutor executor = new RemoteNepExecutor(
                 computationId,
-                nepRepository,
                 blueprint
         );
+        autowireCapableBeanFactory.autowireBean(executor);
+        executor.init();
+        return executor;
     }
 }

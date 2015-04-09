@@ -49,8 +49,7 @@ public class InMemoryNepRepository implements NepRepository {
     @Override public void registerActiveNep(RemoteNepExecutor executor) {
         lock.writeLock().lock();
         try {
-            executor.getNep();
-            activeNepHashMap.put(executor.getNep().getId() + "-" + executor.getNep().getComputationId(), executor);
+            activeNepHashMap.put(executor.getIdentifier(), executor);
         } finally {
             lock.writeLock().unlock();
         }

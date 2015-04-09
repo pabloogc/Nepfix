@@ -1,8 +1,8 @@
 package com.nepfix.server.rabbit;
 
 import com.nepfix.server.AppConfiguration;
-import com.nepfix.server.executor.NepExecutorFactory;
 import com.nepfix.server.executor.RemoteNepExecutor;
+import com.nepfix.server.executor.RemoteNepExecutorFactory;
 import com.nepfix.server.neps.NepRepository;
 import com.nepfix.server.network.ActiveQueuesRepository;
 import com.nepfix.server.rabbit.event.*;
@@ -27,7 +27,7 @@ public class ServerMessageHandler implements MessageListener {
     @Autowired private RabbitTemplate rabbit;
     @Autowired private ActiveQueuesRepository activeQueuesRepository;
     @Autowired private NepRepository nepRepository;
-    @Autowired private NepExecutorFactory nepExecutorFactory;
+    @Autowired private RemoteNepExecutorFactory nepExecutorFactory;
 
     @Override public void onMessage(Message message) {
         Kind kind = getKind(message);
@@ -64,19 +64,18 @@ public class ServerMessageHandler implements MessageListener {
     }
 
     private void handleServerReady(Message message) {
-        ServerReadyEvent event = read(message, ServerReadyEvent.class);
-        activeQueuesRepository.serverReady(event);
-        if (!event.getValue().equals(SERVER_QUEUE)) {
+        if (!message.getMessageProperties().getReplyTo().equals(SERVER_QUEUE)) {
+            activeQueuesRepository.registerServerQueue(message.getMessageProperties().getReplyTo());
             rabbit.send(
                     "", //Default exchange
-                    event.getValue(), //Send to the queue of the new server
+                    message.getMessageProperties().getReplyTo(),
                     new ServerReadyReplyEvent(SERVER_QUEUE).toMessage());
         }
     }
 
     private void handleServerReply(Message message) {
         ServerReadyEvent event = read(message, ServerReadyEvent.class);
-        activeQueuesRepository.serverReady(event);
+        activeQueuesRepository.registerServerQueue(event.getValue());
     }
 
     private void handleNewNep(Message message) {
@@ -87,8 +86,8 @@ public class ServerMessageHandler implements MessageListener {
             nepRepository.registerRemoteNodes(event.getValue());
             NepRegisteredEventReply reply = new NepRegisteredEventReply(blueprint.getNepId(), blueprint.getNodesIds());
             rabbit.send(
-                    BROADCAST_EXCHANGE,
-                    "", //no routing
+                    "", //Default exchange
+                    message.getMessageProperties().getReplyTo(),
                     reply.toMessage());
         }
     }
@@ -127,7 +126,10 @@ public class ServerMessageHandler implements MessageListener {
         rabbit.send(
                 AppConfiguration.BROADCAST_EXCHANGE,
                 "",
-                new ServerReadyEvent(SERVER_QUEUE).toMessage());
+                new ServerReadyEvent()
+                        .toMessageBuilder()
+                        .setReplyTo(SERVER_QUEUE)
+                        .build());
         logger.info("Broadcasting server queue: " + SERVER_QUEUE);
     }
 
@@ -135,7 +137,10 @@ public class ServerMessageHandler implements MessageListener {
         rabbit.send(
                 BROADCAST_EXCHANGE,
                 "", //no routing
-                new NepRegisteredEvent(nepBlueprint.getNepId(), nepBlueprint.getNodesIds()).toMessage());
+                new NepRegisteredEvent(nepBlueprint.getNepId(), nepBlueprint.getNodesIds())
+                        .toMessageBuilder()
+                        .setReplyTo(SERVER_QUEUE)
+                        .build());
         logger.info("Broadcasting new nep: " + nepBlueprint.getNepId());
     }
 }

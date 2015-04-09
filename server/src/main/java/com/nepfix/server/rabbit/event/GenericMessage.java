@@ -43,6 +43,10 @@ public abstract class GenericMessage<T> {
         return MessageBuilder.withBody(toBytes()).build();
     }
 
+    public MessageBuilder toMessageBuilder(){
+        return MessageBuilder.withBody(toBytes());
+    }
+
     public Kind getKind() {
         return kind;
     }

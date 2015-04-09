@@ -21,12 +21,11 @@ public class ActiveQueuesRepository {
         return serverQueues;
     }
 
-
-    public void serverReady(ServerReadyEvent event) {
-        if (!serverQueues.contains(event.getValue())) {
-            serverQueues.add(event.getValue());
-            logger.info("New queue registered: " + event.getValue());
+    public void registerServerQueue(String queueName){
+        if (queueName == null) {
+            return;
         }
+        serverQueues.add(queueName);
     }
 
 }
