@@ -1,6 +1,7 @@
 package com.nepfix.sim.nep;
 
 
+import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
@@ -112,7 +113,15 @@ public class NepBlueprint {
                 .collect(Collectors.toList());
     }
 
+    public NepBlueprint duplicate(){
+        return NepReader.GSON.fromJson(NepReader.GSON.toJson(this), NepBlueprint.class);
+    }
+
     public JsonObject getNepConfig() {
         return nepConfig;
+    }
+
+    public NepBlueprint[] split(){
+        return new NepBlueprint[0];
     }
 }

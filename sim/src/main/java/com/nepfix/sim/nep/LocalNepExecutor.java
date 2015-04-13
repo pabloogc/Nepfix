@@ -21,7 +21,7 @@ public class LocalNepExecutor {
         Node inputNode = nep.getInputNode();
         List<Word> words = Arrays.asList(new Word(request.getInput(), inputNode.getId(), 0));
         while (nep.getNepOutput().size() < request.getMaxOutputs()
-                && nep.getConfiguration() < request.getMaxConfiguration()) {
+                && nep.getConfiguration() < request.getMaxConfigurations()) {
             nep.putWords(words);
             words = nep.step();
             words.size();

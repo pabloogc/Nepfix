@@ -6,17 +6,18 @@ import com.nepfix.sim.elements.util.Misc;
 import com.nepfix.sim.nep.NepBlueprint;
 import org.springframework.stereotype.Repository;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.Set;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
-import java.util.stream.Collectors;
 
 @Repository
 public class InMemoryNepRepository implements NepRepository {
 
     @Expose private final HashMap<String, NepBlueprint> nepBlueprintHashMap = new HashMap<>();
     @Expose private final HashMap<String, RemoteNepExecutor> activeNepHashMap = new HashMap<>();
-    @Expose private final HashMap<String, HashMap<String, String>> remoteNepHashMap = new HashMap<>();
+    @Expose private final HashMap<String, Set<String>> activeServersForNep = new HashMap<>();
     private final ReentrantReadWriteLock lock = new ReentrantReadWriteLock();
 
     @Override public NepBlueprint findBlueprint(String id) {
@@ -40,7 +41,7 @@ public class InMemoryNepRepository implements NepRepository {
     @Override public RemoteNepExecutor findActiveNep(String id, long computationId) {
         lock.readLock().lock();
         try {
-            return activeNepHashMap.get(id + "-" + computationId);
+            return activeNepHashMap.get(RemoteNepExecutor.executorId(id, computationId));
         } finally {
             lock.readLock().unlock();
         }
@@ -49,48 +50,34 @@ public class InMemoryNepRepository implements NepRepository {
     @Override public void registerActiveNep(RemoteNepExecutor executor) {
         lock.writeLock().lock();
         try {
-            activeNepHashMap.put(executor.getIdentifier(), executor);
+            activeNepHashMap.put(executor.getExecutorId(), executor);
         } finally {
             lock.writeLock().unlock();
         }
     }
 
-    @Override public String findRemoteNode(String nepId, String nodeId) {
-        lock.readLock().lock();
-        try {
-            HashMap<String, String> nodeToQueueMap = remoteNepHashMap.get(nepId);
-            if (nodeToQueueMap != null) {
-                return nodeToQueueMap.get(nodeId);
-            }
-            return null;
-        } finally {
-            lock.readLock().unlock();
-        }
-    }
-
-    @Override public void registerRemoteNodes(RemoteNepInfo remoteNep) {
+    @Override public void unregisterActiveNep(RemoteNepExecutor executor) {
         lock.writeLock().lock();
         try {
-            String nepHash = Misc.getNepMd5(remoteNep.getId(), remoteNep.getNodes());
-            HashMap<String, String> nodeToQueueMap = new HashMap<>();
-            remoteNepHashMap.putIfAbsent(remoteNep.getId(), nodeToQueueMap);
-            nodeToQueueMap = remoteNepHashMap.get(remoteNep.getId());
-            for (String nodeId : remoteNep.getNodes()) {
-                nodeToQueueMap.put(nodeId, nepHash);
-            }
+            activeNepHashMap.remove(executor.getExecutorId(), executor);
         } finally {
             lock.writeLock().unlock();
         }
     }
 
-    @Override public List<String> getAllRemoteQueues(String nepId) {
+    @Override public void registerRemoteQueue(RemoteNepInfo remoteNep) {
+        lock.writeLock().lock();
+        try {
+            Misc.putInSetHashMap(remoteNep.getId(), remoteNep.getSeverQueue(), activeServersForNep);
+        } finally {
+            lock.writeLock().unlock();
+        }
+    }
+
+    @Override public List<String> getRemoteQueues(String nepId) {
         lock.readLock().lock();
         try {
-            return remoteNepHashMap.get(nepId)
-                    .values()
-                    .stream()
-                    .distinct()
-                    .collect(Collectors.toList());
+            return new ArrayList<>(activeServersForNep.get(nepId));
         } finally {
             lock.readLock().unlock();
         }

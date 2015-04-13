@@ -2,6 +2,6 @@ logging:
   level:
    org:
     springframework:
-     web: DEBUG
+     web: INFO
 rabbit:
  server: localhost

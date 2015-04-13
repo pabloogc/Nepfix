@@ -25,7 +25,7 @@ public class LocalTest {
             input += "a";
         }
 
-        ComputationRequest request = new ComputationRequest(input, "1", 4, 1);
+        ComputationRequest request = new ComputationRequest(input, "1", 4, 1, 0);
         NepBlueprint blueprint = NepReader.loadBlueprint(new InputStreamReader(LocalTest.class.getClassLoader().getResourceAsStream(nepFile)));
         LocalNepExecutor executor = new LocalNepExecutor(blueprint);
         List<Word> output = executor.execute(request);

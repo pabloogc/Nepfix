@@ -1,7 +1,6 @@
 package com.nepfix.server.network;
 
 import com.google.gson.annotations.Expose;
-import com.nepfix.server.rabbit.event.ServerReadyEvent;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
@@ -10,8 +9,8 @@ import java.util.List;
 import java.util.Vector;
 
 @Repository
-public class ActiveQueuesRepository {
-    private static final Logger logger = LoggerFactory.getLogger(ActiveQueuesRepository.class);
+public class ActiveServersRepository {
+    private static final Logger logger = LoggerFactory.getLogger(ActiveServersRepository.class);
     @Expose private Vector<String> serverQueues = new Vector<>();
 
     /**

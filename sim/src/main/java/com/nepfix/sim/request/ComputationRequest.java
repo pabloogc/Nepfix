@@ -6,13 +6,14 @@ import com.google.gson.annotations.Expose;
 public class ComputationRequest {
     @Expose private String networkId;
     @Expose private String input;
-    @Expose private long maxConfiguration;
+    @Expose private long maxConfigurations;
     @Expose private long maxOutputs;
+    @Expose private long computationId = 0;
 
-    public ComputationRequest(String networkId, String input, long maxConfiguration, long maxOutputs) {
+    public ComputationRequest(String networkId, String input, long maxConfigurations, long maxOutputs, long computationId) {
         this.networkId = networkId;
         this.input = input;
-        this.maxConfiguration = maxConfiguration <= 0 ? Long.MAX_VALUE : maxConfiguration;
+        this.maxConfigurations = maxConfigurations <= 0 ? Long.MAX_VALUE : maxConfigurations;
         this.maxOutputs = maxOutputs <= 0 ? Long.MAX_VALUE : maxOutputs;
     }
 
@@ -24,11 +25,16 @@ public class ComputationRequest {
         return input;
     }
 
-    public long getMaxConfiguration() {
-        return maxConfiguration;
+    public long getMaxConfigurations() {
+        return maxConfigurations;
     }
 
     public long getMaxOutputs() {
         return maxOutputs;
     }
+
+    public long getComputationId() {
+        return computationId;
+    }
 }
+

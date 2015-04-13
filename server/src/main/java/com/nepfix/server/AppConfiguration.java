@@ -2,6 +2,8 @@ package com.nepfix.server;
 
 import com.google.common.eventbus.EventBus;
 import com.nepfix.server.rabbit.ServerMessageHandler;
+import org.apache.log4j.Level;
+import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.amqp.core.*;
@@ -57,7 +59,7 @@ public class AppConfiguration implements InitializingBean, DisposableBean {
 
     @Bean public RabbitTemplate rabbitTemplate(ConnectionFactory connectionFactory) {
         RabbitTemplate template = new RabbitTemplate(connectionFactory);
-        template.setReplyTimeout(5000); //5 seconds
+        template.setReplyTimeout(50000); //50 seconds
         return template;
     }
 
@@ -66,6 +68,8 @@ public class AppConfiguration implements InitializingBean, DisposableBean {
     }
 
     @Override public void afterPropertiesSet() throws Exception {
+        LogManager.getRootLogger().setLevel(Level.DEBUG);
+
         //Declare broadcast channel (will do nothing if already created)
         logger.info("Server started");
         Exchange broadcastExchange = new FanoutExchange(BROADCAST_EXCHANGE);

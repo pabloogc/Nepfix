@@ -9,11 +9,11 @@ import java.util.List;
  */
 public class RemoteNepInfo {
     @Expose private final String nepId;
-    @Expose private final List<String> nodes;
+    @Expose private final String severQueue;
 
-    public RemoteNepInfo(String nepId, List<String> nodes) {
+    public RemoteNepInfo(String nepId, String serverQueue) {
         this.nepId = nepId;
-        this.nodes = nodes;
+        this.severQueue = serverQueue;
     }
 
 
@@ -21,7 +21,7 @@ public class RemoteNepInfo {
         return nepId;
     }
 
-    public List<String> getNodes() {
-        return nodes;
+    public String getSeverQueue() {
+        return severQueue;
     }
 }

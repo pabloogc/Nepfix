@@ -19,11 +19,11 @@ public interface NepRepository {
 
     void registerActiveNep(RemoteNepExecutor nep);
 
+    void unregisterActiveNep(RemoteNepExecutor nep);
+
     //Remote Nep
-    public List<String> getAllRemoteQueues(String nepId);
+    public List<String> getRemoteQueues(String nepId);
 
-    public String findRemoteNode(String nepId, String nodeId);
-
-    void registerRemoteNodes(RemoteNepInfo nep);
+    void registerRemoteQueue(RemoteNepInfo nep);
 
 }

@@ -5,9 +5,7 @@ import org.python.apache.xerces.impl.dv.util.Base64;
 
 import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
+import java.util.*;
 
 public abstract class Misc {
 
@@ -21,15 +19,25 @@ public abstract class Misc {
         }
     }
 
-    @SuppressWarnings("unchecked")
     public static <K, V> void putInListHashMap(K key, V element, HashMap<K, List<V>> map) {
-        List tList = map.get(key);
-        if (tList != null) {
-            tList.add(element);
+        List<V> list = map.get(key);
+        if (list != null) {
+            list.add(element);
         } else {
-            tList = new ArrayList<>();
-            tList.add(element);
-            map.put(key, tList);
+            list = new ArrayList<>();
+            list.add(element);
+            map.put(key, list);
+        }
+    }
+
+    public static <K, V> void putInSetHashMap(K key, V element, HashMap<K, Set<V>> map) {
+        Set<V> set = map.get(key);
+        if (set != null) {
+            set.add(element);
+        } else {
+            set = new HashSet<>();
+            set.add(element);
+            map.put(key, set);
         }
     }
 

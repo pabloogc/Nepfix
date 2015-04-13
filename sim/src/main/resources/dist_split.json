@@ -9,7 +9,17 @@
       "id": "2",
       "processor": {
         "class": "com.nepfix.sim.elements.ScriptProcessor",
-        "code": ["output = map(lambda x: (x+'a'), input)"]
+        "code": ["output = map(lambda x: (x+' first'), input)"]
+      },
+      "connections": [
+        "2.5"
+      ]
+    },
+    {
+      "id": "2.5",
+      "processor": {
+        "class": "com.nepfix.sim.elements.ScriptProcessor",
+        "code": ["output = map(lambda x: (x+' second'), input)"]
       },
       "connections": [
         "3"
