@@ -92,7 +92,7 @@ public class AppConfiguration implements InitializingBean, DisposableBean {
         registry.registerListenerContainer(endpoint, containerFactory);
         logger.info("Server listening on: " + SERVER_QUEUE);
 
-        serverMessageHandler.broadcastServerReady();
+        serverMessageHandler.broadcastNewServer();
     }
 
     @Override public void destroy() throws Exception {

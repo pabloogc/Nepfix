@@ -5,19 +5,18 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
-import java.util.List;
-import java.util.Vector;
+import java.util.*;
 
 @Repository
 public class ActiveServersRepository {
     private static final Logger logger = LoggerFactory.getLogger(ActiveServersRepository.class);
-    @Expose private Vector<String> serverQueues = new Vector<>();
+    @Expose private Set<String> serverQueues = Collections.synchronizedSet(new HashSet<>());
 
     /**
      * Thread safe
      */
     public List<String> getServerQueues() {
-        return serverQueues;
+        return new ArrayList<>(serverQueues);
     }
 
     public void registerServerQueue(String queueName){

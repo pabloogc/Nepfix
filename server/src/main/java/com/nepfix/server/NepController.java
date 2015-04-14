@@ -27,7 +27,7 @@ public class NepController {
     private static final Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
     private static final String JSON_CT = "application/json; charset=utf-8";
     @Autowired private NepRepository nepRepository;
-    @Autowired private ActiveServersRepository activeQueuesRepository;
+    @Autowired private ActiveServersRepository activeServersRepository;
     @Autowired private RemoteNepExecutorFactory factory;
     @Autowired private ServerMessageHandler serverMessageHandler;
 
@@ -36,16 +36,21 @@ public class NepController {
         NepBlueprint nepBlueprint = NepReader.loadBlueprint(new StringReader(nepDefinition));
         nepRepository.registerBlueprint(nepBlueprint);
         nepRepository.registerRemoteQueue(new RemoteNepInfo(nepBlueprint.getNepId(), AppConfiguration.SERVER_QUEUE));
-        serverMessageHandler.broadcastNewServerForNep(nepBlueprint);
+        serverMessageHandler.broadcastNewNep(nepBlueprint);
     }
 
     @RequestMapping(value = "join/{nepId}")
-    public void joinComputation(@PathVariable String nepId){
-
+    public void splitNep(@PathVariable String nepId){
+//        activeServersRepository
+//                .getServerQueues()
+//                .parallelStream()
+//                .map(q -> {
+//                    new CurrentLoadRequest(Action.LOAD_REQUEST)
+//                })
     }
 
-    @RequestMapping(value = "leave/{nepId}")
-    public void leaveComputation(@PathVariable String nepId){
+    @RequestMapping(value = "merge/{nepId}")
+    public void merge(@PathVariable String nepId){
         //TODO: Implement this
     }
 
@@ -67,7 +72,7 @@ public class NepController {
     public String findAll() {
         JsonObject dump = new JsonObject();
         dump.add("nepRepository", gson.toJsonTree(nepRepository));
-        dump.add("activeQueuesRepository", gson.toJsonTree(activeQueuesRepository));
+        dump.add("activeServersRepository", gson.toJsonTree(activeServersRepository));
         return new GsonBuilder().excludeFieldsWithoutExposeAnnotation().setPrettyPrinting().create().toJson(dump);
     }
 

@@ -4,13 +4,14 @@ import com.nepfix.server.AppConfiguration;
 import com.nepfix.server.executor.RemoteNepExecutor;
 import com.nepfix.server.executor.RemoteNepExecutorFactory;
 import com.nepfix.server.neps.NepRepository;
+import com.nepfix.server.neps.RemoteNepInfo;
 import com.nepfix.server.network.ActiveServersRepository;
-import com.nepfix.server.rabbit.event.*;
+import com.nepfix.server.rabbit.messages.Action;
+import com.nepfix.server.rabbit.messages.NepComputationInfo;
+import com.nepfix.server.rabbit.messages.NepMessage;
 import com.nepfix.sim.nep.NepBlueprint;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.apache.log4j.Level;
-import org.apache.log4j.LogManager;
 import org.springframework.amqp.core.Message;
 import org.springframework.amqp.core.MessageListener;
 import org.springframework.amqp.rabbit.core.RabbitTemplate;
@@ -19,8 +20,8 @@ import org.springframework.stereotype.Component;
 
 import static com.nepfix.server.AppConfiguration.BROADCAST_EXCHANGE;
 import static com.nepfix.server.AppConfiguration.SERVER_QUEUE;
-import static com.nepfix.server.rabbit.event.GenericMessage.getKind;
-import static com.nepfix.server.rabbit.event.GenericMessage.read;
+import static com.nepfix.server.rabbit.messages.NepMessage.getAction;
+import static com.nepfix.server.rabbit.messages.NepMessage.parse;
 
 @Component
 public class ServerMessageHandler implements MessageListener {
@@ -32,89 +33,86 @@ public class ServerMessageHandler implements MessageListener {
     @Autowired private RemoteNepExecutorFactory nepExecutorFactory;
 
     @Override public void onMessage(Message message) {
-        Kind kind = getKind(message);
-        if (kind == null) {
+        Action action = getAction(message);
+        if (action == null) {
             logger.error("Message not handled: " + "Kind is NULL!!");
             return;
         }
-        logger.debug("Message received with kind: " + kind.name());
-        switch (kind) {
-            case SERVER_READY:
-                handleNewServerReady(message);
+
+        logger.debug("Message received with action: " + action.name());
+        switch (action) {
+            case S_NEW_SERVER:
+                handleNewServer(message);
                 break;
-            case SERVER_READY_REPLY:
+            case S_NEW_SERVER_REPLY:
                 handleNewServerReply(message);
                 break;
-            case NEW_NEP:
-                handleNewServerForNep(message);
+            case S_NEW_NEP:
+                handleNepRegistered(message);
                 break;
-            case NEW_NEP_REPLY:
-                handelNewServerForNepReply(message);
+            case S_NEW_NEP_REPLY:
+                handleNepRegisteredReply(message);
                 break;
-            case COMPUTATION_STARTED:
+            case S_COMPUTATION_STARTED:
                 handleComputationStarted(message);
                 break;
-            case COMPUTATION_FINISHED:
+            case S_COMPUTATION_FINISHED:
                 handleComputationFinished(message);
                 break;
-            case STOP:
+            case S_STOP:
                 return;
             case UNKNOWN:
             default:
-                logger.warn("Message not handled: " + kind.name());
+                logger.warn("Message not handled: " + action.name());
         }
     }
 
-    private void handleNewServerReady(Message message) {
-        if (message.getMessageProperties().getReplyTo().equals(SERVER_QUEUE))
-            return; //Broadcast came from this server
-
+    private void handleNewServer(Message message) {
         activeQueuesRepository.registerServerQueue(message.getMessageProperties().getReplyTo());
         rabbit.send(
                 "", //Default exchange
                 message.getMessageProperties().getReplyTo(),
-                new ServerReadyReplyEvent(SERVER_QUEUE).toMessage());
+                NepMessage.toMessage(Action.S_NEW_SERVER_REPLY, SERVER_QUEUE));
 
     }
 
     private void handleNewServerReply(Message message) {
-        ServerReadyEvent event = read(message, ServerReadyEvent.class);
-        activeQueuesRepository.registerServerQueue(event.getValue());
+        String remoteServerQueue = parse(message);
+        activeQueuesRepository.registerServerQueue(remoteServerQueue);
     }
 
     /**
      * {@link com.nepfix.server.NepController#registerNep(String)}
      */
-    private void handleNewServerForNep(Message message) {
+    private void handleNepRegistered(Message message) {
         if (message.getMessageProperties().getReplyTo().equals(SERVER_QUEUE))
             return; //Broadcast came from this server
 
-        NepRegisteredEvent event = read(message, NepRegisteredEvent.class);
-        NepBlueprint blueprint = nepRepository.findBlueprint(event.getValue().getId());
-        if (blueprint != null) { //The new nep its related to one already stored
-            //This operation is duplicated in the broadcast reply but has no effect, left here for clarity
-            nepRepository.registerRemoteQueue(event.getValue());
-            NepRegisteredEventReply reply = new NepRegisteredEventReply(blueprint.getNepId(), SERVER_QUEUE);
+        RemoteNepInfo remoteNepInfo = parse(message);
+        NepBlueprint blueprint = nepRepository.findBlueprint(remoteNepInfo.getId());
+        if (blueprint != null) {
+            nepRepository.registerRemoteQueue(remoteNepInfo);
+            RemoteNepInfo reply = new RemoteNepInfo(blueprint.getNepId(), SERVER_QUEUE);
             //Reply rpc call
-            rabbit.send(message.getMessageProperties().getReplyTo(), reply.toMessage());
+            rabbit.send(message.getMessageProperties().getReplyTo(), NepMessage.toMessage(Action.S_NEW_NEP_REPLY, reply));
         }
     }
 
-    private void handelNewServerForNepReply(Message message) {
-        NepRegisteredEventReply event = read(message, NepRegisteredEventReply.class);
-        NepBlueprint blueprint = nepRepository.findBlueprint(event.getValue().getId());
+    private void handleNepRegisteredReply(Message message) {
+        RemoteNepInfo remoteNepInfo = parse(message);
+        NepBlueprint blueprint = nepRepository.findBlueprint(remoteNepInfo.getId());
         if (blueprint != null) {
-            nepRepository.registerRemoteQueue(event.getValue());
+            nepRepository.registerRemoteQueue(remoteNepInfo);
         }
     }
 
     private void handleComputationStarted(Message message) {
-        ComputationStartedEvent event = read(message, ComputationStartedEvent.class);
-        NepBlueprint blueprint = nepRepository.findBlueprint(event.getValue().nepId);
+        NepComputationInfo msg = parse(message);
+        NepBlueprint blueprint = nepRepository.findBlueprint(msg.nepId);
         if (blueprint == null) return; //Nep is not on this machine
-        RemoteNepExecutor activeNep = nepRepository.findActiveNep(event.getValue().nepId, event.getValue().compId);
+        RemoteNepExecutor activeNep = nepRepository.findActiveNep(msg.nepId, msg.computationId);
         if (activeNep != null) return; //This nep is already active
-        RemoteNepExecutor nepExecutor = nepExecutorFactory.create(blueprint, event.getValue().compId);
+        RemoteNepExecutor nepExecutor = nepExecutorFactory.create(blueprint, msg.computationId);
         nepExecutor.startListening();
         nepRepository.registerActiveNep(nepExecutor);
         //Reply rpc call
@@ -122,8 +120,8 @@ public class ServerMessageHandler implements MessageListener {
     }
 
     private void handleComputationFinished(Message message) {
-        ComputationFinishedEvent event = read(message, ComputationFinishedEvent.class);
-        RemoteNepExecutor executor = nepRepository.findActiveNep(event.getValue().nepId, event.getValue().compId);
+        NepComputationInfo msg = parse(message);
+        RemoteNepExecutor executor = nepRepository.findActiveNep(msg.nepId, msg.computationId);
         if (executor != null) {
             executor.stopListening();
             nepRepository.unregisterActiveNep(executor);
@@ -132,25 +130,25 @@ public class ServerMessageHandler implements MessageListener {
         rabbit.send(message.getMessageProperties().getReplyTo(), RabbitUtil.emptyMessage());
     }
 
-    public void broadcastServerReady() {
+    public void broadcastNewServer() {
         rabbit.send(
                 AppConfiguration.BROADCAST_EXCHANGE,
                 "",
-                new ServerReadyEvent()
-                        .toMessageBuilder()
+                NepMessage.toBuilder(Action.S_NEW_SERVER)
                         .setReplyTo(SERVER_QUEUE)
                         .build());
         logger.debug("Broadcasting server queue: " + SERVER_QUEUE);
     }
 
-    public void broadcastNewServerForNep(NepBlueprint nepBlueprint) {
+    public void broadcastNewNep(NepBlueprint nepBlueprint) {
         rabbit.send(
                 BROADCAST_EXCHANGE,
                 "", //no routing
-                new NepRegisteredEvent(nepBlueprint.getNepId(), SERVER_QUEUE)
-                        .toMessageBuilder()
+                NepMessage.toBuilder(Action.S_NEW_NEP,
+                        new RemoteNepInfo(nepBlueprint.getNepId(), SERVER_QUEUE))
                         .setReplyTo(SERVER_QUEUE)
                         .build());
         logger.debug("Broadcasting new nep: " + nepBlueprint.getNepId());
     }
+
 }

@@ -1,12 +1,11 @@
 package com.nepfix.server.neps;
 
 import com.google.gson.annotations.Expose;
+import com.nepfix.server.rabbit.messages.NepMessage;
 
 import java.util.List;
 
-/**
- * Created by pablo on 3/24/15.
- */
+
 public class RemoteNepInfo {
     @Expose private final String nepId;
     @Expose private final String severQueue;
