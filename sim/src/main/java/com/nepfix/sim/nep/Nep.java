@@ -16,6 +16,7 @@ import static com.nepfix.sim.elements.util.Misc.putInListHashMap;
 
 public class Nep {
 
+    @Expose private final NepStats stats;
     @Expose private final String id;
     @Expose private final JsonObject nepConfig;
     @Expose private final HashMap<String, Node> nodes = new HashMap<>();
@@ -31,6 +32,7 @@ public class Nep {
         this.configuration = 0;
         this.id = nepId;
         this.computationId = computationId;
+        this.stats = new NepStats();
     }
 
     public List<Word> step() {
@@ -141,15 +143,7 @@ public class Nep {
         return id;
     }
 
-    public long getComputationId() {
-        return computationId;
-    }
-
-    public String getMd5() {
-        return Misc.getNepMd5(getId(), getNodes()
-                .stream()
-                .map(Node::getId)
-                .sorted()
-                .collect(Collectors.toList()));
+    public NepStats getStats() {
+        return stats;
     }
 }

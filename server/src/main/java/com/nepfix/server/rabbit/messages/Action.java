@@ -16,17 +16,18 @@ public enum Action {
     S_NEW_NEP_REPLY(RemoteNepInfo.class),
     S_COMPUTATION_STARTED(NepComputationInfo.class),
     S_COMPUTATION_FINISHED(NepComputationInfo.class),
-    S_STOP(VoidMessage.class),
+    S_GET_LOAD(Void.class),
+    S_STOP(Void.class),
     //Nep messages
-    N_STEP(VoidMessage.class),
-    N_STEP_REPLY(VoidMessage.class),
+    N_STEP(Void.class),
+    N_STEP_REPLY(Void.class),
     N_ADD_WORDS(new TypeToken<List<Word>>(){}.getType()),
-    UNKNOWN(VoidMessage.class);
+    UNKNOWN(Void.class);
 
     private final Type type;
 
-    Action(Type type) {
-        this.type = type;
+    Action(Type bodyType) {
+        this.type = bodyType;
     }
 
     public Type getType() {

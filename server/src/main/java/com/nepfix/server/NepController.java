@@ -10,10 +10,13 @@ import com.nepfix.server.neps.NepRepository;
 import com.nepfix.server.neps.RemoteNepInfo;
 import com.nepfix.server.network.ActiveServersRepository;
 import com.nepfix.server.rabbit.ServerMessageHandler;
+import com.nepfix.server.rabbit.messages.Action;
+import com.nepfix.server.rabbit.messages.NepMessage;
 import com.nepfix.sim.nep.NepBlueprint;
 import com.nepfix.sim.nep.NepReader;
 import com.nepfix.sim.request.ComputationRequest;
 import com.nepfix.sim.request.Word;
+import org.springframework.amqp.core.Message;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
@@ -39,14 +42,9 @@ public class NepController {
         serverMessageHandler.broadcastNewNep(nepBlueprint);
     }
 
-    @RequestMapping(value = "join/{nepId}")
+    @RequestMapping(value = "fork/{nepId}")
     public void splitNep(@PathVariable String nepId){
-//        activeServersRepository
-//                .getServerQueues()
-//                .parallelStream()
-//                .map(q -> {
-//                    new CurrentLoadRequest(Action.LOAD_REQUEST)
-//                })
+        //TODO: Implement this
     }
 
     @RequestMapping(value = "merge/{nepId}")
