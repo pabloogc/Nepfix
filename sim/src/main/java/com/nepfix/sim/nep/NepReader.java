@@ -18,15 +18,15 @@ import java.util.regex.Pattern;
 
 public class NepReader {
 
-    public static final GsonBuilder GSON_BUILDER = new GsonBuilder()
+    private static final GsonBuilder GSON_BUILDER = new GsonBuilder()
             .registerTypeAdapter(Functions.IntComp.class, new Functions.IntComp.Adapter())
             .registerTypeAdapter(Functions.IntervalComp.class, new Functions.IntervalComp.Adapter());
 
 
-    private static final Gson GENERAL_GSON = GSON_BUILDER.create();
+    public static final Gson GENERAL_GSON = GSON_BUILDER.create();
 
 
-    public static final Gson GSON = new GsonBuilder()
+    public static final Gson GSON = GSON_BUILDER
             .excludeFieldsWithoutExposeAnnotation()
             .create();
 

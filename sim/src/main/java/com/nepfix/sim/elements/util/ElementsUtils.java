@@ -2,6 +2,7 @@ package com.nepfix.sim.elements.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
+import com.nepfix.sim.nep.Nep;
 import com.nepfix.sim.nep.NepReader;
 
 import java.util.Collections;
@@ -9,11 +10,9 @@ import java.util.List;
 
 public class ElementsUtils {
 
-
-    public static <T> T readAsList(TypeToken<T> token, JsonElement list) {
+    public static <T extends List<?>> T readList(JsonElement list, TypeToken<T> token) {
         return NepReader.GSON.fromJson(list, token.getType());
     }
-
 
     public static List<String> readAsListString(JsonElement list) {
         if (list == null) {
@@ -29,6 +28,17 @@ public class ElementsUtils {
                 return true;
         }
         return false;
+    }
+
+    public static int[] intersectCount(String word, String container){
+        int[] result = new int[word.length()];
+        for (int i = 0; i < word.length(); i++) {
+            for (int j = 0; j < container.length(); j++) {
+                if(word.charAt(i) == container.charAt(j))
+                    result[i]++;
+            }
+        }
+        return result;
     }
 
 }

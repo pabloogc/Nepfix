@@ -30,6 +30,10 @@ public abstract class ComputationElement implements NepElement {
         return id;
     }
 
+    public JsonObject getConfigFor(Object object) {
+        return nep.getDefinition().get(object.getClass().getSimpleName()).getAsJsonObject();
+    }
+
     public JsonObject getConfigFor(String name) {
         return nep.getDefinition().get(name).getAsJsonObject();
     }
