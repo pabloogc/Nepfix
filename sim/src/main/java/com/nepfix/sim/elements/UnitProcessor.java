@@ -9,7 +9,7 @@ import java.util.List;
 
 public class UnitProcessor extends ComputationElement implements Processor {
 
-    public UnitProcessor(JsonObject element, Nep nep) {
+    public UnitProcessor(Nep nep, JsonObject element) {
         super(nep, element);
     }
 

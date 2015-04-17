@@ -7,7 +7,7 @@ import com.nepfix.sim.nep.Nep;
 
 public class AcceptAllFilter extends ComputationElement implements Filter {
 
-    public AcceptAllFilter(JsonObject element, Nep nep) {
+    public AcceptAllFilter(Nep nep, JsonObject element) {
         super(nep, element);
     }
 

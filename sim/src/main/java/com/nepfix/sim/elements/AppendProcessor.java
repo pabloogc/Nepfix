@@ -14,10 +14,10 @@ public class AppendProcessor extends ComputationElement implements Processor {
 
     private List<Rule> rules;
 
-    public AppendProcessor(JsonObject element, Nep nep) {
+    public AppendProcessor(Nep nep, JsonObject element) {
         super(nep, element);
         rules = ElementsUtils.readAsList(new TypeToken<List<Rule>>() {
-        }, getJson().get("rules").getAsJsonArray().toString());
+        }, getJson().get("rules"));
     }
 
     public List<String> process(List<String> input) {

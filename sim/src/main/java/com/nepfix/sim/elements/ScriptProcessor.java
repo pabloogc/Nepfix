@@ -20,7 +20,7 @@ public class ScriptProcessor extends ComputationElement implements Processor {
     private final String code;
     private final LinkedTreeMap<? extends String, Object> configAsTree;
 
-    public ScriptProcessor(JsonObject element, Nep nep) {
+    public ScriptProcessor(Nep nep, JsonObject element) {
         super(nep, element);
         JsonArray codeArray = getJson().getAsJsonObject().get("code").getAsJsonArray();
         StringBuilder sb = new StringBuilder();
@@ -28,8 +28,9 @@ public class ScriptProcessor extends ComputationElement implements Processor {
             sb.append(jsonElement.getAsString()).append("\n");
         }
         //TODO: Create an scope to reuse the same scriptEngine
-        configAsTree = new Gson().fromJson(getNepConfig(), new TypeToken<LinkedTreeMap<? extends String, Object>>() {
-        }.getType());
+        configAsTree = new Gson().fromJson(getConfig(),
+                new TypeToken<LinkedTreeMap<? extends String, Object>>() {
+                }.getType());
         code = sb.toString();
     }
 

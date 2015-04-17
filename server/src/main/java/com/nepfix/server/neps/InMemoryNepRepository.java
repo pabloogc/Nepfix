@@ -2,7 +2,7 @@ package com.nepfix.server.neps;
 
 import com.google.gson.annotations.Expose;
 import com.nepfix.server.executor.RemoteNepExecutor;
-import com.nepfix.sim.elements.util.Misc;
+import com.nepfix.sim.nep.NepUtils;
 import com.nepfix.sim.nep.NepBlueprint;
 import org.springframework.stereotype.Repository;
 
@@ -68,7 +68,7 @@ public class InMemoryNepRepository implements NepRepository {
     @Override public void registerRemoteQueue(RemoteNepInfo remoteNep) {
         lock.writeLock().lock();
         try {
-            Misc.putInSetHashMap(remoteNep.getId(), remoteNep.getSeverQueue(), activeServersForNep);
+            NepUtils.putInSetHashMap(remoteNep.getId(), remoteNep.getSeverQueue(), activeServersForNep);
         } finally {
             lock.writeLock().unlock();
         }

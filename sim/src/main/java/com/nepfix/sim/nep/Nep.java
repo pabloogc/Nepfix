@@ -6,19 +6,17 @@ import com.nepfix.sim.core.Filter;
 import com.nepfix.sim.core.NepElement;
 import com.nepfix.sim.core.Node;
 import com.nepfix.sim.core.Processor;
-import com.nepfix.sim.elements.util.Misc;
 import com.nepfix.sim.request.Word;
 
 import java.util.*;
-import java.util.stream.Collectors;
 
-import static com.nepfix.sim.elements.util.Misc.putInListHashMap;
+import static com.nepfix.sim.nep.NepUtils.putInListHashMap;
 
 public class Nep {
 
     @Expose private final NepStats stats;
     @Expose private final String id;
-    @Expose private final JsonObject nepConfig;
+    @Expose private final JsonObject definition;
     @Expose private final HashMap<String, Node> nodes = new HashMap<>();
     @Expose private final HashMap<String, Processor> processors = new HashMap<>();
     @Expose private final HashMap<String, Filter> filters = new HashMap<>();
@@ -27,8 +25,8 @@ public class Nep {
     @Expose private final long computationId;
     @Expose private long configuration;
 
-    public Nep(String nepId, JsonObject nepConfig, long computationId) {
-        this.nepConfig = nepConfig;
+    public Nep(String nepId, JsonObject definition, long computationId) {
+        this.definition = definition;
         this.configuration = 0;
         this.id = nepId;
         this.computationId = computationId;
@@ -96,8 +94,8 @@ public class Nep {
         return node;
     }
 
-    public JsonObject getNepConfig() {
-        return nepConfig;
+    public JsonObject getDefinition() {
+        return definition;
     }
 
     public void putNode(Node node) {

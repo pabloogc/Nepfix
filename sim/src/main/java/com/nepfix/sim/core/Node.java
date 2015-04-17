@@ -7,6 +7,7 @@ import com.nepfix.sim.request.Word;
 
 import java.util.ArrayList;
 import java.util.Arrays;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -49,7 +50,7 @@ public class Node implements NepElement {
 
         List<String> sendTo;
         if (isOutput())
-            sendTo = Arrays.asList(OUTPUT_CONNECTION);
+            sendTo = Collections.singletonList(OUTPUT_CONNECTION);
         else
             sendTo = connections;
 

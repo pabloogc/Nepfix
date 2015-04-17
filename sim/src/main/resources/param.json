@@ -6,7 +6,7 @@
     "weights": {
       "a": 45,
       "b": 2,
-      "c": {"d": "d"}
+      "c": 12
     }
   },
   "processorDefinitions": [

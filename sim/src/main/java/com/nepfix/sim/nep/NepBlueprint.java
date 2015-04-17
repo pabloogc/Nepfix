@@ -1,7 +1,6 @@
 package com.nepfix.sim.nep;
 
 
-import com.google.gson.Gson;
 import com.google.gson.JsonElement;
 import com.google.gson.JsonObject;
 import com.google.gson.annotations.Expose;
@@ -14,20 +13,19 @@ import com.nepfix.sim.elements.UnitProcessor;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.InvocationTargetException;
-import java.util.HashMap;
 import java.util.List;
 import java.util.stream.Collectors;
 
 @SuppressWarnings("MismatchedQueryAndUpdateOfCollection")
 public class NepBlueprint {
     @Expose private String nepId;
-    @Expose private JsonObject nepConfig;
+    @Expose private JsonObject definition;
     @Expose private List<JsonObject> processorDefinitions;
     @Expose private List<JsonObject> filterDefinitions;
     @Expose private List<JsonObject> network;
 
     public Nep create(long computationId) {
-        Nep nep = new Nep(nepId, nepConfig, computationId);
+        Nep nep = new Nep(nepId, definition, computationId);
         processorDefinitions.forEach(d -> nep.putProcessor(createElement(d, nep, Processor.class)));
         filterDefinitions.forEach(f -> nep.putFilter(createElement(f, nep, Filter.class)));
         network.forEach(n -> nep.putNode(createNode(n, nep)));
@@ -43,14 +41,14 @@ public class NepBlueprint {
         JsonElement filterOut = object.get("filterOut");
 
         if (processor == null)
-            node.setProcessor(new UnitProcessor(object, nep));
+            node.setProcessor(new UnitProcessor(nep, object));
         else if (processor.isJsonObject())
             node.setProcessor(createElement(processor.getAsJsonObject(), nep, Processor.class));
         else
             node.setProcessor(nep.findProcessor(processor.getAsString()));
 
         if (filterIn == null)
-            node.setFilterIn(new AcceptAllFilter(object, nep));
+            node.setFilterIn(new AcceptAllFilter(nep, object));
         else if (filterIn.isJsonObject())
             node.setFilterIn(createElement(filterIn.getAsJsonObject(), nep, Filter.class));
         else
@@ -58,7 +56,7 @@ public class NepBlueprint {
 
 
         if (filterOut == null)
-            node.setFilterOut(new AcceptAllFilter(object, nep));
+            node.setFilterOut(new AcceptAllFilter(nep, object));
         else if (filterOut.isJsonObject())
             node.setFilterOut(createElement(filterOut.getAsJsonObject(), nep, Filter.class));
         else
@@ -72,12 +70,12 @@ public class NepBlueprint {
     private <T> T createElement(JsonObject object, Nep nep, Class<T> kind) {
         Class<? extends ComputationElement> clazz = tryLoadClass(object.get("class").getAsString());
         Constructor<? extends ComputationElement> constructor = tryGetConstructor(clazz);
-        return kind.cast(tryCreateInstance(object, nep, constructor));
+        return kind.cast(tryCreateInstance(nep, object, constructor));
     }
 
-    private ComputationElement tryCreateInstance(JsonObject object, Nep nep, Constructor<? extends ComputationElement> constructor) {
+    private ComputationElement tryCreateInstance(Nep nep, JsonObject object, Constructor<? extends ComputationElement> constructor) {
         try {
-            return constructor.newInstance(object, nep);
+            return constructor.newInstance(nep, object);
         } catch (InstantiationException | IllegalAccessException | InvocationTargetException e) {
             e.printStackTrace();
             throw new IllegalArgumentException(e);
@@ -96,7 +94,7 @@ public class NepBlueprint {
 
     private Constructor<? extends ComputationElement> tryGetConstructor(Class<? extends ComputationElement> clazz) {
         try {
-            return clazz.getDeclaredConstructor(JsonObject.class, Nep.class);
+            return clazz.getDeclaredConstructor(Nep.class, JsonObject.class);
         } catch (NoSuchMethodException e) {
             e.printStackTrace();
             throw new IllegalArgumentException(e);
@@ -118,11 +116,11 @@ public class NepBlueprint {
         return NepReader.GSON.fromJson(NepReader.GSON.toJson(this), NepBlueprint.class);
     }
 
-    public JsonObject getNepConfig() {
-        return nepConfig;
-    }
-
     public NepBlueprint[] split(){
         return new NepBlueprint[0];
+    }
+
+    public void setDefinition(JsonObject definition) {
+        this.definition = definition;
     }
 }

@@ -10,7 +10,7 @@ import com.nepfix.server.rabbit.messages.Action;
 import com.nepfix.server.rabbit.messages.NepComputationInfo;
 import com.nepfix.server.rabbit.messages.NepMessage;
 import com.nepfix.sim.core.Node;
-import com.nepfix.sim.elements.util.Misc;
+import com.nepfix.sim.nep.NepUtils;
 import com.nepfix.sim.nep.Nep;
 import com.nepfix.sim.nep.NepBlueprint;
 import com.nepfix.sim.request.ComputationRequest;
@@ -120,7 +120,7 @@ public class RemoteNepExecutor implements MessageListener {
             if (nep.hasNode(word.getDestinyNode()))
                 localWords.add(word);
             else
-                Misc.putInListHashMap(
+                NepUtils.putInListHashMap(
                         word.getDestinyNode(),
                         word,
                         remoteWords);

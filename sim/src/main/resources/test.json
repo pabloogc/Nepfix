@@ -1,8 +1,11 @@
 {
   "networkId": "1",
+  "symbolWeights": {
+    "a": 1
+  },
   "nepConfig": {
     "syncServer": "http://localhost:8080",
-    "param1": "\'CONFIG_VALUE\'",
+    "param1": "\'Replacement\'",
     "weights": {
       "a": 45,
       "b": 2,
@@ -11,16 +14,24 @@
   },
   "processorDefinitions": [
     {
-      "id": "unit",
-      "class": "com.nepfix.sim.elements.UnitProcessor"
+      "id": "generalizedTest",
+      "class": "com.nepfix.sim.elements.GeneralizedProcessor",
+      "mode": "r ESTO VA EN EL FILTRO",
+      "inputMode": "weak NO APLICA EN GENERAL.",
+      "outputMode": "strong",
+      "rules": [
+        {
+          "symbols": ["a","b","c"],
+          "interval": "[-inf,1)"
+        },
+        {
+          "symbols": ["d","e","f"],
+          "interval": "[1,+inf)"
+        }
+      ]
     }
   ],
-  "filterDefinitions": [
-    {
-      "id": "acceptAll",
-      "class": "com.nepfix.sim.elements.AcceptAllFilter"
-    }
-  ],
+  "filterDefinitions": [],
   "network": [
     {
       "id": "1",
@@ -33,7 +44,7 @@
       "id": "2",
       "processor": {
         "class": "com.nepfix.sim.elements.ScriptProcessor",
-        "code": ["output = map(lambda x: (x +{{nepConfig.param1}} + {{nepConfig.param1}}), input)"]
+        "code": ["output = map(lambda x: (x + {{nepConfig.param1}} + {{nepConfig.param1}}), input)"]
       },
       "connections": [
         "3"

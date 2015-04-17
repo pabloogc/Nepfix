@@ -22,15 +22,19 @@ public abstract class ComputationElement implements NepElement {
 
     }
 
-    public JsonObject getNepConfig() {
-        return nep.getNepConfig();
-    }
-
     public JsonObject getJson() {
         return json;
     }
 
     @Override public String getId() {
         return id;
+    }
+
+    public JsonObject getConfigFor(String name) {
+        return nep.getDefinition().get(name).getAsJsonObject();
+    }
+
+    public JsonObject getConfig(){
+        return nep.getDefinition();
     }
 }

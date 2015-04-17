@@ -27,8 +27,14 @@ public class NepReader {
     public static NepBlueprint loadBlueprint(Reader stream) {
         try {
             String string = CharStreams.toString(stream);
-            JsonObject blueprint = new ConfigReplacer().process(string);
-            return GSON.fromJson(blueprint, NepBlueprint.class);
+            JsonObject definition = new ConfigReplacer().process(string);
+            NepBlueprint blueprint = GSON.fromJson(definition, NepBlueprint.class);
+            //These are stored as plain objects, no need to duplicate
+            definition.remove("processorDefinitions");
+            definition.remove("filterDefinitions");
+            definition.remove("network");
+            blueprint.setDefinition(definition);
+            return blueprint;
         } catch (IOException e) {
             e.printStackTrace();
             throw new RuntimeException(e);
@@ -64,22 +70,24 @@ public class NepReader {
         }
 
         private void traverse(JsonReader reader) throws IOException {
-            reader.beginObject();
-            while (reader.hasNext()) {
-                JsonToken token = reader.peek();
+            JsonToken token = reader.peek();
+            while (!token.equals(JsonToken.END_DOCUMENT)) {
+                token = reader.peek();
                 switch (token) {
                     case BEGIN_ARRAY:
-                    case END_ARRAY:
-                    case END_OBJECT:
                         reader.skipValue();
-                        stack.pop(); //pop the array name
+                    case END_ARRAY:
+                        break;
+                    case END_OBJECT:
+                        reader.endObject();
+                        stack.pop();
                         break;
                     case BEGIN_OBJECT:
-                        traverse(reader);
-                        stack.pop(); //pop object name
+                        reader.beginObject();
                         break;
                     case NAME:
                         stack.push(reader.nextName());
+                        System.out.println(stack);
                         break;
                     case STRING:
                     case NUMBER:

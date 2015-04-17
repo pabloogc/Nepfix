@@ -1,4 +1,4 @@
-package com.nepfix.sim.elements.util;
+package com.nepfix.sim.nep;
 
 
 import org.python.apache.xerces.impl.dv.util.Base64;
@@ -7,7 +7,7 @@ import java.security.MessageDigest;
 import java.security.NoSuchAlgorithmException;
 import java.util.*;
 
-public abstract class Misc {
+public abstract class NepUtils {
 
     private static final MessageDigest md;
 
