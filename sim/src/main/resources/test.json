@@ -1,58 +1,42 @@
 {
-  "networkId": "1",
-  "symbolWeights": {
-    "a": 1
+  "nepId": "1",
+  "GeneralizedFilter": {
+    "a": 1,
+    "b": 2,
+    "c": 0
   },
-  "nepConfig": {
-    "syncServer": "http://localhost:8080",
-    "param1": "\'Replacement\'",
-    "weights": {
-      "a": 45,
-      "b": 2,
-      "c": {"d": "d"}
-    }
-  },
-  "processorDefinitions": [
-    {
-      "id": "generalizedTest",
-      "class": "com.nepfix.sim.elements.GeneralizedProcessor",
-      "mode": "r ESTO VA EN EL FILTRO",
-      "inputMode": "weak NO APLICA EN GENERAL.",
-      "outputMode": "strong",
-      "rules": [
-        {
-          "symbols": ["a","b","c"],
-          "interval": "[-inf,1)"
-        },
-        {
-          "symbols": ["d","e","f"],
-          "interval": "[1,+inf)"
-        }
-      ]
-    }
-  ],
+  "processorDefinitions": [],
   "filterDefinitions": [],
   "network": [
     {
       "id": "1",
-      "input": true,
-      "connections": [
-        "2"
-      ]
-    },
-    {
-      "id": "2",
-      "processor": {
-        "class": "com.nepfix.sim.elements.ScriptProcessor",
-        "code": ["output = map(lambda x: (x + {{nepConfig.param1}} + {{nepConfig.param1}}), input)"]
+      "filterIn": {
+        "class": "com.nepfix.sim.elements.ClassicFilter",
+        "mode": "strong",
+        "pi": "ac",
+        "fi": "d",
+        "po": "ad",
+        "fo": "c"
       },
+      "filterOut": {
+        "id": "___",
+        "class": "com.nepfix.sim.elements.GeneralizedFilter",
+        "rules":[
+          {
+            "symbols":"abc",
+            "interval":"[0,10]"
+          },
+          {
+            "symbols":"def",
+            "interval":"(10,100]"
+          }
+        ]
+      },
+      "input": true,
+      "output": true,
       "connections": [
-        "3"
+        "1"
       ]
-    },
-    {
-      "id": "3",
-      "output": true
     }
   ]
 }

@@ -33,7 +33,7 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
     }
 
     private static class Rule {
-        @Expose public String symbols;
+        @Expose public String symbols = "";
         @Expose public Functions.IntervalComp interval;
     }
 
