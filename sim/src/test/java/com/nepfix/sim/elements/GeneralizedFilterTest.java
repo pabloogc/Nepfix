@@ -38,7 +38,6 @@ public class GeneralizedFilterTest {
         rules.add(rule2);
 
         element.add("rules", rules);
-
         nep = new Nep("0", nepDef, 0);
     }
 
@@ -56,4 +55,5 @@ public class GeneralizedFilterTest {
         Assert.assertFalse(filter.accept("e", false)); //-5
         Assert.assertTrue(filter.accept("c c c c", false)); //40
     }
+
 }

@@ -26,9 +26,9 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
 
     @Override public boolean accept(String input, boolean isInput) {
         if (isInput) {
-            return rules.parallelStream().anyMatch(r -> phi(input, r));
+            return rules.stream().anyMatch(r -> phi(input, r));
         } else {
-            return rules.parallelStream().allMatch(r -> !phi(input, r));
+            return rules.stream().allMatch(r -> !phi(input, r));
         }
     }
 
@@ -37,7 +37,7 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
         @Expose public Functions.IntervalComp interval;
     }
 
-    private boolean phi(String word, Rule rule) {
+    public boolean phi(String word, Rule rule) {
         int[] intersectCount = ElementsUtils.intersectCount(word, rule.symbols);
         int sum = 0;
         for (int i = 0; i < intersectCount.length; i++) {
@@ -46,11 +46,15 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
         return rule.interval.contains(sum);
     }
 
-    private int weightForSymbol(char symbol) {
+    public int weightForSymbol(char symbol) {
         JsonElement element = getConfigFor(this).get(Character.toString(symbol));
         if (element == null) {
             return 0;
         }
         return element.getAsInt();
+    }
+
+    public List<Rule> getRules() {
+        return rules;
     }
 }

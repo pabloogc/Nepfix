@@ -3,6 +3,8 @@ package com.nepfix.server.rabbit.messages;
 
 import com.google.gson.reflect.TypeToken;
 import com.nepfix.server.neps.RemoteNepInfo;
+import com.nepfix.sim.nep.NepBlueprint;
+import com.nepfix.sim.nep.NepStats;
 import com.nepfix.sim.request.Word;
 
 import java.lang.reflect.Type;
@@ -16,7 +18,10 @@ public enum Action {
     S_NEW_NEP_REPLY(RemoteNepInfo.class),
     S_COMPUTATION_STARTED(NepComputationInfo.class),
     S_COMPUTATION_FINISHED(NepComputationInfo.class),
-    S_GET_LOAD(Void.class),
+    S_GET_STATS(String.class),
+    S_GET_STATS_REPLY(NepStats.class),
+    S_SPLIT_NEP(String.class),
+    S_SPLIT_REPLY(NepBlueprint.class),
     S_STOP(Void.class),
     //Nep messages
     N_STEP(Void.class),

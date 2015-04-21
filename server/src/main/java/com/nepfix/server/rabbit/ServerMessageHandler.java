@@ -10,6 +10,7 @@ import com.nepfix.server.rabbit.messages.Action;
 import com.nepfix.server.rabbit.messages.NepComputationInfo;
 import com.nepfix.server.rabbit.messages.NepMessage;
 import com.nepfix.sim.nep.NepBlueprint;
+import com.nepfix.sim.nep.NepStats;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.springframework.amqp.core.Message;
@@ -18,7 +19,6 @@ import org.springframework.amqp.rabbit.core.RabbitTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import static com.nepfix.server.AppConfiguration.BROADCAST_EXCHANGE;
 import static com.nepfix.server.AppConfiguration.SERVER_QUEUE;
 import static com.nepfix.server.rabbit.messages.NepMessage.getAction;
 import static com.nepfix.server.rabbit.messages.NepMessage.parse;
@@ -50,14 +50,14 @@ public class ServerMessageHandler implements MessageListener {
             case S_NEW_NEP:
                 handleNepRegistered(message);
                 break;
-            case S_NEW_NEP_REPLY:
-                handleNepRegisteredReply(message);
-                break;
             case S_COMPUTATION_STARTED:
                 handleComputationStarted(message);
                 break;
             case S_COMPUTATION_FINISHED:
                 handleComputationFinished(message);
+                break;
+            case S_GET_STATS:
+                handleGetStats(message);
                 break;
             case S_STOP:
                 return;
@@ -85,43 +85,53 @@ public class ServerMessageHandler implements MessageListener {
      * {@link com.nepfix.server.NepController#registerNep(String)}
      */
     private void handleNepRegistered(Message message) {
-        if (message.getMessageProperties().getReplyTo().equals(SERVER_QUEUE))
-            return; //Broadcast came from this server
-
         RemoteNepInfo remoteNepInfo = parse(message);
         NepBlueprint blueprint = nepRepository.findBlueprint(remoteNepInfo.getId());
+        Message replyMessage;
         if (blueprint != null) {
             nepRepository.registerRemoteQueue(remoteNepInfo);
             RemoteNepInfo reply = new RemoteNepInfo(blueprint.getNepId(), SERVER_QUEUE);
+            replyMessage = NepMessage.toBuilder(Action.S_NEW_NEP_REPLY, reply)
+                    .setHeader("status", "ok").build();
             //Reply rpc call
-            rabbit.send(message.getMessageProperties().getReplyTo(), NepMessage.toMessage(Action.S_NEW_NEP_REPLY, reply));
+        } else {
+            replyMessage = NepMessage.toBuilder(Action.S_NEW_SERVER_REPLY)
+                    .setHeader("status", "not_found").build();
         }
+        rabbit.send(
+                message.getMessageProperties().getReplyTo(),
+                replyMessage);
     }
 
     private void handleNepRegisteredReply(Message message) {
-        RemoteNepInfo remoteNepInfo = parse(message);
-        NepBlueprint blueprint = nepRepository.findBlueprint(remoteNepInfo.getId());
-        if (blueprint != null) {
-            nepRepository.registerRemoteQueue(remoteNepInfo);
+        if (message.getMessageProperties().getHeaders().get("status").equals("ok")) {
+            RemoteNepInfo remoteNepInfo = parse(message);
+            NepBlueprint blueprint = nepRepository.findBlueprint(remoteNepInfo.getId());
+            if (blueprint != null) {
+                nepRepository.registerRemoteQueue(remoteNepInfo);
+            }
         }
     }
 
     private void handleComputationStarted(Message message) {
         NepComputationInfo msg = parse(message);
         NepBlueprint blueprint = nepRepository.findBlueprint(msg.nepId);
-        if (blueprint == null) return; //Nep is not on this machine
-        RemoteNepExecutor activeNep = nepRepository.findActiveNep(msg.nepId, msg.computationId);
-        if (activeNep != null) return; //This nep is already active
-        RemoteNepExecutor nepExecutor = nepExecutorFactory.create(blueprint, msg.computationId);
-        nepExecutor.startListening();
-        nepRepository.registerActiveNep(nepExecutor);
+        if (blueprint != null) {
+            RemoteNepExecutor activeNep = nepRepository.getActiveNep(msg.nepId, msg.computationId);
+            if (activeNep == null) {
+                //This nep is already active
+                RemoteNepExecutor nepExecutor = nepExecutorFactory.create(blueprint, msg.computationId);
+                nepExecutor.startListening();
+                nepRepository.registerActiveNep(nepExecutor);
+            }
+        }
         //Reply rpc call
         rabbit.send(message.getMessageProperties().getReplyTo(), RabbitUtil.emptyMessage());
     }
 
     private void handleComputationFinished(Message message) {
         NepComputationInfo msg = parse(message);
-        RemoteNepExecutor executor = nepRepository.findActiveNep(msg.nepId, msg.computationId);
+        RemoteNepExecutor executor = nepRepository.getActiveNep(msg.nepId, msg.computationId);
         if (executor != null) {
             executor.stopListening();
             nepRepository.unregisterActiveNep(executor);
@@ -129,6 +139,17 @@ public class ServerMessageHandler implements MessageListener {
         //Reply rpc call
         rabbit.send(message.getMessageProperties().getReplyTo(), RabbitUtil.emptyMessage());
     }
+
+    private void handleGetStats(Message message) {
+        String nepId = NepMessage.parse(message);
+        //TODO: Get the real stats
+        NepStats stats = new NepStats();
+        rabbit.send(
+                message.getMessageProperties().getReplyTo(),
+                NepMessage.toMessage(Action.S_GET_STATS_REPLY, stats));
+    }
+
+    //Message Sending
 
     public void broadcastNewServer() {
         rabbit.send(
@@ -141,14 +162,24 @@ public class ServerMessageHandler implements MessageListener {
     }
 
     public void broadcastNewNep(NepBlueprint nepBlueprint) {
-        rabbit.send(
-                BROADCAST_EXCHANGE,
-                "", //no routing
-                NepMessage.toBuilder(Action.S_NEW_NEP,
-                        new RemoteNepInfo(nepBlueprint.getNepId(), SERVER_QUEUE))
-                        .setReplyTo(SERVER_QUEUE)
-                        .build());
+        activeQueuesRepository.getServerQueues()
+                .parallelStream()
+                .filter(q -> !q.equals(SERVER_QUEUE))
+                .map(q -> rabbit.sendAndReceive(
+                        "", q, //direct
+                        NepMessage.toMessage(
+                                Action.S_NEW_NEP, new RemoteNepInfo(nepBlueprint.getNepId(), SERVER_QUEUE))))
+                .forEach(this::handleNepRegisteredReply);
         logger.debug("Broadcasting new nep: " + nepBlueprint.getNepId());
+    }
+
+    public NepStats getNepStats(String remoteServer, String nepId) {
+        Message message = rabbit.sendAndReceive(
+                "",
+                remoteServer, //direct
+                NepMessage.toMessage(Action.S_GET_STATS, nepId)
+        );
+        return NepMessage.parse(message);
     }
 
 }

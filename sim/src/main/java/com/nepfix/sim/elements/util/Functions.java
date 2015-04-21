@@ -43,7 +43,7 @@ public abstract class Functions {
 
     public static class IntervalComp {
 
-        private static final Pattern intervalRegex = Pattern.compile("(\\(|\\[)((\\+?|-)(inf|\\d+)),((\\+?|-)(inf|\\d+))(\\)|\\])");
+        private static final Pattern intervalRegex = Pattern.compile("(\\(|\\[)((\\+|-)?(inf|\\d+)),((\\+|-)?(inf|\\d+))(\\)|\\])");
         private int lowerBound;
         private boolean lowerInclusive;
         private int upperBound;
@@ -83,13 +83,13 @@ public abstract class Functions {
                 boolean lowerInclusive = matcher.group(1).equals("[");
                 boolean upperInclusive = matcher.group(8).equals("]");
                 int lowerBound = parseBound(matcher.group(3), matcher.group(4));
-                int upperBound = parseBound(matcher.group(6), matcher.group(5));
+                int upperBound = parseBound(matcher.group(6), matcher.group(7));
 
                 return new IntervalComp(lowerBound, lowerInclusive, upperBound, upperInclusive);
             }
 
             private int parseBound(String sign, String value) {
-                int s = sign.equals("-") ? -1 : 1;
+                int s = sign != null && sign.equals("-") ? -1 : 1;
                 int v = value.equals("inf") ? Integer.MAX_VALUE : Integer.parseInt(value);
                 return s * v;
             }

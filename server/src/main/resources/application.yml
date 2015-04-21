@@ -2,6 +2,8 @@ logging:
   level:
    org:
     springframework:
-     web: INFO
+     web: ERROR
+   com:
+    nepfix: DEBUG
 rabbit:
  server: localhost

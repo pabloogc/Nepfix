@@ -6,10 +6,7 @@ import com.nepfix.sim.nep.NepUtils;
 import com.nepfix.sim.nep.NepBlueprint;
 import org.springframework.stereotype.Repository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 import java.util.concurrent.locks.ReentrantReadWriteLock;
 
 @Repository
@@ -38,7 +35,7 @@ public class InMemoryNepRepository implements NepRepository {
         }
     }
 
-    @Override public RemoteNepExecutor findActiveNep(String id, long computationId) {
+    @Override public RemoteNepExecutor getActiveNep(String id, long computationId) {
         lock.readLock().lock();
         try {
             return activeNepHashMap.get(RemoteNepExecutor.executorId(id, computationId));
@@ -77,7 +74,7 @@ public class InMemoryNepRepository implements NepRepository {
     @Override public List<String> getRemoteQueues(String nepId) {
         lock.readLock().lock();
         try {
-            return new ArrayList<>(activeServersForNep.get(nepId));
+            return new ArrayList<>(activeServersForNep.getOrDefault(nepId, Collections.emptySet()));
         } finally {
             lock.readLock().unlock();
         }

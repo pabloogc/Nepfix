@@ -10,9 +10,9 @@ import com.nepfix.server.rabbit.messages.Action;
 import com.nepfix.server.rabbit.messages.NepComputationInfo;
 import com.nepfix.server.rabbit.messages.NepMessage;
 import com.nepfix.sim.core.Node;
-import com.nepfix.sim.nep.NepUtils;
 import com.nepfix.sim.nep.Nep;
 import com.nepfix.sim.nep.NepBlueprint;
+import com.nepfix.sim.nep.NepUtils;
 import com.nepfix.sim.request.ComputationRequest;
 import com.nepfix.sim.request.Word;
 import org.apache.commons.logging.Log;
@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Vector;
 import java.util.concurrent.Semaphore;
 import java.util.concurrent.TimeUnit;
+import java.util.concurrent.atomic.AtomicBoolean;
 import java.util.stream.Collectors;
 
 @Configurable
@@ -41,6 +42,7 @@ public class RemoteNepExecutor implements MessageListener {
     private final Log logger;
 
     //State
+    private boolean isClock = false;
     private SimpleMessageListenerContainer messageListenerContainer;
     private List<String> remoteQueues;
     private final TopicExchange nepExchange;
@@ -52,10 +54,15 @@ public class RemoteNepExecutor implements MessageListener {
 
     //Communications
     @Autowired private ConnectionFactory rabbitConnectionFactory;
-    @Autowired private ActiveServersRepository activeQueuesRepository;
+    @Autowired private ActiveServersRepository activeServersRepository;
     @Autowired private NepRepository nepRepository;
     @Autowired private RabbitAdmin rabbitAdmin;
     @Autowired private RabbitTemplate rabbit;
+
+    //Splitting
+    private Semaphore pauseSync = new Semaphore(0);
+    private Semaphore pauseCallerWait = new Semaphore(0);
+    private AtomicBoolean pauseRequested = new AtomicBoolean(false);
 
     RemoteNepExecutor(AutowireCapableBeanFactory autowireCapableBeanFactory, long computationId,
                       NepBlueprint nepBlueprint) {
@@ -66,7 +73,7 @@ public class RemoteNepExecutor implements MessageListener {
         this.nep = nepBlueprint.create(computationId);
         this.localWords = new Vector<>(); //Thread safe
         //Communications
-        this.logger = LogFactory.getLog(this.getClass().getName() + "::" + nep.getId() + "::" + computationId);
+        this.logger = LogFactory.getLog(this.getClass().getName() + "." + nep.getId() + "." + computationId);
         this.nepExchange = new TopicExchange(nep.getId(), false, true);
         this.queue = rabbitAdmin.declareQueue();
         this.sync = new Semaphore(0);
@@ -78,6 +85,7 @@ public class RemoteNepExecutor implements MessageListener {
     }
 
     public List<Word> execute(ComputationRequest request) {
+        this.isClock = true;
         initializeRemoteQueues();
         startListening();
 
@@ -93,7 +101,7 @@ public class RemoteNepExecutor implements MessageListener {
                 try {
                     boolean completed = sync.tryAcquire(remoteQueues.size() - 1, 10, TimeUnit.SECONDS);
                     if (completed)
-                        logger.debug("step completed");
+                        logger.debug("Step completed");
                     else {
                         logger.error("Time out on:" + computationId);
                         break;
@@ -126,6 +134,11 @@ public class RemoteNepExecutor implements MessageListener {
                         remoteWords);
         }
         remoteWords.values().forEach(this::sendWords);
+
+        if(pauseRequested.get()){
+            pauseCallerWait.release();
+            pauseSync.acquireUninterruptibly();
+        }
     }
 
 
@@ -139,7 +152,7 @@ public class RemoteNepExecutor implements MessageListener {
                         .setReplyTo(queue.getName())
                         .build());
 
-        logger.debug("Sent action - step " + nep.getConfiguration());
+        logger.debug("Sent action - step: " + nep.getConfiguration());
     }
 
     /**
@@ -180,10 +193,9 @@ public class RemoteNepExecutor implements MessageListener {
 
     private void initializeRemoteQueues() {
 
-        for (String serverQueue : activeQueuesRepository.getServerQueues()) {
-            if (serverQueue.equals(AppConfiguration.SERVER_QUEUE)) continue;
         rabbitAdmin.declareExchange(nepExchange);
 
+        for (String serverQueue : remoteQueues) {
             Message message = NepMessage.toMessage(
                     Action.S_COMPUTATION_STARTED,
                     new NepComputationInfo(nep.getId(), computationId));
@@ -196,33 +208,10 @@ public class RemoteNepExecutor implements MessageListener {
     }
 
     /**
-     * {@link com.nepfix.server.rabbit.ServerMessageHandler#handleComputationFinished(Message)}
-     */
-    public void stopListening() {
-        messageListenerContainer.stop();
-        rabbitAdmin.deleteQueue(queue.getName());
-    }
-
-    private void removeRemoteQueues() {
-        Message message = NepMessage.toMessage(
-                Action.S_COMPUTATION_FINISHED,
-                new NepComputationInfo(nep.getId(), computationId));
-
-        for (String serverQueue : activeQueuesRepository.getServerQueues()) {
-            if (serverQueue.equals(AppConfiguration.SERVER_QUEUE)) continue;
-            rabbit.sendAndReceive(
-                    serverQueue,
-                    message
-            );//Discarded response, just RPC
-        }
-    }
-
-
-    /**
      * {@link com.nepfix.server.rabbit.ServerMessageHandler#handleComputationStarted(Message)}
      */
     public void startListening() {
-        //TODO, only bind frontier nodes
+        //No way to know what nodes get words from other servers, so bind all
         for (Node node : nep.getNodes()) {
             Binding binding = BindingBuilder
                     .bind(queue)
@@ -245,6 +234,28 @@ public class RemoteNepExecutor implements MessageListener {
         messageListenerContainer.start();
         logger.debug("Nep listening on: " + queue.getName());
 
+    }
+
+    /**
+     * {@link com.nepfix.server.rabbit.ServerMessageHandler#handleComputationFinished(Message)}
+     */
+    public void stopListening() {
+        messageListenerContainer.stop();
+        rabbitAdmin.deleteQueue(queue.getName());
+    }
+
+
+    private void removeRemoteQueues() {
+        Message message = NepMessage.toMessage(
+                Action.S_COMPUTATION_FINISHED,
+                new NepComputationInfo(nep.getId(), computationId));
+
+        for (String serverQueue : remoteQueues) {
+            rabbit.sendAndReceive(
+                    serverQueue,
+                    message
+            );//Discarded response, just RPC
+        }
     }
 
     @Override public void onMessage(Message message) {
@@ -272,6 +283,19 @@ public class RemoteNepExecutor implements MessageListener {
             default:
                 logger.error("Unknown action: " + action);
         }
+    }
+
+    public void resume(){
+        if(!pauseRequested.get())
+            return; //Not paused
+
+        pauseRequested.set(false);
+        pauseSync.release();
+    }
+
+    public void pause(){
+        pauseRequested.set(true);
+        pauseCallerWait.acquireUninterruptibly();
     }
 
     public String getExecutorId() {

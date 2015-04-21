@@ -2,6 +2,8 @@ package com.nepfix.server;
 
 import com.google.common.eventbus.EventBus;
 import com.nepfix.server.rabbit.ServerMessageHandler;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.Level;
 import org.apache.log4j.LogManager;
 import org.slf4j.Logger;
@@ -29,7 +31,7 @@ public class AppConfiguration implements InitializingBean, DisposableBean {
 
 
     public static final String BROADCAST_EXCHANGE = "broadcast";
-    private static final Logger logger = LoggerFactory.getLogger(AppConfiguration.class);
+    private static final Log logger = LogFactory.getLog(AppConfiguration.class);
     public static String SERVER_QUEUE = null;
 
     @Value("${rabbit.server}") private String server;
@@ -68,8 +70,6 @@ public class AppConfiguration implements InitializingBean, DisposableBean {
     }
 
     @Override public void afterPropertiesSet() throws Exception {
-        LogManager.getRootLogger().setLevel(Level.DEBUG);
-
         //Declare broadcast channel (will do nothing if already created)
         logger.info("Server started");
         Exchange broadcastExchange = new FanoutExchange(BROADCAST_EXCHANGE);

@@ -15,7 +15,7 @@ public interface NepRepository {
     void registerBlueprint(NepBlueprint blueprint);
 
     //Local Nep
-    RemoteNepExecutor findActiveNep(String id, long computationId);
+    RemoteNepExecutor getActiveNep(String id, long computationId);
 
     void registerActiveNep(RemoteNepExecutor nep);
 
