@@ -13,17 +13,23 @@ public class ClassicFilterTest {
     static {
         weak = new JsonObject();
         weak.addProperty("mode", "weak");
-        weak.addProperty("pi", "a");
-        weak.addProperty("fi", "b");
-        weak.addProperty("po", "c");
-        weak.addProperty("fo", "d");
+        weak.addProperty("pi", "ac");
+        weak.addProperty("fi", "d");
+        weak.addProperty("po", "ad");
+        weak.addProperty("fo", "c");
 
         strong = new JsonObject();
         strong.addProperty("mode", "strong");
-        strong.addProperty("pi", "a");
-        strong.addProperty("fi", "b");
-        strong.addProperty("po", "c");
-        strong.addProperty("fo", "d");
+        strong.addProperty("pi", "ac");
+        strong.addProperty("fi", "d");
+        strong.addProperty("po", "ad");
+        strong.addProperty("fo", "c");
+    }
+
+    @Test public void test1Strong() {
+        ClassicFilter filter = new ClassicFilter(null, strong);
+        Assert.assertFalse(filter.accept("ababa", true));
+        Assert.assertTrue(filter.accept("ababac", true));
     }
 
     @Test public void test1Weak() {
@@ -31,30 +37,10 @@ public class ClassicFilterTest {
         Assert.assertTrue(filter.accept("a", true));
     }
 
-    @Test public void test1Strong() {
-        ClassicFilter filter = new ClassicFilter(null, strong);
-        Assert.assertTrue(filter.accept("a", true));
+    @Test public void testOut(){
+        ClassicFilter filter1 = new ClassicFilter(null, weak);
+        ClassicFilter filter2 = new ClassicFilter(null, strong);
+        Assert.assertEquals(filter1.accept("c", false), filter2.accept("c",false));
     }
-
-    @Test public void test2Weak() {
-        ClassicFilter filter = new ClassicFilter(null, weak);
-        Assert.assertTrue(filter.accept("ab", true));
-    }
-
-    @Test public void test2Strong() {
-        ClassicFilter filter = new ClassicFilter(null, strong);
-        Assert.assertFalse(filter.accept("ab", true));
-    }
-
-    @Test public void test3Weak() {
-        ClassicFilter filter = new ClassicFilter(null, weak);
-        Assert.assertFalse(filter.accept("b", true));
-    }
-
-    @Test public void test3Strong() {
-        ClassicFilter filter = new ClassicFilter(null, strong);
-        Assert.assertFalse(filter.accept("b", true));
-    }
-
 
 }

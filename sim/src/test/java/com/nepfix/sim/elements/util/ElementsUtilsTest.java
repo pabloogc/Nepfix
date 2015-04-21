@@ -9,7 +9,4 @@ public class ElementsUtilsTest {
         Assert.assertFalse(ElementsUtils.intersect("ddd", "ccc__b__ccc"));
     }
 
-    @Test public void testIntersectionCount() {
-        Assert.assertArrayEquals(new int[]{2, 2, 2, 0}, ElementsUtils.intersectCount("abce", "aabbcc"));
-    }
 }

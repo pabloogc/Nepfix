@@ -2,7 +2,6 @@ package com.nepfix.sim.elements.util;
 
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
-import com.nepfix.sim.nep.Nep;
 import com.nepfix.sim.nep.NepReader;
 
 import java.util.Collections;
@@ -22,23 +21,33 @@ public class ElementsUtils {
         }.getType());
     }
 
-    public static boolean intersect(String word, String container) {
-        for (int i = 0; i < word.toCharArray().length; i++) {
-            if (container.indexOf(word.charAt(i)) != -1)
-                return true;
+    public static boolean intersect(String word1, String word2) {
+        for (int i = 0; i < word1.toCharArray().length; i++) {
+            if (word2.indexOf(word1.charAt(i)) != -1)
+                return true; //one found
         }
         return false;
     }
 
-    public static int[] intersectCount(String word, String container){
-        int[] result = new int[word.length()];
-        for (int i = 0; i < word.length(); i++) {
-            for (int j = 0; j < container.length(); j++) {
-                if(word.charAt(i) == container.charAt(j))
-                    result[i]++;
-            }
+
+    /**
+     * @return true if all symbols of word1 are in word2
+     */
+    public static boolean allIntersect(String word1, String word2) {
+        for (int i = 0; i < word1.toCharArray().length; i++) {
+            if (word2.indexOf(word1.charAt(i)) == -1)
+                return false; //one not found
         }
-        return result;
+        return true;
+    }
+
+
+    public static int timesContaied(char symbol, String word) {
+        int count = 0;
+        for (int i = 0; i < word.length(); i++) {
+            if (word.charAt(i) == symbol) count++;
+        }
+        return count;
     }
 
 }

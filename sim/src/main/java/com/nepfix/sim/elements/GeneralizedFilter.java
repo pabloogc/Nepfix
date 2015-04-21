@@ -38,10 +38,9 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
     }
 
     public boolean phi(String word, Rule rule) {
-        int[] intersectCount = ElementsUtils.intersectCount(word, rule.symbols);
         int sum = 0;
-        for (int i = 0; i < intersectCount.length; i++) {
-            sum += intersectCount[i] * weightForSymbol(word.charAt(i));
+        for (int i = 0; i < word.length(); i++) {
+            sum += ElementsUtils.timesContaied(word.charAt(i), rule.symbols) * weightForSymbol(word.charAt(i));
         }
         return rule.interval.contains(sum);
     }

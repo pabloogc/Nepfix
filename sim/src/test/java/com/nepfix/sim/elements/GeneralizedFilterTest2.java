@@ -16,7 +16,7 @@ public class GeneralizedFilterTest2 {
         nepDef = new JsonObject();
         JsonObject weights = new JsonObject();
         weights.addProperty("a", 1);
-        weights.addProperty("b", 1);
+        weights.addProperty("b", -1);
         weights.addProperty("c", -1);
         weights.addProperty("d", 0);
         nepDef.add(GeneralizedFilter.class.getSimpleName(), weights);
@@ -25,8 +25,8 @@ public class GeneralizedFilterTest2 {
         JsonArray rules = new JsonArray();
 
         JsonObject rule1 = new JsonObject();
-        rule1.addProperty("symbols", "abc");
-        rule1.addProperty("interval", "(0,+inf]");
+        rule1.addProperty("symbols", "a");
+        rule1.addProperty("interval", "(2,+inf]");
 
         rules.add(rule1);
 
@@ -39,5 +39,6 @@ public class GeneralizedFilterTest2 {
         Assert.assertEquals(1, filter.weightForSymbol('a'));
         Assert.assertTrue(filter.accept("ababa", true));
         Assert.assertFalse(filter.accept("abbba", true));
+        Assert.assertTrue(filter.accept("abbba", false));
     }
 }
