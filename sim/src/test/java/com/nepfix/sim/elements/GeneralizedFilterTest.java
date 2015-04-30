@@ -27,33 +27,33 @@ public class GeneralizedFilterTest {
         JsonArray rules = new JsonArray();
 
         JsonObject rule1 = new JsonObject();
-        rule1.addProperty("symbols", "abc");
+        rule1.addProperty("symbols", "a.b.c");
         rule1.addProperty("interval", "[0,10]");
 
         JsonObject rule2 = new JsonObject();
-        rule2.addProperty("symbols", "def");
+        rule2.addProperty("symbols", "d.e.f");
         rule2.addProperty("interval", "(10,100]");
 
         rules.add(rule1);
         rules.add(rule2);
 
-        element.add("rules", rules);
+        element.add("intervals", rules);
         nep = new Nep("0", nepDef, 0);
     }
 
     @Test public void test1() {
         GeneralizedFilter filter = new GeneralizedFilter(nep, element);
         Assert.assertTrue(filter.accept("a", true)); //1
-        Assert.assertTrue(filter.accept("a a a b", true)); //8
+        Assert.assertTrue(filter.accept("a.a.a.b", true)); //8
         Assert.assertTrue(filter.accept("e", true)); //-5
-        Assert.assertFalse(filter.accept("c c c c", true)); //40
+        Assert.assertFalse(filter.accept("c.c.c.c", true)); //40
     }
     @Test public void test2() {
         GeneralizedFilter filter = new GeneralizedFilter(nep, element);
         Assert.assertFalse(filter.accept("a", false)); //1
-        Assert.assertFalse(filter.accept("a a a b", false)); //8
+        Assert.assertFalse(filter.accept("a.a.a.b", false)); //8
         Assert.assertFalse(filter.accept("e", false)); //-5
-        Assert.assertTrue(filter.accept("c c c c", false)); //40
+        Assert.assertTrue(filter.accept("c.c.c.c", false)); //40
     }
 
 }

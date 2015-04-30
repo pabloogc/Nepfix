@@ -1,0 +1,59 @@
+{
+  "nepId": "miNep",
+  "GeneralizedFilter": {
+    "a": 1,
+    "b": 2,
+    "c": 3
+  },
+  "filterDefinitions": [
+    {
+      "class": "com.nepfix.sim.elements.GeneralizedFilter",
+      "id": "generalizedFilter1",
+      "intervals": [
+        {
+          "symbols": "abc",
+          "interval": "[0,10]"
+        },
+        {
+          "symbols": "def",
+          "interval": "(10,100]"
+        }
+      ]
+    }
+  ],
+  "processorDefinitions": [
+    {
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor",
+      "id": "evolutionaryProc1",
+      "action": "replace",
+      "mode": "*",
+      "rules": [
+        {
+          "a": "b",
+          "c": "d"
+        }
+      ]
+    }
+  ],
+  "network": [
+    {
+      "input" : true,
+      "id": "0",
+      "filterIn": "generalizedFilter1",
+      "filterOut": "generalizedFilter1",
+      "processor": "evolutionaryProc1",
+      "connections": ["1"]
+    },
+    {
+      "output" : true,
+      "id": "1",
+      "filterIn": "generalizedFilter1",
+      "filterOut": "generalizedFilter1",
+      "processor": "evolutionaryProc1",
+      "connections": [
+        "2",
+        "3"
+      ]
+    }
+  ]
+}

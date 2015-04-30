@@ -22,23 +22,23 @@ public class GeneralizedFilterTest2 {
         nepDef.add(GeneralizedFilter.class.getSimpleName(), weights);
 
         element = new JsonObject();
-        JsonArray rules = new JsonArray();
+        JsonArray intervals = new JsonArray();
 
         JsonObject rule1 = new JsonObject();
         rule1.addProperty("symbols", "a");
         rule1.addProperty("interval", "(2,+inf]");
 
-        rules.add(rule1);
+        intervals.add(rule1);
 
-        element.add("rules", rules);
+        element.add("intervals", intervals);
         nep = new Nep("0", nepDef, 0);
     }
 
     @Test public void test1() {
         GeneralizedFilter filter = new GeneralizedFilter(nep, element);
-        Assert.assertEquals(1, filter.weightForSymbol('a'));
-        Assert.assertTrue(filter.accept("ababa", true));
-        Assert.assertFalse(filter.accept("abbba", true));
-        Assert.assertTrue(filter.accept("abbba", false));
+        Assert.assertEquals(1, filter.weightForSymbol("a"));
+        Assert.assertTrue(filter.accept("a.b.a.b.a", true));
+        Assert.assertFalse(filter.accept("a.b.b.b.a", true));
+        Assert.assertTrue(filter.accept("a.b.b.b.a", false));
     }
 }

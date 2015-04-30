@@ -16,7 +16,7 @@ public class LocalTest {
     public static void main(String[] args) {
 
         Gson gson = new Gson();
-        String nepFile = "test.json";
+        String nepFile = "bad.json";
         String input = "";
 
         int count = 1;

@@ -13,23 +13,24 @@ public class ClassicFilterTest {
     static {
         weak = new JsonObject();
         weak.addProperty("mode", "weak");
-        weak.addProperty("pi", "ac");
+        weak.addProperty("pi", "a.c");
         weak.addProperty("fi", "d");
-        weak.addProperty("po", "ad");
+        weak.addProperty("po", "a.d");
         weak.addProperty("fo", "c");
 
         strong = new JsonObject();
         strong.addProperty("mode", "strong");
-        strong.addProperty("pi", "ac");
+        strong.addProperty("pi", "a.c");
         strong.addProperty("fi", "d");
-        strong.addProperty("po", "ad");
+        strong.addProperty("po", "a.d");
         strong.addProperty("fo", "c");
     }
 
     @Test public void test1Strong() {
         ClassicFilter filter = new ClassicFilter(null, strong);
-        Assert.assertFalse(filter.accept("ababa", true));
-        Assert.assertTrue(filter.accept("ababac", true));
+        Assert.assertFalse(filter.accept("a.b.a.b.a", true));
+        Assert.assertFalse(filter.accept("a.b.a.b.a.c", true));
+        Assert.assertFalse(filter.accept("c", true));
     }
 
     @Test public void test1Weak() {

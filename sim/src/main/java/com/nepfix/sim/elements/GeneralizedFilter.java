@@ -11,6 +11,7 @@ import com.nepfix.sim.elements.util.ElementsUtils;
 import com.nepfix.sim.elements.util.Functions;
 import com.nepfix.sim.nep.Nep;
 
+import java.util.Collections;
 import java.util.List;
 
 public class GeneralizedFilter extends ComputationElement implements Filter {
@@ -20,15 +21,18 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
     public GeneralizedFilter(Nep nep, JsonObject json) {
         super(nep, json);
         rules = ElementsUtils.readList(
-                json.get("rules"), new TypeToken<List<Rule>>() {
+                json.get("intervals"), new TypeToken<List<Rule>>() {
                 });
+        if (rules == null) {
+            rules = Collections.emptyList();
+        }
     }
 
     @Override public boolean accept(String input, boolean isInput) {
         if (isInput) {
-            return rules.stream().anyMatch(r -> phi(input, r));
+            return rules.stream().anyMatch(r -> phiInInterval(input, r));
         } else {
-            return rules.stream().allMatch(r -> !phi(input, r));
+            return rules.stream().allMatch(r -> !phiInInterval(input, r));
         }
     }
 
@@ -37,16 +41,17 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
         @Expose public Functions.IntervalComp interval;
     }
 
-    public boolean phi(String word, Rule rule) {
+    public boolean phiInInterval(String word, Rule rule) {
         int sum = 0;
-        for (int i = 0; i < word.length(); i++) {
-            sum += ElementsUtils.timesContaied(word.charAt(i), rule.symbols) * weightForSymbol(word.charAt(i));
+        String[] split = word.split("\\.");
+        for (String symbol : split) {
+            sum += ElementsUtils.timesContained(symbol, rule.symbols) * weightForSymbol(symbol);
         }
         return rule.interval.contains(sum);
     }
 
-    public int weightForSymbol(char symbol) {
-        JsonElement element = getConfigFor(this).get(Character.toString(symbol));
+    public int weightForSymbol(String symbol) {
+        JsonElement element = getConfigFor(this).get(symbol);
         if (element == null) {
             return 0;
         }

@@ -8,8 +8,6 @@ import com.nepfix.sim.core.Filter;
 import com.nepfix.sim.elements.util.ElementsUtils;
 import com.nepfix.sim.nep.Nep;
 
-import java.util.stream.IntStream;
-
 public class ClassicFilter extends ComputationElement implements Filter {
 
     private final boolean isWeak;
@@ -45,13 +43,15 @@ public class ClassicFilter extends ComputationElement implements Filter {
         boolean permittedCondition;
         boolean forbiddenCondition;
 
-        if(isWeak){
-            permittedCondition = ElementsUtils.intersect(permittedSet, input);
+        if (isWeak) {
+            permittedCondition = ElementsUtils.anyIntersect(input, permittedSet);
         } else { //strong
-            permittedCondition = ElementsUtils.allIntersect(permittedSet, input);
+            permittedCondition =
+                    ElementsUtils.allIntersect(input, permittedSet) &&
+                            ElementsUtils.allIntersect(permittedSet, input);
         }
 
-        forbiddenCondition = !ElementsUtils.intersect(input, forbiddenSet);
+        forbiddenCondition = !ElementsUtils.anyIntersect(input, forbiddenSet);
 
         return permittedCondition && forbiddenCondition;
     }
