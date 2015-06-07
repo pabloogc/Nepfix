@@ -45,7 +45,7 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
         int sum = 0;
         String[] split = word.split("\\.");
         for (String symbol : split) {
-            sum += ElementsUtils.timesContained(symbol, rule.symbols) * weightForSymbol(symbol);
+            sum += ElementsUtils.timesContained(rule.symbols, symbol) * weightForSymbol(symbol);
         }
         return rule.interval.contains(sum);
     }

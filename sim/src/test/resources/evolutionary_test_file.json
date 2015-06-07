@@ -1,0 +1,44 @@
+{
+  "nepId": "1",
+  "GeneralizedFilter": {
+    "a": 1,
+    "b": 2,
+    "c": 0
+  },
+  "processorDefinitions": [
+    {
+      "id": "0",
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor",
+      "place": "l",
+      "action": "i",
+      "symbol": "a"
+    },
+    {
+      "id": "1",
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor",
+      "place": "l",
+      "action": "i",
+      "symbol": "a,b,c"
+    },
+    {
+      "id": "2",
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor",
+      "place": "l",
+      "action": "r",
+      "rules": {
+        "a": "b"
+      }
+    },
+    {
+      "id": "3",
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor",
+      "place": "*",
+      "action": "r",
+      "rules": {
+        "a": "b,c"
+      }
+    }
+  ],
+  "filterDefinitions": [],
+  "network": []
+}

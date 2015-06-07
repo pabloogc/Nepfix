@@ -27,4 +27,6 @@ public class Word {
     public String getDestinyNode() {
         return destinyNode;
     }
+
+
 }

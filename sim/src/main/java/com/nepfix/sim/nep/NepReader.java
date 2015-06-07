@@ -9,6 +9,7 @@ import com.google.gson.stream.JsonToken;
 import com.nepfix.sim.elements.util.Functions;
 
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.io.Reader;
 import java.io.StringReader;
 import java.util.HashMap;
@@ -45,6 +46,11 @@ public class NepReader {
             e.printStackTrace();
             throw new RuntimeException(e);
         }
+    }
+
+    public static NepBlueprint loadBlueprintResource(String fileName) {
+        return loadBlueprint(
+                new InputStreamReader(NepReader.class.getClassLoader().getResourceAsStream(fileName)));
     }
 
     @SuppressWarnings("ConstantConditions")
@@ -93,7 +99,6 @@ public class NepReader {
                         break;
                     case NAME:
                         stack.push(reader.nextName());
-                        System.out.println(stack);
                         break;
                     case STRING:
                     case NUMBER:

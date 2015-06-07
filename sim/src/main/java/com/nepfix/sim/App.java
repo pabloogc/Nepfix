@@ -4,7 +4,6 @@ package com.nepfix.sim;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import com.nepfix.sim.nep.LocalNepExecutor;
-import com.nepfix.sim.nep.Nep;
 import com.nepfix.sim.nep.NepBlueprint;
 import com.nepfix.sim.nep.NepReader;
 import com.nepfix.sim.request.ComputationRequest;
@@ -13,6 +12,7 @@ import com.nepfix.sim.request.Word;
 import java.io.FileReader;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.io.InputStreamReader;
 import java.util.List;
 
 public class App {
@@ -38,4 +38,5 @@ public class App {
         }
 
     }
+
 }

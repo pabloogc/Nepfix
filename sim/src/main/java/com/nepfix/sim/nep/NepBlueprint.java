@@ -28,7 +28,13 @@ public class NepBlueprint {
         Nep nep = new Nep(nepId, definition, computationId);
         processorDefinitions.forEach(d -> nep.putProcessor(createElement(d, nep, Processor.class)));
         filterDefinitions.forEach(f -> nep.putFilter(createElement(f, nep, Filter.class)));
-        network.forEach(n -> nep.putNode(createNode(n, nep)));
+        network.forEach(n -> {
+            try {
+                nep.putNode(createNode(n, nep));
+            } catch (Exception e) {
+                throw new IllegalArgumentException("Error creating node: " + n.toString(), e);
+            }
+        });
         return nep;
     }
 
@@ -112,11 +118,11 @@ public class NepBlueprint {
                 .collect(Collectors.toList());
     }
 
-    public NepBlueprint duplicate(){
+    public NepBlueprint duplicate() {
         return NepReader.GSON.fromJson(NepReader.GSON.toJson(this), NepBlueprint.class);
     }
 
-    public NepBlueprint[] split(){
+    public NepBlueprint[] split() {
         return new NepBlueprint[0];
     }
 

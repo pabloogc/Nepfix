@@ -3,7 +3,6 @@ package com.nepfix.sim.elements.util;
 import com.google.gson.JsonElement;
 import com.google.gson.reflect.TypeToken;
 import com.nepfix.sim.nep.NepReader;
-import com.nepfix.sim.request.Word;
 
 import java.util.Collections;
 import java.util.List;
@@ -28,7 +27,7 @@ public class ElementsUtils {
     public static boolean anyIntersect(String word1, String word2) {
         String[] split = word1.split("\\.");
         for (String s1 : split) {
-            if (containsSymbol(s1, word2)) {
+            if (containsSymbol(word2, s1)) {
                 return true;
             }
         }
@@ -42,14 +41,14 @@ public class ElementsUtils {
     public static boolean allIntersect(String word1, String word2) {
         String[] split = word2.split("\\.");
         for (String s1 : split) {
-            if (!containsSymbol(s1, word1)) {
+            if (!containsSymbol(word1, s1)) {
                 return false;
             }
         }
         return true;
     }
 
-    public static boolean containsSymbol(String symbol, String word){
+    public static boolean containsSymbol(String word, String symbol) {
         String[] split = word.split("\\.");
         for (String s : split) {
             if (s.equals(symbol)) {
@@ -60,7 +59,7 @@ public class ElementsUtils {
     }
 
 
-    public static int timesContained(String symbol, String word) {
+    public static int timesContained(String word, String symbol) {
         int count = 0;
         String[] split = word.split("\\.");
         for (String symbol2 : split) {
@@ -69,4 +68,55 @@ public class ElementsUtils {
         return count;
     }
 
+    public static String concat(String... words) {
+        String out = "";
+        for (String word : words) {
+            out = concat(out, word);
+        }
+        return out;
+    }
+
+
+    public static String concat(String word1, String word2) {
+        if (word1.isEmpty()) return word2;
+        if (word2.isEmpty()) return word1;
+        return word1 + (word1.endsWith(".") ? word2 : "." + word2);
+    }
+
+    public static String[] splitAt(String word, int i) {
+        String[] out = {"", ""};
+        String[] split = word.split("\\.");
+        for (int j = 0; j < i; j++) {
+            out[0] = concat(out[0], split[j]);
+        }
+        for (int j = i; j < split.length; j++) {
+            out[1] = concat(out[1], split[j]);
+        }
+        return out;
+    }
+
+    public static int symbolCount(String word) {
+        return word.split("\\.").length;
+    }
+
+    public static int firstIndexOf(String word, String symbol) {
+        return circularIndexOf(word, symbol, 0);
+    }
+
+    public static int lastIndexOf(String word, String symbol) {
+        return circularIndexOf(word, symbol, symbolCount(word) - 1);
+    }
+
+    public static int circularIndexOf(String word, String symbol, int startIndex) {
+        String[] symbols = word.split("\\.");
+        int max = symbols.length;
+        for (int i = startIndex, j = 0; j < max; i++, j++) {
+            if (i == symbols.length)
+                i = 0;
+            if (symbols[i].equals(symbol)) {
+                return i;
+            }
+        }
+        return -1;
+    }
 }

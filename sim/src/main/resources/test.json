@@ -21,14 +21,14 @@
       "filterOut": {
         "id": "___",
         "class": "com.nepfix.sim.elements.GeneralizedFilter",
-        "rules":[
+        "rules": [
           {
-            "symbols":"abc",
-            "interval":"[0,10]"
+            "symbols": "abc",
+            "interval": "[0,10]"
           },
           {
-            "symbols":"def",
-            "interval":"(10,100]"
+            "symbols": "def",
+            "interval": "(10,100]"
           }
         ]
       },

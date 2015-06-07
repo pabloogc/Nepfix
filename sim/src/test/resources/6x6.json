@@ -1,0 +1,1945 @@
+{
+  "nepId": "in\\Grafo6x6.txt",
+  "filterDefinitions": [
+    {
+      "id": "-",
+      "intervals": [
+        {
+          "interval": "[-inf,-1]",
+          "symbols": "r2,g**6,r3,g**5,r4,g**4,r5,g**3,r6,g**2,g**1,e*45,e36,r**1,b1,b2,b3,b4,e_14,b5,b6,e_12,T*1,T*0,T*3,T*2,T*5,T*4,T*6,e*36,e45,b*1,g1,b*3,g2,b*2,g3,b*5,g4,b*4,g5,g6,b*6,e_45,r*1,r*3,T**0,r*2,r*5,r*4,r*6,e12,e*23,e14,e*65,e_36,T0,T1,T2,T3,T4,a,T5,T6,b**1,e65,e*14,e23,e*12,g*2,g*1,g*4,r**6,g*3,g*6,g*5,r**2,e_23,r**3,r**4,e_65,r**5,b**6,b**3,b**2,b**5,r1,b**4"
+        }
+      ],
+      "class": "com.nepfix.sim.elements.GeneralizedFilter"
+    },
+    {
+      "id": "0",
+      "intervals": [
+        {
+          "interval": "[0,0]",
+          "symbols": "r2,g**6,r3,g**5,r4,g**4,r5,g**3,r6,g**2,g**1,e*45,e36,r**1,b1,b2,b3,b4,e_14,b5,b6,e_12,T*1,T*0,T*3,T*2,T*5,T*4,T*6,e*36,e45,b*1,g1,b*3,g2,b*2,g3,b*5,g4,b*4,g5,g6,b*6,e_45,r*1,r*3,T**0,r*2,r*5,r*4,r*6,e12,e*23,e14,e*65,e_36,T0,T1,T2,T3,T4,a,T5,T6,b**1,e65,e*14,e23,e*12,g*2,g*1,g*4,r**6,g*3,g*6,g*5,r**2,e_23,r**3,r**4,e_65,r**5,b**6,b**3,b**2,b**5,r1,b**4"
+        }
+      ],
+      "class": "com.nepfix.sim.elements.GeneralizedFilter"
+    },
+    {
+      "id": "+",
+      "intervals": [
+        {
+          "interval": "[1,+inf]",
+          "symbols": "r2,g**6,r3,g**5,r4,g**4,r5,g**3,r6,g**2,g**1,e*45,e36,r**1,b1,b2,b3,b4,e_14,b5,b6,e_12,T*1,T*0,T*3,T*2,T*5,T*4,T*6,e*36,e45,b*1,g1,b*3,g2,b*2,g3,b*5,g4,b*4,g5,g6,b*6,e_45,r*1,r*3,T**0,r*2,r*5,r*4,r*6,e12,e*23,e14,e*65,e_36,T0,T1,T2,T3,T4,a,T5,T6,b**1,e65,e*14,e23,e*12,g*2,g*1,g*4,r**6,g*3,g*6,g*5,r**2,e_23,r**3,r**4,e_65,r**5,b**6,b**3,b**2,b**5,r1,b**4"
+        }
+      ],
+      "class": "com.nepfix.sim.elements.GeneralizedFilter"
+    }
+  ],
+  "processorDefinitions": [
+    {
+      "action": "r",
+      "id": "In",
+      "place": "*",
+      "rules": {
+        "a": "r1,g1,b1,r2,g2,b2,r3,g3,b3,r4,g4,b4,r5,g5,b5,r6,g6,b6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "X",
+      "place": "*",
+      "rules": {
+        "T0": "T**0",
+        "T1": "T*0",
+        "T2": "T*1",
+        "T3": "T*2",
+        "T4": "T*3",
+        "T5": "T*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12",
+      "place": "*",
+      "rules": {
+        "e12": "e1*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12r",
+      "place": "*",
+      "rules": {
+        "b1": "b*1",
+        "g1": "g*1",
+        "r1": "r*1"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12rg",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12rb",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12g",
+      "place": "*",
+      "rules": {
+        "b1": "b*1",
+        "g1": "g*1",
+        "r1": "r*1"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12gr",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12gb",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12b",
+      "place": "*",
+      "rules": {
+        "b1": "b*1",
+        "g1": "g*1",
+        "r1": "r*1"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12br",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e12bg",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Ze12",
+      "place": "*",
+      "rules": {
+        "T*0": "T0",
+        "T*1": "T1",
+        "T*2": "T2",
+        "T*3": "T3",
+        "T*4": "T4",
+        "T*5": "T5",
+        "T*6": "T6",
+        "b**1": "b1",
+        "b**2": "b2",
+        "b**3": "b3",
+        "b**4": "b4",
+        "b**5": "b5",
+        "b**6": "b6",
+        "b*1": "b1",
+        "b*2": "b2",
+        "b*3": "b3",
+        "b*4": "b4",
+        "b*5": "b5",
+        "b*6": "b6",
+        "e*12": "e_12",
+        "e*14": "e_14",
+        "e*23": "e_23",
+        "e*36": "e_36",
+        "e*45": "e_45",
+        "e*65": "e_65",
+        "g**1": "g1",
+        "g**2": "g2",
+        "g**3": "g3",
+        "g**4": "g4",
+        "g**5": "g5",
+        "g**6": "g6",
+        "g*1": "g1",
+        "g*2": "g2",
+        "g*3": "g3",
+        "g*4": "g4",
+        "g*5": "g5",
+        "g*6": "g6",
+        "r**1": "r1",
+        "r**2": "r2",
+        "r**3": "r3",
+        "r**4": "r4",
+        "r**5": "r5",
+        "r**6": "r6",
+        "r*1": "r1",
+        "r*2": "r2",
+        "r*3": "r3",
+        "r*4": "r4",
+        "r*5": "r5",
+        "r*6": "r6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14",
+      "place": "*",
+      "rules": {
+        "e14": "e1*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14r",
+      "place": "*",
+      "rules": {
+        "b1": "b*1",
+        "g1": "g*1",
+        "r1": "r*1"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14rg",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14rb",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14g",
+      "place": "*",
+      "rules": {
+        "b1": "b*1",
+        "g1": "g*1",
+        "r1": "r*1"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14gr",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14gb",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14b",
+      "place": "*",
+      "rules": {
+        "b1": "b*1",
+        "g1": "g*1",
+        "r1": "r*1"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14br",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e14bg",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Ze14",
+      "place": "*",
+      "rules": {
+        "T*0": "T0",
+        "T*1": "T1",
+        "T*2": "T2",
+        "T*3": "T3",
+        "T*4": "T4",
+        "T*5": "T5",
+        "T*6": "T6",
+        "b**1": "b1",
+        "b**2": "b2",
+        "b**3": "b3",
+        "b**4": "b4",
+        "b**5": "b5",
+        "b**6": "b6",
+        "b*1": "b1",
+        "b*2": "b2",
+        "b*3": "b3",
+        "b*4": "b4",
+        "b*5": "b5",
+        "b*6": "b6",
+        "e*12": "e_12",
+        "e*14": "e_14",
+        "e*23": "e_23",
+        "e*36": "e_36",
+        "e*45": "e_45",
+        "e*65": "e_65",
+        "g**1": "g1",
+        "g**2": "g2",
+        "g**3": "g3",
+        "g**4": "g4",
+        "g**5": "g5",
+        "g**6": "g6",
+        "g*1": "g1",
+        "g*2": "g2",
+        "g*3": "g3",
+        "g*4": "g4",
+        "g*5": "g5",
+        "g*6": "g6",
+        "r**1": "r1",
+        "r**2": "r2",
+        "r**3": "r3",
+        "r**4": "r4",
+        "r**5": "r5",
+        "r**6": "r6",
+        "r*1": "r1",
+        "r*2": "r2",
+        "r*3": "r3",
+        "r*4": "r4",
+        "r*5": "r5",
+        "r*6": "r6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23",
+      "place": "*",
+      "rules": {
+        "e23": "e2*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23r",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23rg",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23rb",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23g",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23gr",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23gb",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23b",
+      "place": "*",
+      "rules": {
+        "b2": "b*2",
+        "g2": "g*2",
+        "r2": "r*2"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23br",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e23bg",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Ze23",
+      "place": "*",
+      "rules": {
+        "T*0": "T0",
+        "T*1": "T1",
+        "T*2": "T2",
+        "T*3": "T3",
+        "T*4": "T4",
+        "T*5": "T5",
+        "T*6": "T6",
+        "b**1": "b1",
+        "b**2": "b2",
+        "b**3": "b3",
+        "b**4": "b4",
+        "b**5": "b5",
+        "b**6": "b6",
+        "b*1": "b1",
+        "b*2": "b2",
+        "b*3": "b3",
+        "b*4": "b4",
+        "b*5": "b5",
+        "b*6": "b6",
+        "e*12": "e_12",
+        "e*14": "e_14",
+        "e*23": "e_23",
+        "e*36": "e_36",
+        "e*45": "e_45",
+        "e*65": "e_65",
+        "g**1": "g1",
+        "g**2": "g2",
+        "g**3": "g3",
+        "g**4": "g4",
+        "g**5": "g5",
+        "g**6": "g6",
+        "g*1": "g1",
+        "g*2": "g2",
+        "g*3": "g3",
+        "g*4": "g4",
+        "g*5": "g5",
+        "g*6": "g6",
+        "r**1": "r1",
+        "r**2": "r2",
+        "r**3": "r3",
+        "r**4": "r4",
+        "r**5": "r5",
+        "r**6": "r6",
+        "r*1": "r1",
+        "r*2": "r2",
+        "r*3": "r3",
+        "r*4": "r4",
+        "r*5": "r5",
+        "r*6": "r6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36",
+      "place": "*",
+      "rules": {
+        "e36": "e3*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36r",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36rg",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36rb",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36g",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36gr",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36gb",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36b",
+      "place": "*",
+      "rules": {
+        "b3": "b*3",
+        "g3": "g*3",
+        "r3": "r*3"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36br",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e36bg",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Ze36",
+      "place": "*",
+      "rules": {
+        "T*0": "T0",
+        "T*1": "T1",
+        "T*2": "T2",
+        "T*3": "T3",
+        "T*4": "T4",
+        "T*5": "T5",
+        "T*6": "T6",
+        "b**1": "b1",
+        "b**2": "b2",
+        "b**3": "b3",
+        "b**4": "b4",
+        "b**5": "b5",
+        "b**6": "b6",
+        "b*1": "b1",
+        "b*2": "b2",
+        "b*3": "b3",
+        "b*4": "b4",
+        "b*5": "b5",
+        "b*6": "b6",
+        "e*12": "e_12",
+        "e*14": "e_14",
+        "e*23": "e_23",
+        "e*36": "e_36",
+        "e*45": "e_45",
+        "e*65": "e_65",
+        "g**1": "g1",
+        "g**2": "g2",
+        "g**3": "g3",
+        "g**4": "g4",
+        "g**5": "g5",
+        "g**6": "g6",
+        "g*1": "g1",
+        "g*2": "g2",
+        "g*3": "g3",
+        "g*4": "g4",
+        "g*5": "g5",
+        "g*6": "g6",
+        "r**1": "r1",
+        "r**2": "r2",
+        "r**3": "r3",
+        "r**4": "r4",
+        "r**5": "r5",
+        "r**6": "r6",
+        "r*1": "r1",
+        "r*2": "r2",
+        "r*3": "r3",
+        "r*4": "r4",
+        "r*5": "r5",
+        "r*6": "r6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45",
+      "place": "*",
+      "rules": {
+        "e45": "e4*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45r",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45rg",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45rb",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45g",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45gr",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45gb",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45b",
+      "place": "*",
+      "rules": {
+        "b4": "b*4",
+        "g4": "g*4",
+        "r4": "r*4"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45br",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e45bg",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Ze45",
+      "place": "*",
+      "rules": {
+        "T*0": "T0",
+        "T*1": "T1",
+        "T*2": "T2",
+        "T*3": "T3",
+        "T*4": "T4",
+        "T*5": "T5",
+        "T*6": "T6",
+        "b**1": "b1",
+        "b**2": "b2",
+        "b**3": "b3",
+        "b**4": "b4",
+        "b**5": "b5",
+        "b**6": "b6",
+        "b*1": "b1",
+        "b*2": "b2",
+        "b*3": "b3",
+        "b*4": "b4",
+        "b*5": "b5",
+        "b*6": "b6",
+        "e*12": "e_12",
+        "e*14": "e_14",
+        "e*23": "e_23",
+        "e*36": "e_36",
+        "e*45": "e_45",
+        "e*65": "e_65",
+        "g**1": "g1",
+        "g**2": "g2",
+        "g**3": "g3",
+        "g**4": "g4",
+        "g**5": "g5",
+        "g**6": "g6",
+        "g*1": "g1",
+        "g*2": "g2",
+        "g*3": "g3",
+        "g*4": "g4",
+        "g*5": "g5",
+        "g*6": "g6",
+        "r**1": "r1",
+        "r**2": "r2",
+        "r**3": "r3",
+        "r**4": "r4",
+        "r**5": "r5",
+        "r**6": "r6",
+        "r*1": "r1",
+        "r*2": "r2",
+        "r*3": "r3",
+        "r*4": "r4",
+        "r*5": "r5",
+        "r*6": "r6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65",
+      "place": "*",
+      "rules": {
+        "e65": "e6*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65r",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65rg",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65rb",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65g",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65gr",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65gb",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65b",
+      "place": "*",
+      "rules": {
+        "b6": "b*6",
+        "g6": "g*6",
+        "r6": "r*6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65br",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "e65bg",
+      "place": "*",
+      "rules": {
+        "b5": "b*5",
+        "g5": "g*5",
+        "r5": "r*5"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Ze65",
+      "place": "*",
+      "rules": {
+        "T*0": "T0",
+        "T*1": "T1",
+        "T*2": "T2",
+        "T*3": "T3",
+        "T*4": "T4",
+        "T*5": "T5",
+        "T*6": "T6",
+        "b**1": "b1",
+        "b**2": "b2",
+        "b**3": "b3",
+        "b**4": "b4",
+        "b**5": "b5",
+        "b**6": "b6",
+        "b*1": "b1",
+        "b*2": "b2",
+        "b*3": "b3",
+        "b*4": "b4",
+        "b*5": "b5",
+        "b*6": "b6",
+        "e*12": "e_12",
+        "e*14": "e_14",
+        "e*23": "e_23",
+        "e*36": "e_36",
+        "e*45": "e_45",
+        "e*65": "e_65",
+        "g**1": "g1",
+        "g**2": "g2",
+        "g**3": "g3",
+        "g**4": "g4",
+        "g**5": "g5",
+        "g**6": "g6",
+        "g*1": "g1",
+        "g*2": "g2",
+        "g*3": "g3",
+        "g*4": "g4",
+        "g*5": "g5",
+        "g*6": "g6",
+        "r**1": "r1",
+        "r**2": "r2",
+        "r**3": "r3",
+        "r**4": "r4",
+        "r**5": "r5",
+        "r**6": "r6",
+        "r*1": "r1",
+        "r*2": "r2",
+        "r*3": "r3",
+        "r*4": "r4",
+        "r*5": "r5",
+        "r*6": "r6"
+      },
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    },
+    {
+      "action": "r",
+      "id": "Out",
+      "place": "*",
+      "rules": {},
+      "class": "com.nepfix.sim.elements.EvolutionaryProcessor"
+    }
+  ],
+  "symbolsWeights": {
+    "T**0": -1,
+    "T*0": 1,
+    "T*1": 1,
+    "T*2": 1,
+    "T*3": 1,
+    "T*4": 1,
+    "T*5": 1,
+    "T*6": 1,
+    "T0": 0,
+    "T1": 0,
+    "T2": 0,
+    "T3": 0,
+    "T4": 0,
+    "T5": 0,
+    "T6": 0,
+    "a": 1,
+    "b**1": 3,
+    "b**2": 3,
+    "b**3": 3,
+    "b**4": 3,
+    "b**5": 3,
+    "b**6": 3,
+    "b*1": 1,
+    "b*2": 1,
+    "b*3": 1,
+    "b*4": 1,
+    "b*5": 1,
+    "b*6": 1,
+    "b1": 0,
+    "b2": 0,
+    "b3": 0,
+    "b4": 0,
+    "b5": 0,
+    "b6": 0,
+    "e*12": -2,
+    "e*14": -2,
+    "e*23": -2,
+    "e*36": -2,
+    "e*45": -2,
+    "e*65": -2,
+    "e12": 0,
+    "e14": 0,
+    "e23": 0,
+    "e36": 0,
+    "e45": 0,
+    "e65": 0,
+    "e_12": 0,
+    "e_14": 0,
+    "e_23": 0,
+    "e_36": 0,
+    "e_45": 0,
+    "e_65": 0,
+    "g**1": 3,
+    "g**2": 3,
+    "g**3": 3,
+    "g**4": 3,
+    "g**5": 3,
+    "g**6": 3,
+    "g*1": 1,
+    "g*2": 1,
+    "g*3": 1,
+    "g*4": 1,
+    "g*5": 1,
+    "g*6": 1,
+    "g1": 0,
+    "g2": 0,
+    "g3": 0,
+    "g4": 0,
+    "g5": 0,
+    "g6": 0,
+    "r**1": 3,
+    "r**2": 3,
+    "r**3": 3,
+    "r**4": 3,
+    "r**5": 3,
+    "r**6": 3,
+    "r*1": 1,
+    "r*2": 1,
+    "r*3": 1,
+    "r*4": 1,
+    "r*5": 1,
+    "r*6": 1,
+    "r1": 0,
+    "r2": 0,
+    "r3": 0,
+    "r4": 0,
+    "r5": 0,
+    "r6": 0
+  },
+  "network": [
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "0",
+      "input": true,
+      "output": false,
+      "processor": "In"
+    },
+    {
+      "connections": [
+        "69",
+        "2",
+        "13",
+        "24",
+        "35",
+        "46",
+        "57",
+        "68"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "1",
+      "input": false,
+      "output": false,
+      "processor": "X"
+    },
+    {
+      "connections": [
+        "3",
+        "4",
+        "5"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "2",
+      "input": false,
+      "output": false,
+      "processor": "s0"
+    },
+    {
+      "connections": [
+        "4",
+        "5"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "3",
+      "input": false,
+      "output": false,
+      "processor": "s00"
+    },
+    {
+      "connections": [
+        "5"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "4",
+      "input": false,
+      "output": false,
+      "processor": "s00"
+    },
+    {
+      "connections": [
+        "6"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "5",
+      "input": false,
+      "output": false,
+      "processor": "s00"
+    },
+    {
+      "connections": [
+        "7",
+        "8"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "6",
+      "input": false,
+      "output": false,
+      "processor": "s01"
+    },
+    {
+      "connections": [
+        "8"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "7",
+      "input": false,
+      "output": false,
+      "processor": "s01"
+    },
+    {
+      "connections": [
+        "9"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "8",
+      "input": false,
+      "output": false,
+      "processor": "s01"
+    },
+    {
+      "connections": [
+        "10",
+        "11"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "9",
+      "input": false,
+      "output": false,
+      "processor": "s02"
+    },
+    {
+      "connections": [
+        "11"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "10",
+      "input": false,
+      "output": false,
+      "processor": "s02"
+    },
+    {
+      "connections": [
+        "12"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "11",
+      "input": false,
+      "output": false,
+      "processor": "s02"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "12",
+      "input": false,
+      "output": false,
+      "processor": "z0"
+    },
+    {
+      "connections": [
+        "14",
+        "15",
+        "16"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "13",
+      "input": false,
+      "output": false,
+      "processor": "s1"
+    },
+    {
+      "connections": [
+        "15",
+        "16"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "14",
+      "input": false,
+      "output": false,
+      "processor": "s10"
+    },
+    {
+      "connections": [
+        "16"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "15",
+      "input": false,
+      "output": false,
+      "processor": "s10"
+    },
+    {
+      "connections": [
+        "17"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "16",
+      "input": false,
+      "output": false,
+      "processor": "s10"
+    },
+    {
+      "connections": [
+        "18",
+        "19"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "17",
+      "input": false,
+      "output": false,
+      "processor": "s11"
+    },
+    {
+      "connections": [
+        "19"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "18",
+      "input": false,
+      "output": false,
+      "processor": "s11"
+    },
+    {
+      "connections": [
+        "20"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "19",
+      "input": false,
+      "output": false,
+      "processor": "s11"
+    },
+    {
+      "connections": [
+        "21",
+        "22"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "20",
+      "input": false,
+      "output": false,
+      "processor": "s12"
+    },
+    {
+      "connections": [
+        "22"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "21",
+      "input": false,
+      "output": false,
+      "processor": "s12"
+    },
+    {
+      "connections": [
+        "23"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "22",
+      "input": false,
+      "output": false,
+      "processor": "s12"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "23",
+      "input": false,
+      "output": false,
+      "processor": "z1"
+    },
+    {
+      "connections": [
+        "25",
+        "26",
+        "27"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "24",
+      "input": false,
+      "output": false,
+      "processor": "s2"
+    },
+    {
+      "connections": [
+        "26",
+        "27"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "25",
+      "input": false,
+      "output": false,
+      "processor": "s20"
+    },
+    {
+      "connections": [
+        "27"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "26",
+      "input": false,
+      "output": false,
+      "processor": "s20"
+    },
+    {
+      "connections": [
+        "28"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "27",
+      "input": false,
+      "output": false,
+      "processor": "s20"
+    },
+    {
+      "connections": [
+        "29",
+        "30"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "28",
+      "input": false,
+      "output": false,
+      "processor": "s21"
+    },
+    {
+      "connections": [
+        "30"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "29",
+      "input": false,
+      "output": false,
+      "processor": "s21"
+    },
+    {
+      "connections": [
+        "31"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "30",
+      "input": false,
+      "output": false,
+      "processor": "s21"
+    },
+    {
+      "connections": [
+        "32",
+        "33"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "31",
+      "input": false,
+      "output": false,
+      "processor": "s22"
+    },
+    {
+      "connections": [
+        "33"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "32",
+      "input": false,
+      "output": false,
+      "processor": "s22"
+    },
+    {
+      "connections": [
+        "34"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "33",
+      "input": false,
+      "output": false,
+      "processor": "s22"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "34",
+      "input": false,
+      "output": false,
+      "processor": "z2"
+    },
+    {
+      "connections": [
+        "36",
+        "37",
+        "38"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "35",
+      "input": false,
+      "output": false,
+      "processor": "s3"
+    },
+    {
+      "connections": [
+        "37",
+        "38"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "36",
+      "input": false,
+      "output": false,
+      "processor": "s30"
+    },
+    {
+      "connections": [
+        "38"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "37",
+      "input": false,
+      "output": false,
+      "processor": "s30"
+    },
+    {
+      "connections": [
+        "39"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "38",
+      "input": false,
+      "output": false,
+      "processor": "s30"
+    },
+    {
+      "connections": [
+        "40",
+        "41"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "39",
+      "input": false,
+      "output": false,
+      "processor": "s31"
+    },
+    {
+      "connections": [
+        "41"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "40",
+      "input": false,
+      "output": false,
+      "processor": "s31"
+    },
+    {
+      "connections": [
+        "42"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "41",
+      "input": false,
+      "output": false,
+      "processor": "s31"
+    },
+    {
+      "connections": [
+        "43",
+        "44"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "42",
+      "input": false,
+      "output": false,
+      "processor": "s32"
+    },
+    {
+      "connections": [
+        "44"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "43",
+      "input": false,
+      "output": false,
+      "processor": "s32"
+    },
+    {
+      "connections": [
+        "45"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "44",
+      "input": false,
+      "output": false,
+      "processor": "s32"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "45",
+      "input": false,
+      "output": false,
+      "processor": "z3"
+    },
+    {
+      "connections": [
+        "47",
+        "48",
+        "49"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "46",
+      "input": false,
+      "output": false,
+      "processor": "s4"
+    },
+    {
+      "connections": [
+        "48",
+        "49"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "47",
+      "input": false,
+      "output": false,
+      "processor": "s40"
+    },
+    {
+      "connections": [
+        "49"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "48",
+      "input": false,
+      "output": false,
+      "processor": "s40"
+    },
+    {
+      "connections": [
+        "50"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "49",
+      "input": false,
+      "output": false,
+      "processor": "s40"
+    },
+    {
+      "connections": [
+        "51",
+        "52"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "50",
+      "input": false,
+      "output": false,
+      "processor": "s41"
+    },
+    {
+      "connections": [
+        "52"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "51",
+      "input": false,
+      "output": false,
+      "processor": "s41"
+    },
+    {
+      "connections": [
+        "53"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "52",
+      "input": false,
+      "output": false,
+      "processor": "s41"
+    },
+    {
+      "connections": [
+        "54",
+        "55"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "53",
+      "input": false,
+      "output": false,
+      "processor": "s42"
+    },
+    {
+      "connections": [
+        "55"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "54",
+      "input": false,
+      "output": false,
+      "processor": "s42"
+    },
+    {
+      "connections": [
+        "56"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "55",
+      "input": false,
+      "output": false,
+      "processor": "s42"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "56",
+      "input": false,
+      "output": false,
+      "processor": "z4"
+    },
+    {
+      "connections": [
+        "58",
+        "59",
+        "60"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "57",
+      "input": false,
+      "output": false,
+      "processor": "s5"
+    },
+    {
+      "connections": [
+        "59",
+        "60"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "58",
+      "input": false,
+      "output": false,
+      "processor": "s50"
+    },
+    {
+      "connections": [
+        "60"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "59",
+      "input": false,
+      "output": false,
+      "processor": "s50"
+    },
+    {
+      "connections": [
+        "61"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "60",
+      "input": false,
+      "output": false,
+      "processor": "s50"
+    },
+    {
+      "connections": [
+        "62",
+        "63"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "61",
+      "input": false,
+      "output": false,
+      "processor": "s51"
+    },
+    {
+      "connections": [
+        "63"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "62",
+      "input": false,
+      "output": false,
+      "processor": "s51"
+    },
+    {
+      "connections": [
+        "64"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "63",
+      "input": false,
+      "output": false,
+      "processor": "s51"
+    },
+    {
+      "connections": [
+        "65",
+        "66"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "64",
+      "input": false,
+      "output": false,
+      "processor": "s52"
+    },
+    {
+      "connections": [
+        "66"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "65",
+      "input": false,
+      "output": false,
+      "processor": "s52"
+    },
+    {
+      "connections": [
+        "67"
+      ],
+      "filterIn": "0",
+      "filterOut": "0",
+      "id": "66",
+      "input": false,
+      "output": false,
+      "processor": "s52"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "+",
+      "filterOut": "+",
+      "id": "67",
+      "input": false,
+      "output": false,
+      "processor": "z5"
+    },
+    {
+      "connections": [
+        "1"
+      ],
+      "filterIn": "-",
+      "filterOut": "-",
+      "id": "68",
+      "input": false,
+      "output": false,
+      "processor": "out"
+    }
+  ]
+}
