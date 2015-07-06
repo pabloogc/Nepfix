@@ -2,8 +2,8 @@ package com.nepfix.server.executor;
 
 
 import com.google.gson.annotations.Expose;
+import com.nepfix.server.AppConfiguration;
 import com.nepfix.server.neps.NepRepository;
-import com.nepfix.server.network.ActiveServersRepository;
 import com.nepfix.server.rabbit.RabbitUtil;
 import com.nepfix.server.rabbit.messages.Action;
 import com.nepfix.server.rabbit.messages.NepComputationInfo;
@@ -37,13 +37,11 @@ import java.util.stream.Collectors;
 public class RemoteNepExecutor implements MessageListener {
 
     private static final String SYNC_KEY = "__sync__";
-    private static final String SPLIT_KEY = "__split__";
     private final Log logger;
 
     //State
-    private boolean isClock = false;
     private SimpleMessageListenerContainer messageListenerContainer;
-    private List<String> remoteQueues;
+    private List<String> remoteServerQueues;
     private final TopicExchange nepExchange;
     private final Semaphore sync;
     private final Queue queue;
@@ -53,7 +51,6 @@ public class RemoteNepExecutor implements MessageListener {
 
     //Communications
     @Autowired private ConnectionFactory rabbitConnectionFactory;
-    @Autowired private ActiveServersRepository activeServersRepository;
     @Autowired private NepRepository nepRepository;
     @Autowired private RabbitAdmin rabbitAdmin;
     @Autowired private RabbitTemplate rabbit;
@@ -76,15 +73,14 @@ public class RemoteNepExecutor implements MessageListener {
         this.nepExchange = new TopicExchange(nep.getId(), false, true);
         this.queue = rabbitAdmin.declareQueue();
         this.sync = new Semaphore(0);
-        this.remoteQueues = nepRepository.getRemoteQueues(nep.getId())
+        this.remoteServerQueues = nepRepository.getRemoteQueues(nep.getId())
                 .stream()
-                .filter(q -> !q.equals(queue.getName()))
+                .filter(q -> !q.equals(AppConfiguration.SERVER_QUEUE))
                 .collect(Collectors.toList());
 
     }
 
     public List<Word> execute(ComputationRequest request) {
-        this.isClock = true;
         initializeRemoteQueues();
         startListening();
 
@@ -98,10 +94,10 @@ public class RemoteNepExecutor implements MessageListener {
                 step();
 
                 try {
-                    boolean completed = sync.tryAcquire(remoteQueues.size() - 1, 10, TimeUnit.SECONDS);
-                    if (completed)
-                        logger.debug("Step completed");
-                    else {
+                    boolean completed = sync.tryAcquire(remoteServerQueues.size(), 15, TimeUnit.MINUTES);
+                    if (completed) {
+                        logger.debug("------ ALL Steps Completed");
+                    } else {
                         logger.error("Time out on:" + computationId);
                         break;
                     }
@@ -118,6 +114,7 @@ public class RemoteNepExecutor implements MessageListener {
     }
 
     private void step() {
+        logger.debug("Computing...");
         nep.putWords(localWords);
         localWords.clear();
         HashMap<String, List<Word>> remoteWords = new HashMap<>();
@@ -134,10 +131,12 @@ public class RemoteNepExecutor implements MessageListener {
         }
         remoteWords.values().forEach(this::sendWords);
 
-        if(pauseRequested.get()){
+        if (pauseRequested.get()) {
             pauseCallerWait.release();
             pauseSync.acquireUninterruptibly();
         }
+
+        logger.debug("-- Step completed");
     }
 
 
@@ -185,7 +184,7 @@ public class RemoteNepExecutor implements MessageListener {
         if (response == null) {
             logger.error("Sending " + words.size() + " words to " + destinyNode + " FAILED");
         } else {
-            logger.debug("sent action " + "addWords" + words.size());
+            logger.debug("Sent action -> " + "addWords count: " + words.size());
         }
 
     }
@@ -194,7 +193,7 @@ public class RemoteNepExecutor implements MessageListener {
 
         rabbitAdmin.declareExchange(nepExchange);
 
-        for (String serverQueue : remoteQueues) {
+        for (String serverQueue : remoteServerQueues) {
             Message message = NepMessage.toMessage(
                     Action.S_COMPUTATION_STARTED,
                     new NepComputationInfo(nep.getId(), computationId));
@@ -245,8 +244,7 @@ public class RemoteNepExecutor implements MessageListener {
 
 
     private void removeRemoteQueues() {
-
-        for (String serverQueue : remoteQueues) {
+        for (String serverQueue : remoteServerQueues) {
             Message message = NepMessage.toMessage(
                     Action.S_COMPUTATION_FINISHED,
                     new NepComputationInfo(nep.getId(), computationId));
@@ -263,39 +261,26 @@ public class RemoteNepExecutor implements MessageListener {
         String replyTo = message.getMessageProperties().getReplyTo();
 
         if (queue.getName().equals(replyTo)) return;
-        //Message comes from this machine, only happens in sync
-
-        logger.debug("Got action <- " + action);
 
         switch (action) {
             case N_ADD_WORDS:
                 List<Word> words = NepMessage.parse(message);
+                logger.debug("Got action <- Added words: " + words.size());
                 localWords.addAll(words);
                 rabbit.send(replyTo, RabbitUtil.emptyMessage()); //ack
                 break;
             case N_STEP:
+                logger.debug("Got action <- Do step");
                 step();
                 replyStepCompleted(replyTo);
                 break;
             case N_STEP_REPLY:
+                logger.debug("Got action <- Reply to step");
                 sync.release();
                 break;
             default:
                 logger.error("Unknown action: " + action);
         }
-    }
-
-    public void resume(){
-        if(!pauseRequested.get())
-            return; //Not paused
-
-        pauseRequested.set(false);
-        pauseSync.release();
-    }
-
-    public void pause(){
-        pauseRequested.set(true);
-        pauseCallerWait.acquireUninterruptibly();
     }
 
     public String getExecutorId() {
