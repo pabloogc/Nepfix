@@ -51,7 +51,7 @@ public class GeneralizedFilter extends ComputationElement implements Filter {
     }
 
     public int weightForSymbol(String symbol) {
-        JsonElement element = getConfigFor(this).get(symbol);
+        JsonElement element = getConfigFor("symbolsWeights").get(symbol);
         if (element == null) {
             return 0;
         }

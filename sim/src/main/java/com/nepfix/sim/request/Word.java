@@ -28,5 +28,7 @@ public class Word {
         return destinyNode;
     }
 
-
+    @Override public String toString() {
+        return value;
+    }
 }

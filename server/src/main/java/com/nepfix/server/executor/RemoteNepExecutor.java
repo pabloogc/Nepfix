@@ -2,7 +2,6 @@ package com.nepfix.server.executor;
 
 
 import com.google.gson.annotations.Expose;
-import com.nepfix.server.AppConfiguration;
 import com.nepfix.server.neps.NepRepository;
 import com.nepfix.server.network.ActiveServersRepository;
 import com.nepfix.server.rabbit.RabbitUtil;
@@ -152,7 +151,7 @@ public class RemoteNepExecutor implements MessageListener {
                         .setReplyTo(queue.getName())
                         .build());
 
-        logger.debug("Sent action - step: " + nep.getConfiguration());
+        logger.debug("Sent action -> step: " + nep.getConfiguration());
     }
 
     /**
@@ -162,7 +161,7 @@ public class RemoteNepExecutor implements MessageListener {
         rabbit.send(
                 clockQueue, //direct message
                 NepMessage.toMessage(Action.N_STEP_REPLY));
-        logger.debug("Sent action - step completed: " + nep.getConfiguration());
+        logger.debug("Sent action -> step completed: " + nep.getConfiguration());
     }
 
     private void sendWords(List<Word> words) {
@@ -246,11 +245,12 @@ public class RemoteNepExecutor implements MessageListener {
 
 
     private void removeRemoteQueues() {
-        Message message = NepMessage.toMessage(
-                Action.S_COMPUTATION_FINISHED,
-                new NepComputationInfo(nep.getId(), computationId));
 
         for (String serverQueue : remoteQueues) {
+            Message message = NepMessage.toMessage(
+                    Action.S_COMPUTATION_FINISHED,
+                    new NepComputationInfo(nep.getId(), computationId));
+
             rabbit.sendAndReceive(
                     serverQueue,
                     message
@@ -265,7 +265,7 @@ public class RemoteNepExecutor implements MessageListener {
         if (queue.getName().equals(replyTo)) return;
         //Message comes from this machine, only happens in sync
 
-        logger.debug("Got action: " + action);
+        logger.debug("Got action <- " + action);
 
         switch (action) {
             case N_ADD_WORDS:

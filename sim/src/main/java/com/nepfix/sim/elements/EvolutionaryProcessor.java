@@ -169,7 +169,7 @@ public class EvolutionaryProcessor extends ComputationElement implements Process
                     idx = ElementsUtils.lastIndexOf(word, rule.symbol);
                     break;
                 case RANDOM:
-                    idx = ElementsUtils.circularIndexOf(word, rule.symbol, symbols.length);
+                    idx = ElementsUtils.circularIndexOf(word, rule.symbol, RAND.nextInt(symbols.length));
                     break;
             }
 
@@ -179,9 +179,9 @@ public class EvolutionaryProcessor extends ComputationElement implements Process
             } else {
                 symbols[idx] = rule.replacement;
             }
-
+            word = ElementsUtils.concat(symbols);
         }
-        return ElementsUtils.concat(symbols);
+        return word;
     }
 
     private String doDelete(String word) {
